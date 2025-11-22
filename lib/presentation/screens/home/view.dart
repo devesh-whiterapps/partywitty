@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partywitty/presentation/resources/image_assets.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
+import 'package:partywitty/presentation/widgets/post_card.dart';
 
 import 'bloc.dart';
 import 'events.dart';
@@ -46,7 +48,9 @@ class HomeLoadedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomeBloc>().state;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,
@@ -116,56 +120,9 @@ class HomeLoadedPage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: ListView.builder(
-          itemBuilder: (context, index) => Container(
-            color: Colors.white,
-            margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all( 10),
-
-            height: 80,
-            child: Column(
-              children: [
-                Row(
-                  spacing: 10,
-                  children: [
-                    
-                    ClipOval(
-                    clipBehavior: Clip.hardEdge,
-                    child: Image.network(
-                      ImgAssets.boy,
-                      fit: .cover,
-                      width: 50,height: 50,
-                      errorBuilder: (context, error, stackTrace) =>
-                          ErrorWidget("exception"),
-                    ),
-                  ),
-                   Column(
-                    crossAxisAlignment: .start,
-                     children: [
-                       Row(
-                        spacing: 10,
-                         children: [
-                           Text(
-                                         "Zeeshan Ahmad",
-                                         style: getBold16Style(color: Colors.black),
-                                       ),
-
-                            Icon(Icons.check_circle,color: Colors.deepPurpleAccent,),
-                            Icon(Icons.circle,size: 10,),
-                            Text("22 h",style: getRegular14Style(color: Colors.grey),)
-                         ],
-                       ),
-                                                   Text("Check In",style: getRegular14Style(color: Colors.black),)
-
-                     ],
-                   ),
-                    //Add Follow buttons Here
-                  ]
-                ),
-              ],
-            ),
-          ),
+          itemBuilder: (context, index) => PostCard(width: width,isAd: true)
         ),
       ),
     );
