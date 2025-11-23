@@ -122,7 +122,8 @@ class HomeLoadedPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: ListView.builder(
-          itemBuilder: (context, index) => PostCard(width: width,isAd: true)
+          itemCount: state.feedList?.length??0,
+          itemBuilder: (context, index) => PostCard(width: width,data: state.feedList![index],)
         ),
       ),
     );
