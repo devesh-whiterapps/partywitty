@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
           listener: (context, state) {
             if(state.status == SplashStatus.loaded){
               Future.delayed(Duration(seconds: 3),(){
-                Navigator.pushNamedAndRemoveUntil(context, Routes.homePage, (_)=>false);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.bottomNav, (_)=>false);
               });
             }
             // handle navigation or snackbars
@@ -57,6 +57,7 @@ class SplashLoadedPage extends StatelessWidget {
   Widget build(BuildContext context) {
       return Scaffold(
       body: Stack(
+        alignment: .center,
         fit: StackFit.expand,
         children: [
          
@@ -83,7 +84,7 @@ class SplashLoadedPage extends StatelessWidget {
 
           
            Positioned(
-            top: 150,right: MediaQuery.of(context).size.width*0.3,
+            // top: 150,right: MediaQuery.of(context).size.width*0.3,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -94,13 +95,13 @@ class SplashLoadedPage extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 60,
                     backgroundColor: Colors.transparent,
-                    child: Placeholder(),
+                    child: FlutterLogo(size: 150,),
                   ),
                 ),
 
                 
                 Text(
-                  'Foodies',
+                  'Party Witty',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 50,
@@ -122,7 +123,8 @@ class SplashLoadedPage extends StatelessWidget {
             bottom: 50,
             right: MediaQuery.of(context).size.width*0.3,
             child: Text(
-                  'Welcome to Foodies\n By Devesh Kharade',
+                  'Welcome to Party Witty\n By WhiterApps',
+                  textAlign: .center,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,

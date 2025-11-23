@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
       create: (_) => HomeBloc()..add(HomeInitEvent()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          // handle navigation or snackbars
         },
         builder: (context, state) {
           switch (state.status) {
@@ -52,6 +51,7 @@ class HomeLoadedPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
+        backgroundColor: Colors.grey.shade200,
         automaticallyImplyLeading: false,
         centerTitle: false,
         leading: Container(
@@ -66,24 +66,29 @@ class HomeLoadedPage extends StatelessWidget {
 
         title: Column(
           children: [
-            ElevatedButton(
+            TextButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 5),
               ),
-              child: Row(
-                mainAxisSize: .min,
-                children: [
-                  Icon(Icons.location_pin, color: Colors.black),
-                  SizedBox(width: 5),
-                  Text(
-                    "Vasant Kunj",
-                    style: getRegular10Style(color: Colors.black),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 10),
+                  child: Row(
+                    mainAxisSize: .min,
+                    children: [
+                      Icon(Icons.location_pin, color: Colors.black),
+                      SizedBox(width: 5),
+                      Text(
+                        "Vasant Kunj",
+                        style: getRegular10Style(color: Colors.black),
+                      ),
+                      SizedBox(width: 5),
+                  
+                      Icon(Icons.arrow_drop_down, color: Colors.black),
+                    ],
                   ),
-                  SizedBox(width: 5),
-
-                  Icon(Icons.arrow_drop_down, color: Colors.black),
-                ],
+                ),
               ),
             ),
             Text(
@@ -105,10 +110,10 @@ class HomeLoadedPage extends StatelessWidget {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Shadow color
-                      spreadRadius: 5, // How wide the shadow spreads
-                      blurRadius: 7, // How soft the shadow looks
-                      offset: Offset(0, 3), // Changes position of shadow (x, y)
+                      color: Colors.grey.withOpacity(0.5), 
+                      spreadRadius: 5, 
+                      blurRadius: 7, 
+                      offset: Offset(0, 3), 
                     ),
                   ],
                   borderRadius: BorderRadius.circular(10),
@@ -120,12 +125,86 @@ class HomeLoadedPage extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: ListView.builder(
-          itemCount: state.feedList?.length??0,
-          itemBuilder: (context, index) => PostCard(width: width,data: state.feedList![index],)
-        ),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      
+      child: CustomScrollView(
+        
+        slivers: <Widget>[
+          
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                
+                if (index < (state.feedList?.length ?? 0)) {
+                  
+                  return PostCard(width: width, data: state.feedList![index]);
+                }
+                return null; 
+              },
+              
+              childCount: state.feedList?.length ?? 0,
+            ),
+          ),
+
+          
+          SliverToBoxAdapter(
+            child: Container(
+              
+              height: 400.0, 
+              color: Colors.white, 
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   Row(
+                    mainAxisAlignment: .spaceBetween,
+                     children: [
+                       Text(
+                        'Party Packages',
+                        style: getBold16Style(color: Colors.black),
+                                         ),
+                                         TextButton(onPressed: (){}, child: Text(
+                        'View All ->',
+                        style: getBold16Style(color: Colors.black),))
+                     ],
+                   ),
+                  const SizedBox(height: 8.0),
+                  Expanded(
+                    child: ListView.builder(
+                      
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10, 
+                      itemBuilder: (context, index) {
+                       
+                        return Container(
+                          width: 170.0, 
+                          margin: const EdgeInsets.only(right: 10.0,),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: NetworkImage(ImgAssets.drinks),fit: .cover)
+                            // borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            mainAxisSize: .min,
+                            children: [
+                              Text('Imported Drinks Food',style: getRegular14Style(color: Colors.white)),
+                              Text('(199+)',style: getRegular14Style(color: Colors.white)),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  
+                ],
+              ),
+            ),
+          ),
+
+          
+        ],
       ),
+    )
     );
   }
 }
