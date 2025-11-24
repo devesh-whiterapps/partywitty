@@ -1,7 +1,9 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../../gen/assets.gen.dart';
 import 'bloc.dart';
 import 'events.dart';
 import 'state.dart';
@@ -48,76 +50,79 @@ class BottomNavLoadedPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade200,
       extendBody: true,
       body: Padding(
-        padding: const EdgeInsets.only(bottom: 80.0),
+        padding: const EdgeInsets.only(bottom: 60.0),
         child: state.screenList![state.selectedIndex ?? 0],
       ),
 
-      
+      floatingActionButtonLocation: .miniCenterFloat,
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 30,left: 10,right: 10),
-        child: Card(
-          shape: StadiumBorder(),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              // color: Colors.amberAccent,
-              // borderRadius:  BorderRadius.circular(
-              //   50
-              // ),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.black.withAlpha(20),
-              //     blurRadius: 10.0,
-              //     spreadRadius: 0.0,
-              //     offset: Offset(0.0, -10.0),
-              //   ),
-              // ],
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30.0), // Rounded corners for the container
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha(50),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // changes position of shadow
             ),
-          
-            child: GNav(
-            rippleColor: Colors.deepPurpleAccent, // tab button ripple color when pressed
-            hoverColor:  Colors.deepPurpleAccent, // tab button hover color
-            haptic: true, // haptic feedback
-            tabBorderRadius: 30, 
-            tabActiveBorder: Border.all(color: Colors.black, width: 1), // tab button border
-            // tabBorder: Border.all(color: Colors.grey, width: 1), // tab button border
-            // tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)], // tab button shadow
-            curve: Curves.easeOutExpo, // tab animation curves
-            duration: Duration(milliseconds: 900), // tab animation duration
-            gap: 8, // the tab button gap between icon and text 
-            color:  Colors.deepPurpleAccent, // unselected icon color
-            activeColor: Colors.white, // selected icon and text color
-            iconSize: 24, // tab button icon size
-            // tabBackgroundColor: Colors.purple.withOpacity(0.1), // selected tab background color
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5), // navigation bar padding
-            tabs: [
-              GButton(
-          icon: Icons.home,
-          text: 'Home',
-          backgroundColor:  Colors.deepPurpleAccent,
-          
-              ),
-              GButton(
-          icon: Icons.search,
-          text: 'Search',
-          backgroundColor:  Colors.deepPurpleAccent,
-              ),
-              GButton(
-          icon: Icons.toc_outlined,
-          text: 'Menu',
-          backgroundColor:  Colors.deepPurpleAccent,
-              ),
-              GButton(
-          icon: Icons.person_2_outlined,
-          text: 'Profile',
-          backgroundColor:  Colors.deepPurpleAccent,
+          ],
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Margin for the container
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavItem(context,0, Assets.homeIc.path, 'Home'),
+            _buildNavItem(context,1, Assets.searchIc.path, 'Search'),
+            _buildNavItem(context,2,Assets.bidIc.path, 'Gavel'),
+            _buildNavItem(context,3, Assets.bookingIc.path, 'Bookmark'),
+            _buildNavItem(context,4,Assets.moreIc.path, 'More'),
+          ],
+        ),
+      ),
+        );
+    
+  }
+
+  Widget _buildNavItem(BuildContext context, int index, String icon, String label) {
+    final bool isSelected = state.selectedIndex == index;
+    return GestureDetector(
+      onTap: () {context.read<BottomNavBloc>().add(onItemTappedEvent(selectedIndex: index));},
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        decoration: isSelected
+            ? BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF6A1B9A), Color(0xFF4A148C)], // Purple gradient
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(20.0),
               )
-            ]
-          )
-          ),
+            : null,
+        child: Row(
+          children: [
+            Image.asset(icon,color: isSelected ? Colors.white : Colors.deepPurple,),
+            // Icon(
+            //   icon,
+            //   color: isSelected ? Colors.white : Colors.deepPurple,
+            // ),
+            if (isSelected) const SizedBox(width: 8.0),
+            if (isSelected)
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+          ],
         ),
       ),
     );
   }
+
 }
+
+

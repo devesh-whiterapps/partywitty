@@ -1,0 +1,102 @@
+push graphic-context
+compliance "SVG"
+fill "black"
+fill-opacity 1
+stroke "none"
+stroke-width 1
+stroke-opacity 1
+fill-rule nonzero
+fill "none"
+viewbox 0 0 22 22
+affine 1 0 0 1 0 0
+push graphic-context
+stroke "url(#paint0_linear_83_561)"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M8.25001 20.1668H13.75C18.3333 20.1668 20.1667 18.3335 20.1667 13.7502V8.25016C20.1667 3.66683 18.3333 1.8335 13.75 1.8335H8.25001C3.66668 1.8335 1.83334 3.66683 1.83334 8.25016V13.7502C1.83334 18.3335 3.66668 20.1668 8.25001 20.1668Z"
+pop graphic-context
+push graphic-context
+stroke "black"
+stroke-opacity "0.2"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M8.25001 20.1668H13.75C18.3333 20.1668 20.1667 18.3335 20.1667 13.7502V8.25016C20.1667 3.66683 18.3333 1.8335 13.75 1.8335H8.25001C3.66668 1.8335 1.83334 3.66683 1.83334 8.25016V13.7502C1.83334 18.3335 3.66668 20.1668 8.25001 20.1668Z"
+pop graphic-context
+push graphic-context
+stroke "url(#paint1_linear_83_561)"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M14.6635 11H14.6717"
+pop graphic-context
+push graphic-context
+stroke "black"
+stroke-opacity "0.2"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M14.6635 11H14.6717"
+pop graphic-context
+push graphic-context
+stroke "url(#paint2_linear_83_561)"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M10.9959 11H11.0042"
+pop graphic-context
+push graphic-context
+stroke "black"
+stroke-opacity "0.2"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M10.9959 11H11.0042"
+pop graphic-context
+push graphic-context
+stroke "url(#paint3_linear_83_561)"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M7.32831 11H7.3366"
+pop graphic-context
+push graphic-context
+stroke "black"
+stroke-opacity "0.2"
+stroke-width 1.6
+stroke-linecap "round"
+stroke-linejoin "round"
+class "path"
+path "M7.32831 11H7.3366"
+pop graphic-context
+push defs
+push gradient "paint0_linear_83_561" linear 1.83334,20.1668 22.8582,18.0606
+gradient-units "userSpaceOnUse"
+stop-color "#7464E4" (null)
+stop-color "#3354F4" 1
+pop gradient
+push gradient "paint1_linear_83_561" linear 14.6635,12 14.673,12
+gradient-units "userSpaceOnUse"
+stop-color "#7464E4" 1
+stop-color "#3354F4" 1
+pop gradient
+push gradient "paint2_linear_83_561" linear 10.9959,12 11.0055,12
+gradient-units "userSpaceOnUse"
+stop-color "#7464E4" 1
+stop-color "#3354F4" 1
+pop gradient
+push gradient "paint3_linear_83_561" linear 7.32831,12 7.33792,12
+gradient-units "userSpaceOnUse"
+stop-color "#7464E4" 1
+stop-color "#3354F4" 1
+pop gradient
+pop defs
+pop graphic-context

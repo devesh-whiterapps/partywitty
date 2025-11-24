@@ -5,6 +5,7 @@ import 'package:partywitty/presentation/resources/image_assets.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
 import 'package:partywitty/presentation/widgets/post_card.dart';
 
+import '../../../gen/assets.gen.dart';
 import 'bloc.dart';
 import 'events.dart';
 import 'state.dart';
@@ -49,19 +50,19 @@ class HomeLoadedPage extends StatelessWidget {
     final state = context.watch<HomeBloc>().state;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.white.withAlpha(10),
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.white.withAlpha(10),
         automaticallyImplyLeading: false,
         centerTitle: false,
         leading: Container(
-          margin: EdgeInsets.all(5),
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: FlutterLogo(),
+          margin: EdgeInsets.only(left: 10),
+          // padding: EdgeInsets.all(5),
+          // decoration: BoxDecoration(
+          //   border: Border.all(color: Colors.black),
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
+          child: Assets.appLogo.image(scale: 0.9),
         ),
 
         title: Column(
@@ -72,12 +73,14 @@ class HomeLoadedPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 5),
               ),
               child: Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(3)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 10),
                   child: Row(
                     mainAxisSize: .min,
                     children: [
-                      Icon(Icons.location_pin, color: Colors.black),
+                      Assets.locationIc.image(),
                       SizedBox(width: 5),
                       Text(
                         "Vasant Kunj",
@@ -85,7 +88,7 @@ class HomeLoadedPage extends StatelessWidget {
                       ),
                       SizedBox(width: 5),
                   
-                      Icon(Icons.arrow_drop_down, color: Colors.black),
+                      Assets.arrowDownIc.image(),
                     ],
                   ),
                 ),
@@ -101,24 +104,17 @@ class HomeLoadedPage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton.outlined(
+            child: IconButton(
               onPressed: () {},
               icon: Container(
                 padding: EdgeInsets.all(5),
 
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), 
-                      spreadRadius: 5, 
-                      blurRadius: 7, 
-                      offset: Offset(0, 3), 
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10),
+                  
+                  borderRadius: BorderRadius.circular(3),
                 ),
-                child: Icon(Icons.notifications),
+                child: Assets.bellIc.image(),
               ),
             ),
           ),

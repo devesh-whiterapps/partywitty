@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:partywitty/gen/assets.gen.dart';
 
 import '../../resources/router/route_manager.dart';
 import 'bloc.dart';
@@ -90,14 +91,7 @@ class SplashLoadedPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                
-                Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundColor: Colors.transparent,
-                    child: FlutterLogo(size: 150,),
-                  ),
-                ),
+                Assets.appLogo.image(scale: 0.5),
 
                 
                 Text(

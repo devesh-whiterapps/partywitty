@@ -22,7 +22,7 @@ class BottomNavState extends Equatable {
   factory BottomNavState.initial() => const BottomNavState(
     status: BottomNavStatus.initial,
     selectedIndex: 0,
-    screenList: [HomePage(),Placeholder(),Placeholder(),Placeholder()]
+    screenList: [HomePage(),Placeholder(),Placeholder(),Placeholder(),Placeholder()]
   );
 
   BottomNavState copyWith({

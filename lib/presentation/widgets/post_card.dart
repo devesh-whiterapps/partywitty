@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:intl/intl.dart';
+import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
+import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:partywitty/presentation/resources/router/route_manager.dart';
 import 'package:video_player/video_player.dart';
 
@@ -44,6 +46,7 @@ class _PostCardState extends State<PostCard> {
       padding: EdgeInsets.all(10),
 
       child: Column(
+        crossAxisAlignment: .start,
         children: [
           //Username Header
           FittedBox(
@@ -77,11 +80,9 @@ class _PostCardState extends State<PostCard> {
                           ),
                         ),
 
-                        Icon(
-                          Icons.check_circle,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        Icon(Icons.circle, size: 10),
+                        
+                        Assets.checkIc.image(),
+                        Assets.dimondIc.image(),
                         Text(
                           "${widget.data.hoursSince == 0 ? "Just Now" : "${widget.data.hoursSince} H"} ",
                           style: getRegular14Style(color: Colors.grey),
@@ -105,7 +106,7 @@ class _PostCardState extends State<PostCard> {
                         horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurpleAccent,
+                        color: ColorManager.followBtn,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -131,55 +132,68 @@ class _PostCardState extends State<PostCard> {
                 children: [
                   Container(
                     child: widget.data.imageUrls != null
-                        ? Container(
-                            height: 450,
-                            width: widget.width * 0.8,
-                            child: ImageSlideshow(
-                              /// Width of the [ImageSlideshow].
-                              width: double.infinity,
-
-                              /// Height of the [ImageSlideshow].
-                              //  height: 200,
-
-                              /// The page to show when first creating the [ImageSlideshow].
-                              initialPage: 0,
-
-                              /// The color to paint the indicator.
-                              indicatorColor: Colors.blue,
-
-                              /// The color to paint behind th indicator.
-                              indicatorBackgroundColor: Colors.grey,
-
-                              /// Called whenever the page in the center of the viewport changes.
-                              onPageChanged: (value) {
-                                print('Page changed: $value');
-                              },
-
-                              /// Auto scroll interval.
-                              /// Do not auto scroll with null or 0.
-                              autoPlayInterval: 3000,
-
-                              /// Loops back to first slide.
-                              isLoop: true,
-
-                              /// The widgets to display in the [ImageSlideshow].
-                              /// Add the sample image file into the images folder
-                              children: [
-                                ...List.generate(
-                                  widget.data.imageUrls?.length ?? 0,
-                                  (index) => Image.network(
-                                    widget.data.imageUrls![index],
-                                    height: 450,
-                                    width: widget.width * 0.8,
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            ErrorWidget(error),
-                                  ),
+                        ? Stack(
+                          children: [
+                            Container(
+                                height: 450,
+                                width: widget.width * 0.8,
+                                child: ImageSlideshow(
+                                  /// Width of the [ImageSlideshow].
+                                  width: double.infinity,
+                            
+                                  /// Height of the [ImageSlideshow].
+                                  //  height: 200,
+                            
+                                  /// The page to show when first creating the [ImageSlideshow].
+                                  initialPage: 0,
+                            
+                                  /// The color to paint the indicator.
+                                  indicatorColor: Colors.blue,
+                            
+                                  /// The color to paint behind th indicator.
+                                  indicatorBackgroundColor: Colors.grey,
+                            
+                                  /// Called whenever the page in the center of the viewport changes.
+                                  onPageChanged: (value) {
+                                    print('Page changed: $value');
+                                  },
+                            
+                                  /// Auto scroll interval.
+                                  /// Do not auto scroll with null or 0.
+                                  autoPlayInterval: 3000,
+                            
+                                  /// Loops back to first slide.
+                                  isLoop: true,
+                            
+                                  /// The widgets to display in the [ImageSlideshow].
+                                  /// Add the sample image file into the images folder
+                                  children: [
+                                    ...List.generate(
+                                      widget.data.imageUrls?.length ?? 0,
+                                      (index) => Image.network(
+                                        widget.data.imageUrls![index],
+                                        height: 450,
+                                        width: widget.width * 0.8,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                ErrorWidget(error),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
+                              ),
+                          Positioned(
+                            left: 10,top: 230,
+                                child: Assets.arrorLeft.image()
+                              ),
+
+                              Positioned(
+                            right: 10,top: 230,
+                                child: Assets.arrowRight.image()
+                              ),
+                          ],
+                        )
                         : _controller.value.isInitialized
                         ? Stack(
                             alignment: .center,
@@ -201,16 +215,7 @@ class _PostCardState extends State<PostCard> {
                                       },
                                     );
                                   },
-                                  icon: Container(
-                                    decoration: BoxDecoration(
-                                      shape: .circle,
-                                      border: Border.all(),
-                                    ),
-                                    child: Icon(
-                                      Icons.play_arrow_outlined,
-                                      size: 50,
-                                    ),
-                                  ),
+                                  icon:Assets.playIc.image(),
                                 ),
                               ),
 
@@ -221,22 +226,35 @@ class _PostCardState extends State<PostCard> {
                                   onPressed: () {
                                     _controller.setVolume(100);
                                   },
-                                  icon: Container(
-                                    decoration: BoxDecoration(
-                                      shape: .circle,
-                                      border: Border.all(),
-                                    ),
-                                    child: Icon(
-                                      Icons.volume_up_outlined,
-                                      size: 30,
-                                    ),
-                                  ),
+                                  icon: Assets.volumeIc.image(),
                                 ),
                               ),
                             ],
                           )
                         : Container(),
                   ),
+
+                    widget.data.isAd
+                      ? Positioned(
+                          height: 30,
+                          width: widget.width * 0.8,
+                          top: 0,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            color: Colors.lightGreenAccent,
+                            child: Row(
+                              mainAxisAlignment: .center,
+                              children: [
+                                Text(
+                                  "Add On up to 50% Extra on Food & Beverages",
+                                  style: getBold14Style(color: Colors.black,fontSize: 12),
+                                ),
+                                
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(),
 
                   widget.data.isAd
                       ? Positioned(
@@ -256,12 +274,33 @@ class _PostCardState extends State<PostCard> {
                                 Icon(
                                   Icons.arrow_forward_ios,
                                   color: Colors.white,
+                                  size: 20,
                                 ),
                               ],
                             ),
                           ),
                         )
                       : Container(),
+
+                       widget.data.isAd
+                      ? Positioned(
+                          height: 30,
+                          right: 0,
+                          top: 100,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                            
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(15))),
+                            child: Text(
+                              "Ambience",
+                              style: getBold14Style(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      : Container(),
+
                 ],
               ),
 
@@ -277,18 +316,12 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Container(
-                            decoration: BoxDecoration(
-                              shape: .circle,
-                              border: Border.all(),
-                            ),
-                            child: Icon(Icons.star_border_rounded, size: 30),
-                          ),
+                          icon: Assets.starIc.image(scale: 0.9,color: Colors.black),
                         ),
 
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.bookmark_outline, size: 30),
+                          icon: Assets.bookmarkIc.image(color: Colors.black),
                         ),
                       ],
                     ),
@@ -301,9 +334,9 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Icon(Icons.favorite_border_outlined, size: 30),
+                              Assets.likeIc.image(color: Colors.black),
                               Text(
-                                "${NumberFormat.compact().format(widget.data.likeCount)}",
+                                NumberFormat.compact().format(widget.data.likeCount),
                                 style: getBold14Style(color: Colors.black),
                               ),
                             ],
@@ -314,9 +347,9 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Icon(Icons.comment_outlined, size: 30),
+                              Assets.commentIc.image(color: Colors.black),
                               Text(
-                                "${NumberFormat.compact().format(widget.data.commentCount)}",
+                                NumberFormat.compact().format(widget.data.commentCount),
                                 style: getBold14Style(color: Colors.black),
                               ),
                             ],
@@ -327,9 +360,9 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Icon(CupertinoIcons.paperplane, size: 30),
+                              Assets.followerIc.image(color: Colors.black),
                               Text(
-                                "${NumberFormat.compact().format(widget.data.followerCount)}",
+                                NumberFormat.compact().format(widget.data.followerCount),
                                 style: getBold14Style(color: Colors.black),
                               ),
                             ],
@@ -342,17 +375,17 @@ class _PostCardState extends State<PostCard> {
               ),
             ],
           ),
-          Row(
+          !widget.data.isAd?Row(
             children: [
               Text(
-                "${widget.data.username}",
+                widget.data.username,
                 style: getBold14Style(color: Colors.black),
               ),
               SizedBox(width: 10),
-              Icon(Icons.check_circle, color: Colors.deepPurpleAccent),
+              Assets.checkIc.image(),
             ],
-          ),
-          TextButton(
+          ):Text("The Live Edit connaught club house 25 July 2025",style: getBold14Style(color: Colors.black),textAlign: .left,),
+          !widget.data.isAd?TextButton(
             onPressed: () {},
             child: Text(
               "${widget.data.caption}",
@@ -360,7 +393,7 @@ class _PostCardState extends State<PostCard> {
               maxLines: 3,
               softWrap: true,
             ),
-          ),
+          ):Text("12 Oct25, 8:00 PM – 11:30 PM",style: getRegular10Style(color: Colors.grey),),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorManager {
-  static Color primary = HexColor.fromHex("#FFFFFF");
+  static Color primary = HexColor.fromHex("#7464E4");
   static Color darkGrey = HexColor.fromHex("#393D3f");
   static Color grey = HexColor.fromHex("#737477");
 
@@ -38,7 +38,7 @@ class ColorManager {
   static Color containerBorder = HexColor.fromHex("#D2E9F6");
 
   //New Colors
-  static Color cancelButtonTextColor = HexColor.fromHex("#CFD2D3");
+  static Color followBtn = HexColor.fromHex("#7464E4");
   static Color black = HexColor.fromHex('#000000');
   static Color darkPrimary = HexColor.fromHex("#d17d11");
   static Color grey1 = HexColor.fromHex("#707070");
