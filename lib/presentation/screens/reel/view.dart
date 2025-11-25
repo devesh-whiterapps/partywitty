@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
 import 'package:partywitty/presentation/resources/image_assets.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
@@ -105,14 +106,7 @@ class ReelLoadedPage extends StatelessWidget {
                  Positioned(
                 // top: 35,
                 // right: 10,
-                child: Card(
-                color: Colors.grey.withAlpha(100),
-                clipBehavior: .hardEdge,
-                shape: CircleBorder(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Icon(Icons.play_arrow_outlined,color: Colors.white,size: 50,)
-                ),)),
+                child: Assets.playIc.image()),
 
                  Positioned(
                 bottom: 150,
@@ -137,7 +131,7 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Icon(Icons.favorite_border_outlined, size: 30,color: Colors.white,),
+                              Assets.likeIc.image(color: Colors.white),
                               Text(
                                 "${NumberFormat.compact().format(2560000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -152,7 +146,7 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Icon(CupertinoIcons.paperplane, size: 30,color: Colors.white,),
+                              Assets.followerIc.image(color: Colors.white),
                               Text(
                                 "${NumberFormat.compact().format(40000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -203,11 +197,8 @@ class ReelLoadedPage extends StatelessWidget {
                               ),
                             ),
                 
-                            Icon(
-                              Icons.check_circle,
-                              color: Colors.white,
-                            ),
-                            Icon(Icons.circle, size: 10,color: Colors.white,),
+                            Assets.checkIc.image(color: Colors.white),
+                            Assets.dimondIc.image(color: Colors.white),
                             Text(
                               "22 H",
                               style: getRegular14Style(color: Colors.white),
@@ -267,7 +258,7 @@ class ReelLoadedPage extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.token_outlined,color: Colors.white,),
+                              Assets.offersIc.image(color: Colors.white),
                               SizedBox(width: 5,),
                               Text(
                                 "20%Off" ,

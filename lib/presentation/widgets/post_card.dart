@@ -48,25 +48,58 @@ class _PostCardState extends State<PostCard> {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          //Username Header
-          FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Row(
-              mainAxisAlignment: .spaceEvenly,
-              children: [
-                ClipOval(
+         widget.data.usershared ? Row(
+            spacing: 10,
+            children: [
+             ClipOval(
                   clipBehavior: Clip.hardEdge,
                   child: Image.network(
                     ImgAssets.boy,
                     fit: .cover,
-                    width: 50,
-                    height: 50,
+                    width: 25,
+                    height: 25,
                     errorBuilder: (context, error, stackTrace) =>
                         ErrorWidget("exception"),
                   ),
                 ),
-                SizedBox(width: 5),
-                Column(
+
+                Text(
+                          "User Name",
+                          style: getBold16Style(
+                            color: Colors.black,
+                            fontSize: 14,
+                          ),
+                        ),
+
+                        Text(
+                          "shared this",
+                          style: getRegular10Style(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                        ),
+          ],):Container(),
+          widget.data.usershared ? Divider(color: Colors.grey.withAlpha(200),thickness: 0.4,):Container(),
+          SizedBox(height: 10,),
+          //Username Header
+          Row(
+            mainAxisSize: .max,
+            mainAxisAlignment: .spaceEvenly,
+            children: [
+              ClipOval(
+                clipBehavior: Clip.hardEdge,
+                child: Image.network(
+                  ImgAssets.boy,
+                  fit: .cover,
+                  width: 50,
+                  height: 50,
+                  errorBuilder: (context, error, stackTrace) =>
+                      ErrorWidget("exception"),
+                ),
+              ),
+              SizedBox(width: 5),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: .start,
                   children: [
                     Row(
@@ -78,14 +111,20 @@ class _PostCardState extends State<PostCard> {
                             color: Colors.black,
                             fontSize: 14,
                           ),
+                          maxLines: 1, // Optional: Restrict to one line
+                overflow: TextOverflow.ellipsis,
                         ),
-
+                        
                         
                         Assets.checkIc.image(),
                         Assets.dimondIc.image(),
-                        Text(
-                          "${widget.data.hoursSince == 0 ? "Just Now" : "${widget.data.hoursSince} H"} ",
-                          style: getRegular14Style(color: Colors.grey),
+                        Expanded(
+                          child: Text(
+                            "${widget.data.hoursSince == 0 ? "Just Now" : "${widget.data.hoursSince} H"} ",
+                            style: getRegular14Style(color: Colors.grey),
+                            maxLines: 1, // Optional: Restrict to one line
+                                          overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -95,33 +134,33 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ],
                 ),
-
-                TextButton(
-                  onPressed: () {},
-
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: ColorManager.followBtn,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        widget.data.isAd ? "Reserve" : "Follow",
-                        style: getBold14Style(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
+              ),
+              
+              TextButton(
+                onPressed: () {},
+                      
+                child: Card(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: ColorManager.followBtn,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      widget.data.isAd ? "Reserve" : "Follow",
+                      style: getBold14Style(
+                        color: Colors.white,
+                        fontSize: 10,
                       ),
                     ),
                   ),
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
-              ],
-            ),
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
+            ],
           ),
           SizedBox(height: 10),
           //Media COntent
@@ -241,7 +280,7 @@ class _PostCardState extends State<PostCard> {
                           top: 0,
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 10),
-                            color: Colors.lightGreenAccent,
+                            color: ColorManager.offerColor,
                             child: Row(
                               mainAxisAlignment: .center,
                               children: [
@@ -291,7 +330,7 @@ class _PostCardState extends State<PostCard> {
                             padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
                             
                             decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: ColorManager.tagColor,
                               borderRadius: BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(15))),
                             child: Text(
                               "Ambience",

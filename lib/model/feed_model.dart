@@ -4,6 +4,7 @@ class FeedItem {
   final int hoursSince; // Represents "since(time in hrs)"
   final String? subtitle;
   final bool isAd;
+   final bool usershared;
   final String? caption;
   
   /// Only populated if [isAd] is true
@@ -22,6 +23,7 @@ class FeedItem {
     required this.name,
     required this.username,
     required this.hoursSince,
+    required this.usershared,
     this.subtitle,
     required this.isAd,
     this.caption,
@@ -66,6 +68,7 @@ class FeedItem {
       commentCount: json['comment'] as int? ?? 0,
       likeCount: json['like'] as int? ?? 0,
       followerCount: json['followers'] as int? ?? 0,
+      usershared: json['usershared'] as bool??false
     );
   }
 
@@ -83,6 +86,7 @@ class FeedItem {
       'comment': commentCount,
       'like': likeCount,
       'followers': followerCount,
+      'usershared':usershared
     };
   }
 }

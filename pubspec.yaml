@@ -41,8 +41,7 @@ dependencies:
   intl: ^0.20.2
   video_player: ^2.10.1
   flutter_image_slideshow: ^0.1.6
-  google_nav_bar: ^5.0.7
-  bottom_navy_bar: ^6.1.0
+ 
 
 dev_dependencies:
   flutter_test:
@@ -83,10 +82,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: 'CustomIcons'
-      fonts:
-        - asset: assets/fonts/more_ic.ttf
+  # fonts:
+  #   - family: 'CustomIcons'
+  #     fonts:
+  #       - asset: assets/fonts/more_ic.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -44,8 +44,8 @@ class ColorManager {
   static Color grey1 = HexColor.fromHex("#707070");
   static Color grey2 = HexColor.fromHex("#797979");
   static Color white = HexColor.fromHex("#FFFFFF");
-  static Color tabColor = HexColor.fromHex("#1E93D1");
-  static Color tabBarColor = HexColor.fromHex("#D2E9F6");
+  static Color tagColor = HexColor.fromHex("#008000");
+  static Color offerColor = HexColor.fromHex("#CCEE29");
   static Color elevatedButtonColor = HexColor.fromHex("#1E93D1");
   static Color logOutButtonColor = HexColor.fromHex("#F85353");
   static Color textFieldColor = HexColor.fromHex("#E8F4FA");

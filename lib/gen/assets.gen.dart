@@ -43,6 +43,7 @@ class Assets {
     'assets/location_ic.png',
   );
   static const AssetGenImage moreIc = AssetGenImage('assets/more_ic.png');
+  static const AssetGenImage offersIc = AssetGenImage('assets/offers_ic.png');
   static const AssetGenImage playIc = AssetGenImage('assets/play_ic.png');
   static const AssetGenImage searchIc = AssetGenImage('assets/search_ic.png');
   static const AssetGenImage starIc = AssetGenImage('assets/star_ic.png');
@@ -67,6 +68,7 @@ class Assets {
     likeIc,
     locationIc,
     moreIc,
+    offersIc,
     playIc,
     searchIc,
     starIc,

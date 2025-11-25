@@ -3,6 +3,7 @@ import 'package:partywitty/model/feed_model.dart';
 List<FeedItem> sampleFeed = [
   // 1. Standard Post: Multiple Images (Carousel)
   FeedItem(
+    usershared: false,
     name: "Sarah Jenkins",
     username: "@sarah_j_travels",
     hoursSince: 2,
@@ -20,6 +21,7 @@ List<FeedItem> sampleFeed = [
 
   // 2. Video Post
   FeedItem(
+     usershared: true,
     name: "Tech Daily",
     username: "@tech_daily_official",
     hoursSince: 5,
@@ -33,6 +35,7 @@ List<FeedItem> sampleFeed = [
 
   // 3. Advertisement: Video Ad
   FeedItem(
+     usershared: false,
     name: "Nike",
     username: "@nike",
     hoursSince: 1, // "Sponsored" posts usually appear fresh
@@ -48,6 +51,7 @@ List<FeedItem> sampleFeed = [
 
   // 4. Standard Post: Single Image
   FeedItem(
+     usershared: false,
     name: "Minimalist Art",
     username: "@minimal_art",
     hoursSince: 12,
@@ -63,6 +67,7 @@ List<FeedItem> sampleFeed = [
 
   // 5. Advertisement: Image Ad (Sale)
   FeedItem(
+     usershared: true,
     name: "Burger King",
     username: "@burgerking",
     hoursSince: 0,
@@ -80,6 +85,7 @@ List<FeedItem> sampleFeed = [
 
   // 6. Text-Heavy / Status Update (No media)
   FeedItem(
+     usershared: false,
     name: "Elon Musk",
     username: "@elonmusk",
     hoursSince: 1,
