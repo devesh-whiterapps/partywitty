@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../home/bloc.dart';
+import '../home/events.dart';
 import '../home/view.dart';
 
 
@@ -19,11 +22,21 @@ class BottomNavState extends Equatable {
     this.selectedIndex,
   });
 
-  factory BottomNavState.initial() => const BottomNavState(
+  factory BottomNavState.initial() => BottomNavState(
     status: BottomNavStatus.initial,
     selectedIndex: 0,
-    screenList: [HomePage(),Placeholder(),Placeholder(),Placeholder(),Placeholder()]
+    screenList: [
+      BlocProvider(
+        create: (_) => HomeBloc()..add(HomeInitEvent()),
+        child: HomePage(),
+      ),
+      Placeholder(),
+      Placeholder(),
+      Placeholder(),
+      Placeholder(),
+    ],
   );
+
 
   BottomNavState copyWith({
     BottomNavStatus? status,

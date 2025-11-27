@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
@@ -22,126 +23,122 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   late VideoPlayerController _controller;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _controller =
-        VideoPlayerController.networkUrl(
-            Uri.parse(
-              'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-            ),
-          )
-          ..initialize().then((_) {
-            // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-            setState(() {});
-          });
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      ),
+    )..initialize().then((_) => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.all(10),
+      color: Color(0xFFE9EBDC).withOpacity(0.4),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.all(10),
 
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         widget.data.usershared ? Row(
-            spacing: 10,
-            children: [
-             ClipOval(
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    ImgAssets.boy,
-                    fit: .cover,
-                    width: 25,
-                    height: 25,
-                    errorBuilder: (context, error, stackTrace) =>
-                        ErrorWidget("exception"),
-                  ),
-                ),
-
-                Text(
-                          "User Name",
-                          style: getBold16Style(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
-                        ),
-
-                        Text(
-                          "shared this",
-                          style: getRegular10Style(
-                            color: Colors.black,
-                            fontSize: 12,
-                          ),
-                        ),
-          ],):Container(),
-          widget.data.usershared ? Divider(color: Colors.grey.withAlpha(200),thickness: 0.4,):Container(),
-          SizedBox(height: 10,),
-          //Username Header
-          Row(
-            mainAxisSize: .max,
-            mainAxisAlignment: .spaceEvenly,
+          widget.data.usershared
+              ? Row(
             children: [
               ClipOval(
-                clipBehavior: Clip.hardEdge,
                 child: Image.network(
                   ImgAssets.boy,
-                  fit: .cover,
+                  fit: BoxFit.cover,
+                  width: 25,
+                  height: 25,
+                  errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.error),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "User Name",
+                style: GoogleFonts.lexend(
+                    fontSize: 14,
+                    color: Colors.black
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "shared this",
+               style: GoogleFonts.lexend(
+                 fontSize: 12,
+                 color: Colors.black
+               ),
+              ),
+            ],
+          )
+              : Container(),
+          widget.data.usershared
+              ? Divider(color: Colors.grey.withOpacity(0.4))
+              : Container(),
+          const SizedBox(height: 10),
+
+          // Username Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ClipOval(
+                child: Image.network(
+                  ImgAssets.boy,
+                  fit: BoxFit.cover,
                   width: 50,
                   height: 50,
                   errorBuilder: (context, error, stackTrace) =>
-                      ErrorWidget("exception"),
+                  const Icon(Icons.error),
                 ),
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
+
               Expanded(
                 child: Column(
-                  crossAxisAlignment: .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      spacing: 10,
                       children: [
-                        Text(
-                          widget.data.name,
-                          style: getBold16Style(
-                            color: Colors.black,
-                            fontSize: 14,
+                        Flexible(
+                          child: Text(
+                            widget.data.name,
+                            style: getBold16Style(
+                                color: Colors.black, fontSize: 14),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1, // Optional: Restrict to one line
-                overflow: TextOverflow.ellipsis,
                         ),
-                        
-                        
+                        const SizedBox(width: 5),
                         Assets.checkIc.image(),
                         Assets.dimondIc.image(),
-                        Expanded(
-                          child: Text(
-                            "${widget.data.hoursSince == 0 ? "Just Now" : "${widget.data.hoursSince} H"} ",
-                            style: getRegular14Style(color: Colors.grey),
-                            maxLines: 1, // Optional: Restrict to one line
-                                          overflow: TextOverflow.ellipsis,
-                          ),
+                        const SizedBox(width: 5),
+                        Text(
+                          widget.data.hoursSince == 0
+                              ? "Just Now"
+                              : "${widget.data.hoursSince} H",
+                          style: getRegular14Style(color: Colors.grey),
                         ),
                       ],
                     ),
                     Text(
-                      widget.data.subtitle ?? "Check In",
-                      style: getRegular14Style(color: Colors.black),
+                      widget.data.subtitle ?? "Check in",
+                      style: GoogleFonts.lexend(
+                        color: Colors.black
+                      )
                     ),
                   ],
                 ),
               ),
-              
+
               TextButton(
                 onPressed: () {},
-                      
                 child: Card(
                   child: Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 5,
                       horizontal: 10,
                     ),
@@ -151,223 +148,151 @@ class _PostCardState extends State<PostCard> {
                     ),
                     child: Text(
                       widget.data.isAd ? "Reserve" : "Follow",
-                      style: getBold14Style(
-                        color: Colors.white,
+                      style: GoogleFonts.lexend(
                         fontSize: 10,
+                        color: Colors.white
                       ),
                     ),
                   ),
                 ),
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
+
+              IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
             ],
           ),
-          SizedBox(height: 10),
-          //Media COntent
+
+          const SizedBox(height: 10),
+
+          // Media Content
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //Media
-              Stack(
-                children: [
-                  Container(
-                    child: widget.data.imageUrls != null
-                        ? Stack(
-                          children: [
-                            Container(
-                                height: 450,
-                                width: widget.width * 0.8,
-                                child: ImageSlideshow(
-                                  /// Width of the [ImageSlideshow].
-                                  width: double.infinity,
-                            
-                                  /// Height of the [ImageSlideshow].
-                                  //  height: 200,
-                            
-                                  /// The page to show when first creating the [ImageSlideshow].
-                                  initialPage: 0,
-                            
-                                  /// The color to paint the indicator.
-                                  indicatorColor: Colors.blue,
-                            
-                                  /// The color to paint behind th indicator.
-                                  indicatorBackgroundColor: Colors.grey,
-                            
-                                  /// Called whenever the page in the center of the viewport changes.
-                                  onPageChanged: (value) {
-                                    print('Page changed: $value');
-                                  },
-                            
-                                  /// Auto scroll interval.
-                                  /// Do not auto scroll with null or 0.
-                                  autoPlayInterval: 3000,
-                            
-                                  /// Loops back to first slide.
-                                  isLoop: true,
-                            
-                                  /// The widgets to display in the [ImageSlideshow].
-                                  /// Add the sample image file into the images folder
-                                  children: [
-                                    ...List.generate(
-                                      widget.data.imageUrls?.length ?? 0,
-                                      (index) => Image.network(
-                                        widget.data.imageUrls![index],
-                                        height: 450,
-                                        width: widget.width * 0.8,
-                                        fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                ErrorWidget(error),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          Positioned(
-                            left: 10,top: 230,
-                                child: Assets.arrorLeft.image()
-                              ),
+              ClipRRect(
+                child: SizedBox(
+                  width: widget.width * 0.78,
+                  height: 450,
+                  child: Stack(
+                    children: [
+                      widget.data.imageUrls != null
+                          ? ImageSlideshow(
+                        width: double.infinity,
+                        height: 450,
+                        initialPage: 0,
+                        indicatorColor: Colors.blue,
+                        indicatorBackgroundColor: Colors.grey,
+                        autoPlayInterval: 3000,
+                        isLoop: true,
+                        children: widget.data.imageUrls!.map(
+                              (url) => Image.network(
+                            url,
+                            width: double.infinity,
+                            height: 450,
+                            fit: BoxFit.cover,
+                          ),
+                        ).toList(),
+                      )
+                          : (_controller.value.isInitialized
+                          ? VideoPlayer(_controller)
+                          : Container()),
 
-                              Positioned(
-                            right: 10,top: 230,
-                                child: Assets.arrowRight.image()
-                              ),
-                          ],
-                        )
-                        : _controller.value.isInitialized
-                        ? Stack(
-                            alignment: .center,
-                            children: [
-                              Container(
-                                height: 450,
-                                width: widget.width * 0.8,
-                                child: VideoPlayer(_controller),
-                              ),
+                      // arrows
+                      Positioned(left: 10, top: 220, child: Assets.arrorLeft.image()),
+                      Positioned(right: 10, top: 220, child: Assets.arrowRight.image()),
 
-                              Positioned(
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      Routes.reelPage,
-                                      arguments: {
-                                        "videoUrl": "${widget.data.videoUrl}",
-                                      },
-                                    );
-                                  },
-                                  icon:Assets.playIc.image(),
-                                ),
-                              ),
-
-                              Positioned(
-                                right: 10,
-                                bottom: 30,
-                                child: IconButton(
-                                  onPressed: () {
-                                    _controller.setVolume(100);
-                                  },
-                                  icon: Assets.volumeIc.image(),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(),
-                  ),
-
-                    widget.data.isAd
-                      ? Positioned(
-                          height: 30,
-                          width: widget.width * 0.8,
+                      // Ad overlays
+                      if (widget.data.isAd)
+                        Positioned(
                           top: 0,
+                          width: widget.width * 0.78,
+                          height: 30,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
                             color: ColorManager.offerColor,
-                            child: Row(
-                              mainAxisAlignment: .center,
-                              children: [
-                                Text(
-                                  "Add On up to 50% Extra on Food & Beverages",
-                                  style: getBold14Style(color: Colors.black,fontSize: 12),
-                                ),
-                                
-                              ],
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Add On up to 50% Extra on Food & Beverages",
+                              style: getBold14Style(color: Colors.black, fontSize: 12),
                             ),
                           ),
-                        )
-                      : Container(),
+                        ),
 
-                  widget.data.isAd
-                      ? Positioned(
-                          height: 30,
-                          width: widget.width * 0.8,
+                      if (widget.data.isAd)
+                        Positioned(
                           bottom: 0,
+                          width: widget.width * 0.90,
+                          height: 30,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
                             color: Colors.deepPurpleAccent,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Row(
-                              mainAxisAlignment: .spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Book Now",
-                                  style: getBold14Style(color: Colors.white),
+                                Text("Book Now",
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 16,
+                                    color: Colors.white
+                                  ),
+
                                 ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
+                                const Icon(Icons.arrow_forward_ios,
+                                    size: 20, color: Colors.white),
                               ],
                             ),
                           ),
-                        )
-                      : Container(),
+                        ),
 
-                       widget.data.isAd
-                      ? Positioned(
-                          height: 30,
+                      if (widget.data.isAd)
+                        Positioned(
                           right: 0,
                           top: 100,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                            
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                             decoration: BoxDecoration(
                               color: ColorManager.tagColor,
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(15))),
-                            child: Text(
-                              "Ambience",
-                              style: getBold14Style(color: Colors.white),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                bottomLeft: Radius.circular(15),
+                              ),
+                            ),
+                            child: Text("Ambience",
+                            style: GoogleFonts.lexend(
+                              fontSize: 16,
+                              color: Colors.white
+                            ),
                             ),
                           ),
-                        )
-                      : Container(),
-
-                ],
+                        ),
+                    ],
+                  ),
+                ),
               ),
 
-              Container(
-                // color: Colors.amber,
+              const SizedBox(width: 3),
+
+
+              SizedBox(
+                width: 55,
                 child: Column(
-                  mainAxisSize: .max,
-                  mainAxisAlignment: .spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Top two buttons
                     Column(
-                      mainAxisSize: .min,
-                      spacing: 5,
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Assets.starIc.image(scale: 0.9,color: Colors.black),
+                          icon: Assets.starIc.image(color: Colors.black),
                         ),
-
+                        const SizedBox(height: 5), // explicit gap
                         IconButton(
                           onPressed: () {},
                           icon: Assets.bookmarkIc.image(color: Colors.black),
                         ),
                       ],
                     ),
-                    SizedBox(height: 150),
+
+                    const SizedBox(height: 158),
+
                     Column(
-                      mainAxisSize: .min,
-                      spacing: 5,
                       children: [
                         IconButton(
                           onPressed: () {},
@@ -375,33 +300,36 @@ class _PostCardState extends State<PostCard> {
                             children: [
                               Assets.likeIc.image(color: Colors.black),
                               Text(
-                                NumberFormat.compact().format(widget.data.likeCount),
+                                NumberFormat.compact()
+                                    .format(widget.data.likeCount),
                                 style: getBold14Style(color: Colors.black),
                               ),
                             ],
                           ),
                         ),
-
+                        const SizedBox(height: 10), // explicit gap
                         IconButton(
                           onPressed: () {},
                           icon: Column(
                             children: [
                               Assets.commentIc.image(color: Colors.black),
                               Text(
-                                NumberFormat.compact().format(widget.data.commentCount),
+                                NumberFormat.compact()
+                                    .format(widget.data.commentCount),
                                 style: getBold14Style(color: Colors.black),
                               ),
                             ],
                           ),
                         ),
-
+                        const SizedBox(height: 10), // explicit gap
                         IconButton(
                           onPressed: () {},
                           icon: Column(
                             children: [
                               Assets.followerIc.image(color: Colors.black),
                               Text(
-                                NumberFormat.compact().format(widget.data.followerCount),
+                                NumberFormat.compact()
+                                    .format(widget.data.followerCount),
                                 style: getBold14Style(color: Colors.black),
                               ),
                             ],
@@ -414,25 +342,42 @@ class _PostCardState extends State<PostCard> {
               ),
             ],
           ),
-          !widget.data.isAd?Row(
+
+          const SizedBox(height: 8),
+
+          // Caption
+          !widget.data.isAd
+              ? Row(
             children: [
               Text(
                 widget.data.username,
                 style: getBold14Style(color: Colors.black),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Assets.checkIc.image(),
             ],
-          ):Text("The Live Edit connaught club house 25 July 2025",style: getBold14Style(color: Colors.black),textAlign: .left,),
-          !widget.data.isAd?TextButton(
-            onPressed: () {},
-            child: Text(
-              "${widget.data.caption}",
-              style: getRegular10Style(color: Colors.black),
-              maxLines: 3,
-              softWrap: true,
+          )
+              : Text(
+            "The Live Edit connaught club house 25 July 2025",
+            style: GoogleFonts.lexend(
+              fontSize: 12,
+              color: Colors.black
             ),
-          ):Text("12 Oct25, 8:00 PM – 11:30 PM",style: getRegular10Style(color: Colors.grey),),
+          ),
+
+          !widget.data.isAd
+              ? Text(
+            "${widget.data.caption}",
+            style: getRegular10Style(color: Colors.black),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          )
+              : Text(
+            "12 Oct25, 8:00 PM – 11:30 PM",
+            style: GoogleFonts.lexend(
+              color: Color(0xFF4F4F4F)
+            ),
+          ),
         ],
       ),
     );

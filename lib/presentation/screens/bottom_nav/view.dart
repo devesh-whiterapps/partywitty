@@ -15,7 +15,6 @@ class BottomNavPage extends StatelessWidget {
       create: (_) => BottomNavBloc()..add(BottomNavInitEvent()),
       child: BlocConsumer<BottomNavBloc, BottomNavState>(
         listener: (context, state) {
-          // handle navigation or snackbars
         },
         builder: (context, state) {
           switch (state.status) {
@@ -67,9 +66,9 @@ class BottomNavLoadedPage extends StatelessWidget {
             ),
           ],
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Margin for the container
+        margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0), // Margin for the container
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildNavItem(context,0, Assets.homeIc.path, 'Home'),
             _buildNavItem(context,1, Assets.searchIc.path, 'Search'),
@@ -92,7 +91,7 @@ class BottomNavLoadedPage extends StatelessWidget {
         decoration: isSelected
             ? BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF6A1B9A), Color(0xFF4A148C)], // Purple gradient
+                  colors: [Color(0xFF454ABC), Color(0xFF454ABC)], // Purple gradient
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -101,7 +100,7 @@ class BottomNavLoadedPage extends StatelessWidget {
             : null,
         child: Row(
           children: [
-            Image.asset(icon,color: isSelected ? Colors.white : Colors.deepPurple,),
+            Image.asset(icon,color: isSelected ? Colors.white : Color(0xFF454ABC)),
             // Icon(
             //   icon,
             //   color: isSelected ? Colors.white : Colors.deepPurple,

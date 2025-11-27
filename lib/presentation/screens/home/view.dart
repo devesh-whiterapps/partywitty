@@ -1,104 +1,89 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:partywitty/presentation/resources/image_assets.dart';
-import 'package:partywitty/presentation/resources/style_manager.dart';
-import 'package:partywitty/presentation/widgets/post_card.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../../gen/assets.gen.dart';
+import '../../resources/image_assets.dart';
+import '../../resources/style_manager.dart';
+import '../../widgets/post_card.dart';
 import 'bloc.dart';
-import 'events.dart';
-import 'state.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeBloc()..add(HomeInitEvent()),
-      child: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {
-        },
-        builder: (context, state) {
-          switch (state.status) {
-            case HomeStatus.loading:
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            case HomeStatus.loaded:
-              return HomeLoadedPage(state1: state);
-            case HomeStatus.error:
-              return Scaffold(
-                body: Center(child: Text(state.error ?? "An error occurred")),
-              );
-            default:
-              return const Scaffold(body: Center(child: Text("Unknown state")));
-          }
-        },
-      ),
-    );
-  }
-}
-
-class HomeLoadedPage extends StatelessWidget {
-  HomeState state1;
-  HomeLoadedPage({super.key, required this.state1});
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomeBloc>().state;
     final width = MediaQuery.of(context).size.width;
+
+    const bgUrl =
+        "https://images.pexels.com/photos/207983/pexels-photo-207983.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
+
     return Scaffold(
-      backgroundColor: Colors.white.withAlpha(10),
+      backgroundColor: const Color(0xFFE9EBDC).withOpacity(0.4),
+
       appBar: AppBar(
         backgroundColor: Colors.white.withAlpha(10),
         automaticallyImplyLeading: false,
         centerTitle: false,
         leading: Container(
-          margin: EdgeInsets.only(left: 10),
-          // padding: EdgeInsets.all(5),
-          // decoration: BoxDecoration(
-          //   border: Border.all(color: Colors.black),
-          //   borderRadius: BorderRadius.circular(10),
-          // ),
+          margin: const EdgeInsets.only(left: 10),
           child: Assets.appLogo.image(scale: 0.9),
         ),
-
-        title: Column(
-          children: [
-            TextButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-              ),
-              child: Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(3)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 10),
-                  child: Row(
-                    mainAxisSize: .min,
-                    children: [
-                      Assets.locationIc.image(),
-                      SizedBox(width: 5),
-                      Text(
-                        "Vasant Kunj",
-                        style: getRegular10Style(color: Colors.black),
-                      ),
-                      SizedBox(width: 5),
-                  
-                      Assets.arrowDownIc.image(),
-                    ],
+        title: Transform.translate(
+          offset: const Offset(-10, -4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                ),
+                child: Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 2.8,
+                      horizontal: 8,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Assets.locationIc.image(),
+                        const SizedBox(width: 8),
+                        Text(
+                          "Vasant Kunj",
+                          style: GoogleFonts.lexend(
+                              fontSize: 10,
+                              color: Colors.black54
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Assets.arrowDownIc.image(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Text(
-              "Vasant Kunj Comes Under ...",
-              style: getRegular10Style(color: Colors.black),
-            ),
-          ],
+
+              Transform.translate(
+                offset: const Offset(0, -7),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    "Asant Kunj Comes Under ...",
+                    style: GoogleFonts.lexend(
+                        fontSize: 10,
+                        color: Colors.black54
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
 
         actions: [
@@ -106,101 +91,164 @@ class HomeLoadedPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: IconButton(
               onPressed: () {},
-              icon: Container(
-                padding: EdgeInsets.all(5),
-
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  
-                  borderRadius: BorderRadius.circular(3),
+              icon: Transform.translate(
+                offset: const Offset(0, -6), // ← Icon को ऊपर ले गया
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Assets.bellIc.image(),
                 ),
-                child: Assets.bellIc.image(),
               ),
             ),
           ),
         ],
       ),
-      body: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      
-      child: CustomScrollView(
-        
-        slivers: <Widget>[
-          
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                
-                if (index < (state.feedList?.length ?? 0)) {
-                  
-                  return PostCard(width: width, data: state.feedList![index]);
-                }
-                return null; 
-              },
-              
-              childCount: state.feedList?.length ?? 0,
-            ),
-          ),
 
-          
-          SliverToBoxAdapter(
+      body: Stack(
+        children: [
+          Positioned.fill(child: Image.network(bgUrl, fit: BoxFit.cover)),
+
+          Positioned.fill(
             child: Container(
-              
-              height: 400.0, 
-              color: Colors.white, 
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Row(
-                    mainAxisAlignment: .spaceBetween,
-                     children: [
-                       Text(
-                        'Party Packages',
-                        style: getBold16Style(color: Colors.black),
-                                         ),
-                                         TextButton(onPressed: (){}, child: Text(
-                        'View All ->',
-                        style: getBold16Style(color: Colors.black),))
-                     ],
-                   ),
-                  const SizedBox(height: 8.0),
-                  Expanded(
-                    child: ListView.builder(
-                      
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 10, 
-                      itemBuilder: (context, index) {
-                       
-                        return Container(
-                          width: 170.0, 
-                          margin: const EdgeInsets.only(right: 10.0,),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: NetworkImage(ImgAssets.drinks),fit: .cover)
-                            // borderRadius: BorderRadius.circular(8.0),
+              margin: const EdgeInsets.only(bottom: 18),
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.10),
+                      borderRadius: BorderRadius.circular(0),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.30),
+                        width: 1.2,
+                      ),
+                    ),
+
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate((
+                            context,
+                            index,
+                          ) {
+                            if (index < (state.feedList?.length ?? 0)) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 3,
+                                ), // reduced gap
+                                child: PostCard(
+                                  width: width,
+                                  data: state.feedList![index],
+                                ),
+                              );
+                            }
+                            return null;
+                          }, childCount: state.feedList?.length ?? 0),
+                        ),
+
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 2,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Party Packages',
+                                      style: GoogleFonts.lexend(
+                                        fontSize: 20,
+                                        color: Colors.black
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'View all',
+                                           style: GoogleFonts.lexend(fontSize: 20,
+                                           color: Colors.black
+                                           ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          const Icon(
+                                            Icons.arrow_right_alt,
+                                            color: Colors.black,
+                                            size: 25,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 6),
+
+                                SizedBox(
+                                  height: 170,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 10,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 6,
+                                        ),
+                                        child: Container(
+                                          width: 170,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              0,
+                                            ),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                ImgAssets.drinks,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          alignment: Alignment.bottomCenter,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'Imported Drinks Food',
+                                                style: getRegular14Style(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                '(199+)',
+                                                style: getRegular14Style(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisSize: .min,
-                            children: [
-                              Text('Imported Drinks Food',style: getRegular14Style(color: Colors.white)),
-                              Text('(199+)',style: getRegular14Style(color: Colors.white)),
-                            ],
-                          ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
-                  
-                ],
+                ),
               ),
             ),
           ),
-
-          
         ],
       ),
-    )
     );
   }
 }
