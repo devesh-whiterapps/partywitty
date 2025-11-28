@@ -8,7 +8,7 @@ import '../models/feed_item_model.dart';
 
 
 abstract class FeedRemoteDataSource {
-  Future<List<FeedItem>> getFeed();
+  Future<HomeResponse> getFeed();
 }
 
 class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
@@ -17,7 +17,7 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
   FeedRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<List<FeedItem>> getFeed() async {
+  Future<HomeResponse> getFeed() async {
     try {
       final response = await dio.post('${ApiConst.baseUrl}${ApiConst.homeFeed}',data: {  "latitude" : "28.6490624",
 "limit" : 10,
@@ -26,13 +26,14 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
         // print(response.data);
       if (response.statusCode == 200 && response.data['status'] == true) {
         final List<dynamic> rawList = response.data['data'];
-        
+        final home = HomeResponse.fromJson(response.data);
         // Map raw JSON items to specific domain entities via the Model factory
-        final feedList =   rawList
-            .map((item) => FeedItemModel.fromJson(item))
-            .toList();
+        // final feedList =   rawList
+        //     .map((item) => FeedItemModel.fromJson(item))
+        //     .toList();
 
-            return feedList;
+            // return feedList;
+            return home;
       } else {
         throw ServerException();
       }

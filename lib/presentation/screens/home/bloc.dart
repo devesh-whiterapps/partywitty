@@ -23,7 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final result = await repository.getFeed();
       result.fold(
       (failure) => print(failure.message),
-      (data) => print(data[0].toString()),
+      (data) => emit(state.copyWith(feedList: data.data)),
     );
       emit(
         state.copyWith(

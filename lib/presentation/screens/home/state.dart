@@ -10,7 +10,7 @@ enum HomeStatus { initial, loading, loaded, error }
 class HomeState extends Equatable {
   final HomeStatus status;
   final String? error;
-  final List<FeedItem>? feedList;
+  final List<HomeItemModel>? feedList;
 
 
   const HomeState({
@@ -27,7 +27,7 @@ class HomeState extends Equatable {
   HomeState copyWith({
     HomeStatus? status,
     String? error,
-    List<FeedItem>? feedList
+    List<HomeItemModel>? feedList
   }) {
     return HomeState(
       status: status ?? this.status,

@@ -50,12 +50,17 @@ class FeedItemModel {
 
       case 'gallery':
          // Handle list of objects with 'img' key
-         final List<dynamic> imgs = innerData['images'] ?? [];
+         final List<dynamic> imgs = innerData['img'] ?? [];
          return GalleryItem(
            id: id,
            type: type,
            component: component,
-           images: imgs.map((e) => e['img'].toString()).toList(),
+           images: imgs.map((e) {
+            if(e['img'] != null){
+             return e['img'].toString();
+            }
+            return 'e';
+            }).toList(),
          );
 
       default:
