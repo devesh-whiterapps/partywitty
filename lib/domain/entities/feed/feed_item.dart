@@ -1,14 +1,16 @@
-abstract class FeedItem {
-  final String id;
-  final String type;
-  final String component;
+import 'package:partywitty/core/const/api_const.dart';
 
-  FeedItem({
-    required this.id,
-    required this.type,
-    required this.component,
-  });
-}
+// abstract class FeedItem {
+//   final String id;
+//   final String type;
+//   final String component;
+
+//   FeedItem({
+//     required this.id,
+//     required this.type,
+//     required this.component,
+//   });
+// }
 
 class HomeResponse {
   final bool? status;
@@ -142,8 +144,8 @@ class EventModel {
         eventDate: json["event_date"] ?? "",
         eventTime: json["event_time"] ?? "",
         eventEndTime: json["event_end_time"] ?? "",
-        image: json["image"] ?? "",
-        video: json["video"] ?? "",
+        image: ApiConst.assetBaseUrl + json["image"] ?? "",
+        video: ApiConst.assetBaseUrl +json["video"] ?? "",
         eventSlug1: json["event_slug1"] ?? "",
         eventSlug2: json["event_slug2"] ?? "",
         minPrice: json["min_price"] ?? 0,
@@ -151,7 +153,7 @@ class EventModel {
         addon: json["addon"] ?? "",
         discount: json["discount"] ?? "",
         clubName: json["clubName"] ?? "",
-        clubLogo: json["clubLogo"] ?? "",
+        clubLogo: ApiConst.assetBaseUrl + json["clubLogo"] ?? "",
         cityName: json["cityName"] ?? "",
         areaName: json["areaName"] ?? "",
         latitude: json["latitude"] ?? "",
@@ -225,7 +227,7 @@ class TeaserModel {
         clubId: json["club_id"] ?? "",
         category: json["category"] ?? "",
         title: json["title"] ?? "",
-        video: json["video"] ?? "",
+        video: ApiConst.assetBaseUrl + json["video"] ?? "",
         date: json["date"] ?? "",
         verifyStatus: json["verify_status"] ?? "",
         tulips: json["tulips"] ?? 0,
@@ -234,7 +236,7 @@ class TeaserModel {
         deleteStatus: json["delete_status"] ?? "",
         clubName: json["clubName"] ?? "",
         clubSlug: json["clubSlug"] ?? "",
-        clubLogo: json["clubLogo"] ?? "",
+        clubLogo: ApiConst.assetBaseUrl + json["clubLogo"] ?? "",
         clubAddress: json["clubAddress"] ?? "",
         cityName: json["cityName"] ?? "",
         areaName: json["areaName"] ?? "",
@@ -286,7 +288,7 @@ class PackageModel {
   factory PackageModel.fromJson(Map<String, dynamic> json) => PackageModel(
         id: json["id"] ?? 0,
         name: json["name"] ?? "",
-        img: json["img"] ?? "",
+        img: ApiConst.assetBaseUrl + json["img"] ?? "",
         totalPackages: json["total_packages"] ?? 0,
         totalLikes: json["total_likes"] ?? 0,
         isLiked: json["is_liked"] ?? false,
@@ -312,7 +314,7 @@ class GalleryModel {
   factory GalleryModel.fromJson(Map<String, dynamic> json) => GalleryModel(
         clubId: json["club_id"] ?? 0,
         clubName: json["clubName"] ?? "",
-        clubLogo: json["clubLogo"] ?? "",
+        clubLogo: ApiConst.assetBaseUrl +  json["clubLogo"] ?? "",
         category: json["category"] ?? "",
         images: (json["images"] as List<dynamic>?)
                 ?.map((x) => GalleryImage.fromJson(x))
@@ -336,7 +338,7 @@ class GalleryImage {
   GalleryImage({this.img});
 
   factory GalleryImage.fromJson(Map<String, dynamic> json) => GalleryImage(
-        img: json["img"] ?? "",
+        img: ApiConst.assetBaseUrl +  json["img"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

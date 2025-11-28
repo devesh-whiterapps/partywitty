@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:partywitty/presentation/widgets/feed_card.dart/view.dart';
 import '../../../gen/assets.gen.dart';
 import '../../resources/image_assets.dart';
 import '../../resources/style_manager.dart';
@@ -132,13 +133,25 @@ class HomePage extends StatelessWidget {
                             index,
                           ) {
                             if (index < (state.feedList?.length ?? 0)) {
+                              // switch(state.feedList![index].type){
+                              //     case 'event':
+                              //     return Container(child: Text("Event"));
+                              //     case 'package':
+                              //     return Container(child: Text("Package"));
+                              //     case 'gallery':
+                              //     return Container(child: Text("Gallery"));
+                              //     case 'teaser':
+                              //     return Container(child: Text("Teaser"));
+                              //     default:
+                              //     return Container(child: Text("Unidentified Type"));
+                              // }
                               return Padding(
                                 padding: const EdgeInsets.only(
                                   bottom: 3,
                                 ), // reduced gap
-                                child: PostCard(
-                                  // width: width,
-                                  // data: state.feedList![index],
+                                child: FeedCardPage(
+                                  width: width,
+                                  item: state.feedList![index],
                                 ),
                               );
                             }

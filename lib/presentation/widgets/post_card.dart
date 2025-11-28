@@ -1,30 +1,23 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:partywitty/gen/assets.gen.dart';
-import 'package:partywitty/model/feed_model.dart';
-import 'package:partywitty/presentation/resources/color_manager.dart';
-import 'package:partywitty/presentation/resources/router/route_manager.dart';
-import 'package:partywitty/repository/caption_text.dart';
-import 'package:video_player/video_player.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:intl/intl.dart';
+// import 'package:partywitty/gen/assets.gen.dart';
+// import 'package:partywitty/model/feed_model.dart';
+// import 'package:partywitty/presentation/resources/color_manager.dart';
+// import 'package:partywitty/presentation/resources/router/route_manager.dart';
+// import 'package:partywitty/presentation/widgets/caption_text.dart';
+// import 'package:video_player/video_player.dart';
 
-import '../resources/image_assets.dart';
-import '../resources/style_manager.dart';
-class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+// import '../resources/image_assets.dart';
+// import '../resources/style_manager.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
 
 // class PostCard extends StatefulWidget {
 //   final double width;
-//   final FeedItem data;
-//   PostCard({super.key, required this.width, required this.data});
+//   // final FeedItem data;
+//   PostCard({super.key, required this.width});
 
 //   @override
 //   State<PostCard> createState() => _PostCardState();
