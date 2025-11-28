@@ -22,10 +22,14 @@ class Assets {
   static const AssetGenImage arrowRight = AssetGenImage(
     'assets/arrow_right.png',
   );
+  static const AssetGenImage arrowRight2Ic = AssetGenImage(
+    'assets/arrow_right_2_ic.png',
+  );
   static const AssetGenImage arrowRightIc = AssetGenImage(
     'assets/arrow_right_ic.png',
   );
   static const AssetGenImage bellIc = AssetGenImage('assets/bell_ic.png');
+  static const AssetGenImage bgImg = AssetGenImage('assets/bg_img.jpg');
   static const AssetGenImage bidIc = AssetGenImage('assets/bid_ic.png');
   static const AssetGenImage bookingIc = AssetGenImage('assets/booking_ic.png');
   static const AssetGenImage bookmarkIc = AssetGenImage(
@@ -34,10 +38,14 @@ class Assets {
   static const AssetGenImage checkIc = AssetGenImage('assets/check_ic.png');
   static const AssetGenImage commentIc = AssetGenImage('assets/comment_ic.png');
   static const AssetGenImage dimondIc = AssetGenImage('assets/dimond_ic.png');
+  static const AssetGenImage drinksIc = AssetGenImage('assets/drinks_ic.png');
   static const AssetGenImage followerIc = AssetGenImage(
     'assets/follower_ic.png',
   );
   static const AssetGenImage homeIc = AssetGenImage('assets/home_ic.png');
+  static const AssetGenImage homePlayIc = AssetGenImage(
+    'assets/home_play_ic.png',
+  );
   static const AssetGenImage likeIc = AssetGenImage('assets/like_ic.png');
   static const AssetGenImage locationIc = AssetGenImage(
     'assets/location_ic.png',
@@ -55,16 +63,20 @@ class Assets {
     arrorLeft,
     arrowDownIc,
     arrowRight,
+    arrowRight2Ic,
     arrowRightIc,
     bellIc,
+    bgImg,
     bidIc,
     bookingIc,
     bookmarkIc,
     checkIc,
     commentIc,
     dimondIc,
+    drinksIc,
     followerIc,
     homeIc,
+    homePlayIc,
     likeIc,
     locationIc,
     moreIc,

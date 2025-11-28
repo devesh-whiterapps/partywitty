@@ -173,7 +173,7 @@ TextStyle getMedium10Style(
 
 TextStyle headerTextStyle() {
   return TextStyle(
-      color: ColorManager.black,
+      color: Colors.black,
       fontSize: FontSize.s20,
       fontWeight: FontWeight.bold);
 }

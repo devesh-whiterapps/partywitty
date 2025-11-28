@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ColorManager {
   static Color primary = HexColor.fromHex("#7464E4");
   static Color darkGrey = HexColor.fromHex("#393D3f");
+  static Color darkPrimary = HexColor.fromHex("#393D3f");
   static Color grey = HexColor.fromHex("#737477");
 
   static Color primaryOpacity70 = HexColor.fromHex("#F9A825");
@@ -39,10 +40,12 @@ class ColorManager {
 
   //New Colors
   static Color followBtn = HexColor.fromHex("#7464E4");
-  static Color black = HexColor.fromHex('#000000');
-  static Color darkPrimary = HexColor.fromHex("#d17d11");
-  static Color grey1 = HexColor.fromHex("#707070");
+  static Color rightIcColor = HexColor.fromHex('#4F4F4F');
+  static Color dividerColor = HexColor.fromHex("#3C3C434A");
+  static Color reel_back = HexColor.fromHex("#DDDDDD");
   static Color grey2 = HexColor.fromHex("#797979");
+    static Color grey1 = HexColor.fromHex("#797979");
+
   static Color white = HexColor.fromHex("#FFFFFF");
   static Color tagColor = HexColor.fromHex("#008000");
   static Color offerColor = HexColor.fromHex("#CCEE29");

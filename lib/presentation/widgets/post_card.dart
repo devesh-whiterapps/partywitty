@@ -37,47 +37,50 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFE9EBDC).withOpacity(0.4),
+      color: Color(0xFFE9EBDC).withOpacity(0.5),
       margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           widget.data.usershared
               ? Row(
-            children: [
-              ClipOval(
-                child: Image.network(
-                  ImgAssets.boy,
-                  fit: BoxFit.cover,
-                  width: 25,
-                  height: 25,
-                  errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                "User Name",
-                style: GoogleFonts.lexend(
-                    fontSize: 14,
-                    color: Colors.black
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                "shared this",
-               style: GoogleFonts.lexend(
-                 fontSize: 12,
-                 color: Colors.black
-               ),
-              ),
-            ],
-          )
+                  children: [
+                    ClipOval(
+                      child: Image.network(
+                        ImgAssets.boy,
+                        fit: BoxFit.cover,
+                        width: 25,
+                        height: 25,
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.error),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "User Name",
+                      style: GoogleFonts.lexend(
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "shared this",
+                      style: GoogleFonts.lexend(
+                        fontSize: 12,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                )
               : Container(),
           widget.data.usershared
-              ? Divider(color: Colors.grey.withOpacity(0.4))
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Divider(color: ColorManager.dividerColor,thickness: 0.39,),
+                )
               : Container(),
           const SizedBox(height: 10),
 
@@ -92,7 +95,7 @@ class _PostCardState extends State<PostCard> {
                   width: 50,
                   height: 50,
                   errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.error),
+                      const Icon(Icons.error),
                 ),
               ),
               const SizedBox(width: 5),
@@ -107,7 +110,9 @@ class _PostCardState extends State<PostCard> {
                           child: Text(
                             widget.data.name,
                             style: getBold16Style(
-                                color: Colors.black, fontSize: 14),
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -126,9 +131,7 @@ class _PostCardState extends State<PostCard> {
                     ),
                     Text(
                       widget.data.subtitle ?? "Check in",
-                      style: GoogleFonts.lexend(
-                        color: Colors.black
-                      )
+                      style: GoogleFonts.lexend(color: Colors.black),
                     ),
                   ],
                 ),
@@ -150,7 +153,7 @@ class _PostCardState extends State<PostCard> {
                       widget.data.isAd ? "Reserve" : "Follow",
                       style: GoogleFonts.lexend(
                         fontSize: 10,
-                        color: Colors.white
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -169,48 +172,78 @@ class _PostCardState extends State<PostCard> {
             children: [
               ClipRRect(
                 child: SizedBox(
-                  width: widget.width * 0.78,
+                  width: widget.width * 0.83,
                   height: 450,
                   child: Stack(
+                    alignment: .center,
                     children: [
                       widget.data.imageUrls != null
                           ? ImageSlideshow(
-                        width: double.infinity,
-                        height: 450,
-                        initialPage: 0,
-                        indicatorColor: Colors.blue,
-                        indicatorBackgroundColor: Colors.grey,
-                        autoPlayInterval: 3000,
-                        isLoop: true,
-                        children: widget.data.imageUrls!.map(
-                              (url) => Image.network(
-                            url,
-                            width: double.infinity,
-                            height: 450,
-                            fit: BoxFit.cover,
-                          ),
-                        ).toList(),
-                      )
+                              width: double.infinity,
+                              height: 450,
+                              initialPage: 0,
+                              indicatorColor: Colors.blue,
+                              indicatorBackgroundColor: Colors.grey,
+                              autoPlayInterval: 3000,
+                              isLoop: true,
+                              children: widget.data.imageUrls!
+                                  .map(
+                                    (url) => Image.network(
+                                      url,
+                                      width: double.infinity,
+                                      height: 450,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                  .toList(),
+                            )
                           : (_controller.value.isInitialized
-                          ? VideoPlayer(_controller)
-                          : Container()),
+                                ? VideoPlayer(_controller)
+                                : Container()),
+
+                      //Play button
+                      widget.data.imageUrls == null
+                          ? Positioned(
+                              child: InkWell(
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(Routes.reelPage),
+                                child: Assets.homePlayIc.image(),
+                              ),
+                            )
+                          : Container(),
 
                       // arrows
-                      Positioned(left: 10, top: 220, child: Assets.arrorLeft.image()),
-                      Positioned(right: 10, top: 220, child: Assets.arrowRight.image()),
+                      widget.data.imageUrls != null
+                          ? Positioned(
+                              left: 10,
+                              top: 220,
+                              child: Assets.arrorLeft.image(),
+                            )
+                          : Container(),
+                      widget.data.imageUrls != null
+                          ? Positioned(
+                              right: 10,
+                              top: 220,
+                              child: Assets.arrowRight.image(),
+                            )
+                          : Container(),
 
                       // Ad overlays
                       if (widget.data.isAd)
                         Positioned(
                           top: 0,
-                          width: widget.width * 0.78,
+                          width: widget.width * 0.83,
                           height: 30,
                           child: Container(
                             color: ColorManager.offerColor,
                             alignment: Alignment.center,
                             child: Text(
                               "Add On up to 50% Extra on Food & Beverages",
-                              style: getBold14Style(color: Colors.black, fontSize: 12),
+                              style: getBold14Style(
+                                color: Colors.black,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ),
@@ -218,7 +251,7 @@ class _PostCardState extends State<PostCard> {
                       if (widget.data.isAd)
                         Positioned(
                           bottom: 0,
-                          width: widget.width * 0.90,
+                          width: widget.width * 0.83,
                           height: 30,
                           child: Container(
                             color: Colors.deepPurpleAccent,
@@ -226,15 +259,18 @@ class _PostCardState extends State<PostCard> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Book Now",
+                                Text(
+                                  "Book Now",
                                   style: GoogleFonts.lexend(
                                     fontSize: 16,
-                                    color: Colors.white
+                                    color: Colors.white,
                                   ),
-
                                 ),
-                                const Icon(Icons.arrow_forward_ios,
-                                    size: 20, color: Colors.white),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
                               ],
                             ),
                           ),
@@ -245,8 +281,10 @@ class _PostCardState extends State<PostCard> {
                           right: 0,
                           top: 100,
                           child: Container(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 5,
+                            ),
                             decoration: BoxDecoration(
                               color: ColorManager.tagColor,
                               borderRadius: const BorderRadius.only(
@@ -254,11 +292,12 @@ class _PostCardState extends State<PostCard> {
                                 bottomLeft: Radius.circular(15),
                               ),
                             ),
-                            child: Text("Ambience",
-                            style: GoogleFonts.lexend(
-                              fontSize: 16,
-                              color: Colors.white
-                            ),
+                            child: Text(
+                              "Ambience",
+                              style: GoogleFonts.lexend(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -269,9 +308,9 @@ class _PostCardState extends State<PostCard> {
 
               const SizedBox(width: 3),
 
-
+              //Side Buttons
               SizedBox(
-                width: 55,
+                // width: 55,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -280,12 +319,12 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Assets.starIc.image(color: Colors.black),
+                          icon: Assets.starIc.image(color: ColorManager.rightIcColor),
                         ),
                         const SizedBox(height: 5), // explicit gap
                         IconButton(
                           onPressed: () {},
-                          icon: Assets.bookmarkIc.image(color: Colors.black),
+                          icon: Assets.bookmarkIc.image(color: ColorManager.rightIcColor),
                         ),
                       ],
                     ),
@@ -298,11 +337,12 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.likeIc.image(color: Colors.black),
+                              Assets.likeIc.image(color:ColorManager.rightIcColor),
                               Text(
-                                NumberFormat.compact()
-                                    .format(widget.data.likeCount),
-                                style: getBold14Style(color: Colors.black),
+                                NumberFormat.compact().format(
+                                  widget.data.likeCount,
+                                ),
+                                style: getBold14Style(color: ColorManager.rightIcColor),
                               ),
                             ],
                           ),
@@ -312,11 +352,12 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.commentIc.image(color: Colors.black),
+                              Assets.commentIc.image(color: ColorManager.rightIcColor),
                               Text(
-                                NumberFormat.compact()
-                                    .format(widget.data.commentCount),
-                                style: getBold14Style(color: Colors.black),
+                                NumberFormat.compact().format(
+                                  widget.data.commentCount,
+                                ),
+                                style: getBold14Style(color: ColorManager.rightIcColor),
                               ),
                             ],
                           ),
@@ -326,11 +367,12 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.followerIc.image(color: Colors.black),
+                              Assets.followerIc.image(color: ColorManager.rightIcColor),
                               Text(
-                                NumberFormat.compact()
-                                    .format(widget.data.followerCount),
-                                style: getBold14Style(color: Colors.black),
+                                NumberFormat.compact().format(
+                                  widget.data.followerCount,
+                                ),
+                                style: getBold14Style(color: ColorManager.rightIcColor),
                               ),
                             ],
                           ),
@@ -348,36 +390,31 @@ class _PostCardState extends State<PostCard> {
           // Caption
           !widget.data.isAd
               ? Row(
-            children: [
-              Text(
-                widget.data.username,
-                style: getBold14Style(color: Colors.black),
-              ),
-              const SizedBox(width: 10),
-              Assets.checkIc.image(),
-            ],
-          )
+                  children: [
+                    Text(
+                      widget.data.username,
+                      style: getBold14Style(color: Colors.black),
+                    ),
+                    const SizedBox(width: 10),
+                    Assets.checkIc.image(),
+                  ],
+                )
               : Text(
-            "The Live Edit connaught club house 25 July 2025",
-            style: GoogleFonts.lexend(
-              fontSize: 12,
-              color: Colors.black
-            ),
-          ),
+                  "The Live Edit connaught club house 25 July 2025",
+                  style: GoogleFonts.lexend(fontSize: 12, color: Colors.black),
+                ),
 
           !widget.data.isAd
               ? Text(
-            "${widget.data.caption}",
-            style: getRegular10Style(color: Colors.black),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          )
+                  "${widget.data.caption}",
+                  style: getRegular10Style(color: Colors.black),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                )
               : Text(
-            "12 Oct25, 8:00 PM – 11:30 PM",
-            style: GoogleFonts.lexend(
-              color: Color(0xFF4F4F4F)
-            ),
-          ),
+                  "12 Oct25, 8:00 PM – 11:30 PM",
+                  style: GoogleFonts.lexend(color: Color(0xFF4F4F4F)),
+                ),
         ],
       ),
     );
