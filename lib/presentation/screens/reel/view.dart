@@ -79,7 +79,7 @@ class ReelLoadedPage extends StatelessWidget {
               Positioned(
                 top: 35,
                 child: Blur(
-                  blur: 5,
+                  blur: 10,
                   blurColor: ColorManager.reel_back,
                   colorOpacity: 0.3,
                   borderRadius: BorderRadius.circular(30),
@@ -111,7 +111,7 @@ class ReelLoadedPage extends StatelessWidget {
                 right: 10,
                 child: ClipOval(
                   child: Blur(
-                    blur: 5,
+                    blur: 10,
                     blurColor: ColorManager.reel_back,
                     colorOpacity: 0.3,
                     overlay: Container(
@@ -140,12 +140,14 @@ class ReelLoadedPage extends StatelessWidget {
                  Positioned(
                 bottom: 150,
                 right: 10,
-                child: Card(
-                color: Colors.grey.withAlpha(100),
-                clipBehavior: .hardEdge,
-                shape: RoundedRectangleBorder(borderRadius: .circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                width: 70,
+                child: Blur(
+                blur: 10,
+                  blurColor: ColorManager.reel_back,
+                  colorOpacity: 0.3,
+                  borderRadius: BorderRadius.circular(8),
+                  overlay: Padding(
+                  padding: const EdgeInsets.all(2.0),
                   child: Column(
                   mainAxisSize: .max,
                   mainAxisAlignment: .spaceBetween,
@@ -160,7 +162,7 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.likeIc.image(color: Colors.white),
+                              Assets.likeIc.image(color: Colors.white,scale: 0.4),
                               Text(
                                 "${NumberFormat.compact().format(2560000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -175,7 +177,51 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.followerIc.image(color: Colors.white),
+                              Assets.followerIc.image(color: Colors.white,scale: 0.4),
+                              Text(
+                                "${NumberFormat.compact().format(40000)}",
+                                style: getBold14Style(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Column(
+                  mainAxisSize: .max,
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+                    
+                    
+                    Column(
+                      mainAxisSize: .min,
+                      spacing: 5,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Column(
+                            children: [
+                              Assets.likeIc.image(color: Colors.white,scale: 0.4),
+                              Text(
+                                "${NumberFormat.compact().format(2560000)}",
+                                style: getBold14Style(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+
+          
+
+                        IconButton(
+                          onPressed: () {},
+                          icon: Column(
+                            children: [
+                              Assets.followerIc.image(color: Colors.white,scale: 0.4),
                               Text(
                                 "${NumberFormat.compact().format(40000)}",
                                 style: getBold14Style(color: Colors.white),

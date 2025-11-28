@@ -1,0 +1,47 @@
+// data/datasources/feed_remote_data_source.dart
+import 'package:dio/dio.dart';
+import 'package:partywitty/core/const/api_const.dart';
+import 'package:partywitty/domain/entities/feed/feed_item.dart';
+import '../../core/error/failures.dart';
+import '../../model/feed_model.dart' as feedModel;
+import '../models/feed_item_model.dart';
+
+
+abstract class FeedRemoteDataSource {
+  Future<List<FeedItem>> getFeed();
+}
+
+class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
+  final Dio dio;
+
+  FeedRemoteDataSourceImpl({required this.dio});
+
+  @override
+  Future<List<FeedItem>> getFeed() async {
+    try {
+      final response = await dio.post('${ApiConst.baseUrl}${ApiConst.homeFeed}',data: {  "latitude" : "28.6490624",
+"limit" : 10,
+"longitude" : "77.103104",
+"page" : 1});
+        // print(response.data);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        final List<dynamic> rawList = response.data['data'];
+        
+        // Map raw JSON items to specific domain entities via the Model factory
+        final feedList =   rawList
+            .map((item) => FeedItemModel.fromJson(item))
+            .toList();
+
+            return feedList;
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      // Handle Dio-specific errors
+      throw ServerException();
+    } catch (e) {
+      print(e);
+      throw ServerException();
+    }
+  }
+}

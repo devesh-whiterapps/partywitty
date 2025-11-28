@@ -1,4 +1,4 @@
-class FeedItem {
+class FeedItem1 {
   final String name;
   final String username;
   final int hoursSince; // Represents "since(time in hrs)"
@@ -19,7 +19,7 @@ class FeedItem {
   final int likeCount;
   final int followerCount;
 
-  FeedItem({
+  FeedItem1({
     required this.name,
     required this.username,
     required this.hoursSince,
@@ -50,8 +50,8 @@ class FeedItem {
   // JSON Serialization
   // ---------------------------------------------------------------------------
 
-  factory FeedItem.fromJson(Map<String, dynamic> json) {
-    return FeedItem(
+  factory FeedItem1.fromJson(Map<String, dynamic> json) {
+    return FeedItem1(
       name: json['name'] as String,
       username: json['username'] as String,
       hoursSince: json['since'] as int,

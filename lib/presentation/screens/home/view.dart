@@ -137,8 +137,8 @@ class HomePage extends StatelessWidget {
                                   bottom: 3,
                                 ), // reduced gap
                                 child: PostCard(
-                                  width: width,
-                                  data: state.feedList![index],
+                                  // width: width,
+                                  // data: state.feedList![index],
                                 ),
                               );
                             }

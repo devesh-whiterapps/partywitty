@@ -1,6 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' ;
+import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/model/feed_model.dart';
 
 
