@@ -106,7 +106,7 @@ class HomePage extends StatelessWidget {
 
       body: Stack(
         children: [
-          Positioned.fill(child: Image.network(bgUrl, fit: BoxFit.cover)),
+          Positioned.fill(child: Assets.bgImg.image(fit: .fill)),
 
           Positioned.fill(
             child: Container(
@@ -162,7 +162,7 @@ class HomePage extends StatelessWidget {
                                     Text(
                                       'Party Packages',
                                       style: GoogleFonts.lexend(
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: Colors.black
                                       ),
                                     ),
@@ -172,16 +172,12 @@ class HomePage extends StatelessWidget {
                                         children: [
                                           Text(
                                             'View all',
-                                           style: GoogleFonts.lexend(fontSize: 20,
+                                           style: GoogleFonts.lexend(fontSize: 14,
                                            color: Colors.black
                                            ),
                                           ),
                                           const SizedBox(width: 4),
-                                          const Icon(
-                                            Icons.arrow_right_alt,
-                                            color: Colors.black,
-                                            size: 25,
-                                          ),
+                                         Assets.arrowRight2Ic.image()
                                         ],
                                       ),
                                     ),

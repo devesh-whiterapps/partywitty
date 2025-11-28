@@ -1,9 +1,11 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
+import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:partywitty/presentation/resources/image_assets.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
 import 'package:partywitty/presentation/widgets/post_card.dart';
@@ -58,15 +60,15 @@ class ReelLoadedPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     // 1. Extract the arguments from the Route
-    final args = ModalRoute.of(context)!.settings.arguments;
+    // final args = ModalRoute.of(context)!.settings.arguments;
 
-    // 2. Check and Cast the data safely
-    // It's good practice to ensure it's not null and is the right type
-    if (args == null) {
-      return const Scaffold(body: Center(child: Text("Error: No Data Found")));
-    }
+    // // 2. Check and Cast the data safely
+    // // It's good practice to ensure it's not null and is the right type
+    // if (args == null) {
+    //   return const Scaffold(body: Center(child: Text("Error: No Data Found")));
+    // }
 
-    final Map<String,dynamic> data = args as Map<String, dynamic>;
+    // final Map<String,dynamic> data = args as Map<String, dynamic>;
 
     return Scaffold(
       body: state.controller!.value.isInitialized
@@ -76,32 +78,59 @@ class ReelLoadedPage extends StatelessWidget {
               VideoPlayer(state.controller!),
               Positioned(
                 top: 35,
-                child: Card(
-                color: Colors.grey.withAlpha(100),
-                clipBehavior: .hardEdge,
-                shape: StadiumBorder(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisSize: .min,
-                    children: [
-                    Icon(Icons.ac_unit_outlined,color: Colors.white,size: 15,),
-                    SizedBox(width: 5,),
-                    Text("Watch Till End to unlock 25 Tulips",style: getRegular10Style(color: Colors.white),)
-                  ],),
-                ),)),
+                child: Blur(
+                  blur: 5,
+                  blurColor: ColorManager.reel_back,
+                  colorOpacity: 0.3,
+                  borderRadius: BorderRadius.circular(30),
+                  overlay: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: .min,
+                      children: [
+                     Assets.drinksIc.image(),
+                      SizedBox(width: 5,),
+                      Text("Watch Till End to unlock 25 Tulips",style: getRegular10Style(color: Colors.white),)
+                    ],),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: .min,
+                      children: [
+                     Assets.drinksIc.image(color: Colors.transparent),
+                      SizedBox(width: 5,),
+                      Text("Watch Till End to unlock 25 Tulips",style: getRegular10Style(color: Colors.transparent),)
+                    ],),
+                  ),
+                  
+                )),
 
                  Positioned(
                 top: 35,
                 right: 10,
-                child: Card(
-                color: Colors.grey.withAlpha(100),
-                clipBehavior: .hardEdge,
-                shape: CircleBorder(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.close,color: Colors.white,)
-                ),)),
+                child: ClipOval(
+                  child: Blur(
+                    blur: 5,
+                    blurColor: ColorManager.reel_back,
+                    colorOpacity: 0.3,
+                    overlay: Container(
+                      decoration: BoxDecoration(shape: BoxShape.circle),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.close,color: Colors.white,)
+                      ),
+                    ),
+                    child: Container(
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                  
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.close,color: Colors.transparent,)
+                      ),
+                    ),
+                  ),
+                )),
 
                  Positioned(
                 // top: 35,

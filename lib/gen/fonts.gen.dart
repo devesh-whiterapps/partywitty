@@ -11,6 +11,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: CustomIcons
-  static const String customIcons = 'CustomIcons';
+  /// Font family: Lexend
+  static const String lexend = 'Lexend';
 }
