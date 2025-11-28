@@ -7,6 +7,7 @@ import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:partywitty/presentation/resources/router/route_manager.dart';
+import 'package:partywitty/repository/caption_text.dart';
 import 'package:video_player/video_player.dart';
 
 import '../resources/image_assets.dart';
@@ -388,33 +389,24 @@ class _PostCardState extends State<PostCard> {
           const SizedBox(height: 8),
 
           // Caption
-          !widget.data.isAd
-              ? Row(
-                  children: [
-                    Text(
-                      widget.data.username,
+         !widget.data.isAd
+              ?CaptionText(data: widget.data)
+              : Column(
+                crossAxisAlignment: .start,
+                children: [
+                  Text(
+                      "The Live Edit connaught club house 25 July 2025",
                       style: getBold14Style(color: Colors.black),
+                      textAlign: .left,
                     ),
-                    const SizedBox(width: 10),
-                    Assets.checkIc.image(),
-                  ],
-                )
-              : Text(
-                  "The Live Edit connaught club house 25 July 2025",
-                  style: GoogleFonts.lexend(fontSize: 12, color: Colors.black),
-                ),
-
-          !widget.data.isAd
-              ? Text(
-                  "${widget.data.caption}",
-                  style: getRegular10Style(color: Colors.black),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                )
-              : Text(
-                  "12 Oct25, 8:00 PM – 11:30 PM",
-                  style: GoogleFonts.lexend(color: Color(0xFF4F4F4F)),
-                ),
+                     Text(
+                      "12 Oct25, 8:00 PM – 11:30 PM",
+                      style: getRegular14Style(color: Colors.black),
+                      textAlign: .left,
+                    ),
+                ],
+              ),
+                 
         ],
       ),
     );
