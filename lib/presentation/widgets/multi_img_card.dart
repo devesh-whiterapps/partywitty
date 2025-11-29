@@ -1,7 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -32,6 +30,7 @@ class _MultiImgCardState extends State<MultiImgCard> {
                     height: 450,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
+                      width:  double.infinity,
                       color:
                           Colors.grey[200], // Light grey background for error
                       child: Column(

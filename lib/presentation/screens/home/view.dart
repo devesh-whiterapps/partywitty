@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/presentation/widgets/feed_card.dart/view.dart';
 import '../../../gen/assets.gen.dart';
 import '../../resources/image_assets.dart';
@@ -162,20 +164,26 @@ class HomeLoadedPage extends StatelessWidget {
                       ),
                     ),
 
-                    child: ListView.builder(
-                      // itemExtent: 700,
-                      itemCount: state.feedList!.length,
-                      itemBuilder: (context,index){
-                       return Padding(
+                    child:PagingListener(
+    controller: state.paginationController!,
+    builder: (context, state, fetchNextPage) => PagedListView<int, HomeItemModel>(
+      state: state,
+      fetchNextPage: fetchNextPage,
+      builderDelegate: PagedChildBuilderDelegate(
+        itemBuilder: (context, item, index) => Padding(
                                 padding: const EdgeInsets.only(
                                   bottom: 3,
                                 ), // reduced gap
                                 child: FeedCardPage(
                                   width: width,
-                                  item: state.feedList![index],
+                                  item: item,
                                 ),
-                              );
-                    })
+                              ),
+      ),
+    ),
+  )
+                    
+                    
                   ),
                 ),
               ),
@@ -186,3 +194,20 @@ class HomeLoadedPage extends StatelessWidget {
     );
   }
 }
+
+
+
+//  ListView.builder(
+//                       // itemExtent: 700,
+//                       itemCount: state.feedList!.length,
+//                       itemBuilder: (context,index){
+//                        return Padding(
+//                                 padding: const EdgeInsets.only(
+//                                   bottom: 3,
+//                                 ), // reduced gap
+//                                 child: FeedCardPage(
+//                                   width: width,
+//                                   item: state.feedList![index],
+//                                 ),
+//                               );
+//                     })

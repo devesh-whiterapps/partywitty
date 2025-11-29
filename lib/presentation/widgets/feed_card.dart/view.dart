@@ -34,13 +34,9 @@ class FeedCardPage extends StatelessWidget {
         builder: (context, state) {
           switch (state.status) {
              case FeedCardStatus.initial:
-             return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
+             return Center(child: CircularProgressIndicator());
             case FeedCardStatus.loading:
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
+              return  Center(child: CircularProgressIndicator());
             case FeedCardStatus.loaded:
               return FeedCardLoadedPage(state: state, width: width);
             case FeedCardStatus.error:
@@ -141,7 +137,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  (state.packageItem![index].totalLikes??0) > 199 ?'(199+)':'0',
+                                                  (state.packageItem![index].totalPackages??0) > 199 ?'(199+)':'0',
                                                   style: getRegular14Style(
                                                     color: Colors.white,
                                                   ),
@@ -158,6 +154,8 @@ class FeedCardLoadedPage extends StatelessWidget {
                             ),
       );
     }
+
+    
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFFE9EBDC).withOpacity(0.5),
@@ -319,7 +317,7 @@ class FeedCardLoadedPage extends StatelessWidget {
           ),
 
           const SizedBox(height: 8),
-
+          //Caption Text
           switch (state.type!) {
             'event' => Column(
               crossAxisAlignment: .start,

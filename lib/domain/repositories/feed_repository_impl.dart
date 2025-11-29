@@ -13,9 +13,14 @@ class FeedRepositoryImpl implements FeedRepository {
   FeedRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, HomeResponse>> getFeed() async {
+  Future<Either<Failure, HomeResponse>> getFeed({
+    String lat =  "28.6490624",
+    String long = "77.103104",
+    int limit = 10,
+    required int page
+  }) async {
     try {
-      final result = await remoteDataSource.getFeed();
+      final result = await remoteDataSource.getFeed(lat: lat,long: long,limit: limit,page: page);
       return Right(result);
     } on ServerException {
       return Left(ServerFailure("Server Error"));

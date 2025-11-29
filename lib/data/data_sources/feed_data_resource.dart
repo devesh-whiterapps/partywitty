@@ -6,7 +6,12 @@ import '../../core/error/failures.dart';
 
 
 abstract class FeedRemoteDataSource {
-  Future<HomeResponse> getFeed();
+  Future<HomeResponse> getFeed({
+    String lat =  "28.6490624",
+    String long = "77.103104",
+    int limit = 10,
+    required int page
+  });
 }
 
 class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
@@ -15,7 +20,12 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
   FeedRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<HomeResponse> getFeed() async {
+  Future<HomeResponse> getFeed({
+    String lat =  "28.6490624",
+    String long = "77.103104",
+    int limit = 10,
+    required int page
+  }) async {
     try {
       final response = await dio.post('${ApiConst.baseUrl}${ApiConst.homeFeed}',data: {  "latitude" : "28.6490624",
 "limit" : 10,
