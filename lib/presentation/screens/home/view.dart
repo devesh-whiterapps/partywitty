@@ -2,20 +2,60 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:partywitty/domain/entities/feed/feed_item.dart';
+import 'package:partywitty/presentation/widgets/feed_card.dart/view.dart';
 import '../../../gen/assets.gen.dart';
 import '../../resources/image_assets.dart';
 import '../../resources/style_manager.dart';
 import '../../widgets/post_card.dart';
 import 'bloc.dart';
+import 'events.dart';
+import 'state.dart';
+
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => HomeBloc()..add(HomeInitEvent()),
+      child: BlocConsumer<HomeBloc, HomeState>(
+        listener: (context, state) {
+        
+        },
+        builder: (context, state) {
+          switch (state.status) {
+            case HomeStatus.initial:
+             return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            case HomeStatus.loading:
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            case HomeStatus.loaded:
+              return HomeLoadedPage();
+            case HomeStatus.error:
+              return Scaffold(
+                body: Center(child: Text(state.error ?? "An error occurred")),
+              );
+            default:
+              return const Scaffold(body: Center(child: Text("Unknown state")));
+          }
+        },
+      ),
+    );
+  }
+}
+
+class HomeLoadedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomeBloc>().state;
     final width = MediaQuery.of(context).size.width;
 
-    const bgUrl =
-        "https://images.pexels.com/photos/207983/pexels-photo-207983.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
 
     return Scaffold(
       backgroundColor: const Color(0xFFE9EBDC).withOpacity(0.4),
@@ -124,120 +164,26 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
 
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate((
-                            context,
-                            index,
-                          ) {
-                            if (index < (state.feedList?.length ?? 0)) {
-                              return Padding(
+                    child:PagingListener(
+    controller: state.paginationController!,
+    builder: (context, state, fetchNextPage) => PagedListView<int, HomeItemModel>(
+      state: state,
+      fetchNextPage: fetchNextPage,
+      builderDelegate: PagedChildBuilderDelegate(
+        itemBuilder: (context, item, index) => Padding(
                                 padding: const EdgeInsets.only(
                                   bottom: 3,
                                 ), // reduced gap
-                                child: PostCard(
+                                child: FeedCardPage(
                                   width: width,
-                                  data: state.feedList![index],
+                                  item: item,
                                 ),
-                              );
-                            }
-                            return null;
-                          }, childCount: state.feedList?.length ?? 0),
-                        ),
-
-                        SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 2,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Party Packages',
-                                      style: GoogleFonts.lexend(
-                                        fontSize: 16,
-                                        color: Colors.black
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'View all',
-                                           style: GoogleFonts.lexend(fontSize: 14,
-                                           color: Colors.black
-                                           ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                         Assets.arrowRight2Ic.image()
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                                const SizedBox(height: 6),
-
-                                SizedBox(
-                                  height: 170,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 10,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 6,
-                                        ),
-                                        child: Container(
-                                          width: 170,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              0,
-                                            ),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                ImgAssets.drinks,
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          alignment: Alignment.bottomCenter,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                'Imported Drinks Food',
-                                                style: getRegular14Style(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              Text(
-                                                '(199+)',
-                                                style: getRegular14Style(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                              ),
+      ),
+    ),
+  )
+                    
+                    
                   ),
                 ),
               ),
@@ -248,3 +194,20 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+//  ListView.builder(
+//                       // itemExtent: 700,
+//                       itemCount: state.feedList!.length,
+//                       itemBuilder: (context,index){
+//                        return Padding(
+//                                 padding: const EdgeInsets.only(
+//                                   bottom: 3,
+//                                 ), // reduced gap
+//                                 child: FeedCardPage(
+//                                   width: width,
+//                                   item: state.feedList![index],
+//                                 ),
+//                               );
+//                     })

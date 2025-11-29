@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
 
 class CaptionText extends StatefulWidget {
-  final FeedItem data;
+  final FeedItem1 data;
   
   CaptionText({super.key, required this.data});
 

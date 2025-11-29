@@ -1,0 +1,479 @@
+{
+    "status": true,
+    "msg": "Data Found",
+    "data": [{
+        "id": "event-7399",
+        "type": "event",
+        "uniqueIndex": 23,
+        "component": "LiveCard",
+        "data": {
+            "id": 7399,
+            "club_id": 1072,
+            "category_id": 1,
+            "name": "LIVE MUSIC 29 NOVEMBER 2025",
+            "event_date": "29 Nov 2025",
+            "event_time": "21:30",
+            "event_end_time": "00:00",
+            "image": "1763795591_d8639dfb0d6a669dd1b6.jpeg",
+            "video": "",
+            "event_slug1": "birch-noida-sector-43",
+            "event_slug2": "live-music-29-november-2025",
+            "min_price": 0,
+            "categoryName": "Live Music",
+            "addon": "0",
+            "discount": "0",
+            "clubName": "Birch",
+            "clubLogo": "1761039348_baf262e954f8e079341b.jpg",
+            "cityName": "Noida",
+            "areaName": "Sector 43",
+            "latitude": "28.56100274610571 ",
+            "longitude": "77.35662423068942",
+            "address": "4th Floor, Rcube Monad Noida Mall, 267, Block A, Sector 43, Noida",
+            "slug": "birch-noida-sector-43",
+            "distance": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }
+    }, {
+        "id": "event-7216",
+        "type": "event",
+        "uniqueIndex": 53,
+        "component": "LiveCard",
+        "data": {
+            "id": 7216,
+            "club_id": 938,
+            "category_id": 4,
+            "name": "DJ NIGHT 28 NOVEMBER 2025",
+            "event_date": "28 Nov 2025",
+            "event_time": "22:00",
+            "event_end_time": "01:00",
+            "image": "1763534816_254e197106f4eaccc14c.jpeg",
+            "video": "",
+            "event_slug1": "room-xo-gurgaon-sector-65",
+            "event_slug2": "dj-night-28-november-2025",
+            "min_price": 0,
+            "categoryName": "DJ Night",
+            "addon": "0",
+            "discount": "0",
+            "clubName": "ROOM XO",
+            "clubLogo": "1761636239_410c48da323875083532.jpg",
+            "cityName": "Gurgaon",
+            "areaName": "Sector 65",
+            "latitude": "28.405455053965397",
+            "longitude": "77.06076043558211",
+            "address": "2nd Floor, Xo Bar, Aipl Joy Central A unit of Studio, Sector 65, Gurugram, Haryana, Sector 65, Gurgaon",
+            "slug": "room-xo-gurgaon-sector-65",
+            "distance": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }
+    }, {
+        "id": "event-7530",
+        "type": "event",
+        "uniqueIndex": 15,
+        "component": "LiveCard",
+        "data": {
+            "id": 7530,
+            "club_id": 720,
+            "category_id": 1,
+            "name": "LIVE MUSIC 29 NOVEMBER 2025",
+            "event_date": "29 Nov 2025",
+            "event_time": "22:00",
+            "event_end_time": "00:00",
+            "image": "1764141100_d03bbabea600f84b32fe.jpeg",
+            "video": "",
+            "event_slug1": "brown-cortile-south-delhi-nehru-place",
+            "event_slug2": "live-music-29-november-2025",
+            "min_price": 0,
+            "categoryName": "Live Music",
+            "addon": "0",
+            "discount": "0",
+            "clubName": "Brown Cortile",
+            "clubLogo": "1761653429_b91b2549598c3598a7a8.jpg",
+            "cityName": "South Delhi",
+            "areaName": "Nehru Place",
+            "latitude": "28.54703750148958",
+            "longitude": "77.25168361690388",
+            "address": "1st Floor, Paras Cinema, New Delhi",
+            "slug": "brown-cortile-south-delhi-nehru-place",
+            "distance": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }
+    }, {
+        "id": "event-7578",
+        "type": "event",
+        "uniqueIndex": 7,
+        "component": "LiveCard",
+        "data": {
+            "id": 7578,
+            "club_id": 615,
+            "category_id": 1,
+            "name": "SUFIYANA NIGHT 26 NOV 2025",
+            "event_date": "30 Nov 2025",
+            "event_time": "20:00",
+            "event_end_time": "00:00",
+            "image": "1764146651_f9528fa829849a6ff80a.jpg",
+            "video": "",
+            "event_slug1": "rubaru-advant-noida-sector-142",
+            "event_slug2": "sufiyana-night-26-nov-2025",
+            "min_price": 0,
+            "categoryName": "Live Music",
+            "addon": "0",
+            "discount": "0",
+            "clubName": "Rubaru Advant",
+            "clubLogo": "1721979348_ac57473d1c8aad83fe11.jpeg",
+            "cityName": "Noida",
+            "areaName": "Sector 142",
+            "latitude": "28.5007918",
+            "longitude": "77.4094661",
+            "address": "Unit 106, 1st Floor, Uptown Square, Advant Navis Business Park sector 142, Expressway Noida ",
+            "slug": "rubaru-advant-noida-sector-142",
+            "distance": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }
+    }, {
+        "id": "event-7520",
+        "type": "event",
+        "uniqueIndex": 16,
+        "component": "LiveCard",
+        "data": {
+            "id": 7520,
+            "club_id": 430,
+            "category_id": 1,
+            "name": "SATURDAY NIGHT LIVE 29 NOV 2025",
+            "event_date": "29 Nov 2025",
+            "event_time": "20:00",
+            "event_end_time": "00:00",
+            "image": "1764058733_9f6e1f754072a2da7cec.jpg",
+            "video": "",
+            "event_slug1": "ministry-of-daru-noida-sector-63",
+            "event_slug2": "saturday-night-live-29-nov-2025",
+            "min_price": 0,
+            "categoryName": "Live Music",
+            "addon": "35",
+            "discount": "20",
+            "clubName": "Ministry Of Daru",
+            "clubLogo": "1702030139_c5fd712e30bedf635915.jpg",
+            "cityName": "Noida",
+            "areaName": "Sector 63",
+            "latitude": "28.627420824543233",
+            "longitude": "77.37535443603453",
+            "address": "H1A, 25, Sector 63 Rd, H Block,",
+            "slug": "ministry-of-daru-noida-sector-63",
+            "distance": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }
+    }, {
+        "id": "teaser-1135",
+        "type": "teaser",
+        "uniqueIndex": 1135,
+        "component": "LiveCardVideo",
+        "data": {
+            "id": 969,
+            "club_id": "637",
+            "category": "Food",
+            "title": "food",
+            "video": "1749037625_a646703e2647f3df8329.mp4",
+            "date": "2025-06-04 17:17:05",
+            "verify_status": "verified",
+            "tulips": 1,
+            "verified_at": "",
+            "updated_at": "2025-06-04 17:17:05",
+            "delete_status": "false",
+            "clubName": "Flaunt by Duty Free",
+            "clubSlug": "flaunt-by-duty-free-west-delhi-dwarka",
+            "clubLogo": "1761802358_e2443953bb3a99da5a7a.jpg",
+            "clubAddress": "Shop R-03, 5th Floor, Vegas Mall, Sector 14, Dwarka, New Delhi",
+            "cityName": "West Delhi",
+            "areaName": "dwarka",
+            "latitude": "28.601165758756",
+            "longitude": "77.02932623643446",
+            "addon": "0",
+            "discount": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false,
+            "meta": {
+                "address": "Shop R-03, 5th Floor, Vegas Mall, Sector 14, Dwarka, New Delhi",
+                "slug": "flaunt-by-duty-free-west-delhi-dwarka"
+            }
+        }
+    }, {
+        "id": "teaser-530",
+        "type": "teaser",
+        "uniqueIndex": 530,
+        "component": "LiveCardVideo",
+        "data": {
+            "id": 751,
+            "club_id": "179",
+            "category": "Beverages",
+            "title": "beverages",
+            "video": "1748084189_c15b58c7ff775661b26e.mp4",
+            "date": "2025-05-24 16:26:29",
+            "verify_status": "verified",
+            "tulips": 1,
+            "verified_at": "2025-05-29 13:53:49",
+            "updated_at": "2025-05-24 16:26:29",
+            "delete_status": "false",
+            "clubName": "Monët",
+            "clubSlug": "monët-south-delhi-khel-gaon",
+            "clubLogo": "1692437951_eba4abd2b80390f2172f.jpg",
+            "clubAddress": "Ground Floor, Block C, Ansal Plaza Mall, Andrews Ganj, Hudco Place, Khel Gaon Marg, New Delhi",
+            "cityName": "South Delhi",
+            "areaName": "Khel Gaon",
+            "latitude": "28.563066721951476",
+            "longitude": "77.22457369706217",
+            "addon": "35",
+            "discount": "25",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false,
+            "meta": {
+                "address": "Ground Floor, Block C, Ansal Plaza Mall, Andrews Ganj, Hudco Place, Khel Gaon Marg, New Delhi",
+                "slug": "monët-south-delhi-khel-gaon"
+            }
+        }
+    }, {
+        "id": "teaser-371",
+        "type": "teaser",
+        "uniqueIndex": 371,
+        "component": "LiveCardVideo",
+        "data": {
+            "id": 2267,
+            "club_id": "1140",
+            "category": "Entertainment",
+            "title": "ENTERTAINMENT",
+            "video": "1760526895_94678cca1a707d8df791.mp4",
+            "date": "2025-10-15 16:44:55",
+            "verify_status": "verified",
+            "tulips": 1,
+            "verified_at": "2025-10-24 11:01:22",
+            "updated_at": "2025-10-15 16:44:55",
+            "delete_status": "false",
+            "clubName": "Downtown Noida",
+            "clubSlug": "downtown-noida-noida-sector-62",
+            "clubLogo": "1760527042_c3d15e4f4521848ca66e.jpg",
+            "clubAddress": "2nd Floor, Binge Central, Candor Techspace, Block B, Industrial Area, Sector 62, Noida",
+            "cityName": "Noida",
+            "areaName": "Sector  62",
+            "latitude": "28.621305347744798",
+            "longitude": "77.35802871534474",
+            "addon": "0",
+            "discount": "0",
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false,
+            "meta": {
+                "address": "2nd Floor, Binge Central, Candor Techspace, Block B, Industrial Area, Sector 62, Noida",
+                "slug": "downtown-noida-noida-sector-62"
+            }
+        }
+    }, {
+        "id": "package-1901",
+        "type": "package",
+        "uniqueIndex": 1901,
+        "component": "PackageCard",
+        "data": [{
+            "id": 1,
+            "name": "Imported Drinks Food",
+            "img": "1708861625_380e2e555443773889eb.jpg",
+            "total_packages": 199,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 2,
+            "name": "Non Veg Food only",
+            "img": "1708515921_9cae458f2f8da6302888.jpg",
+            "total_packages": 298,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 3,
+            "name": "IMFL Drinks+FOOD",
+            "img": "1708862076_c32123a8269f57e78b93.jpg",
+            "total_packages": 201,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 4,
+            "name": "Single Malt Drinks+Food",
+            "img": "1708861210_c4a5742e68fd76453cb0.webp",
+            "total_packages": 205,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 5,
+            "name": "Imported Premium Drinks+Food",
+            "img": "1708861165_982a63e0ca6ad1864e41.jpg",
+            "total_packages": 238,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 7,
+            "name": "Veg Food only",
+            "img": "1708515894_5a61a7f52dd691722f8a.webp",
+            "total_packages": 309,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 9,
+            "name": "IMFL Premium Drink+FOOD",
+            "img": "1708861084_3f1abe77a59b3ca858bd.jpeg",
+            "total_packages": 22,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 10,
+            "name": "Kitty party Package",
+            "img": "1708861038_e8f165f52fd863800578.webp",
+            "total_packages": 225,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 11,
+            "name": "Kids Package",
+            "img": "1708861007_e68b3095261bb2a6007a.webp",
+            "total_packages": 2,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 12,
+            "name": "High Tea",
+            "img": "1708860963_de6fa7d9cafa2a4fe4cf.jpg",
+            "total_packages": 2,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 13,
+            "name": "Cafe Menu",
+            "img": "1708860931_c095153348fb82ffb84c.jpg",
+            "total_packages": 1,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 16,
+            "name": "Single Malt Premium+Food",
+            "img": "1708515631_bdd9f5d8e2a7a9986990.jpg",
+            "total_packages": 65,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 17,
+            "name": "Veg & Non Veg food Only",
+            "img": "1708515813_44f05a1b69f480097b7d.jpg",
+            "total_packages": 326,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 18,
+            "name": "Imported Premium Drinks with Starters Only",
+            "img": "1708515830_fc36cd95719e78e55798.jpg",
+            "total_packages": 12,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 19,
+            "name": "Beer Package",
+            "img": "1734679712_1a1d68d1ceda101f5e2d.png",
+            "total_packages": 1,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }, {
+            "id": 21,
+            "name": "Beer with Food",
+            "img": "1758198989_a3fea3423f0059dca070.jpg",
+            "total_packages": 6,
+            "total_likes": 0,
+            "is_liked": false,
+            "isFavourite": false
+        }]
+    }, {
+        "component": "GalleryCard",
+        "type": "gallery",
+        "uniqueIndex": 2228,
+        "data": {
+            "club_id": 611,
+            "clubName": "CAD TECHBAR",
+            "clubLogo": "1746769071_bf69cdddf2a0baa4d632.jpeg",
+            "category": "Food",
+            "images": [{
+                "img": "1748691314_669579a70d48adb54975.jpeg"
+            }, {
+                "img": "1748691314_da434c321d6e0f85a9d5.jpeg"
+            }, {
+                "img": "1748691314_a3f233e74f3ba5afdefb.jpeg"
+            }, {
+                "img": "1748691314_8c260c7d71a29f559529.jpeg"
+            }, {
+                "img": "1748691314_522bdfc60487e623c492.jpeg"
+            }, {
+                "img": "1748691314_0fad8781932331d31f84.jpeg"
+            }, {
+                "img": "1748691314_139fad13ab47862f2172.jpeg"
+            }, {
+                "img": "1748691290_9431a35e93f83582e7b9.jpeg"
+            }, {
+                "img": "1748691290_a04635ef659b16976007.jpeg"
+            }, {
+                "img": "1748691290_18b4b6e235e5bec63fa4.jpeg"
+            }, {
+                "img": "1748691290_588063ca0dd3fe4c3ed0.jpeg"
+            }, {
+                "img": "1748691290_524b3a83e10d4753273c.jpeg"
+            }, {
+                "img": "1748691290_76cc7abaafc0198a4f53.jpeg"
+            }, {
+                "img": "1748691290_ec69fea938f5761aaa33.jpeg"
+            }, {
+                "img": "1748691232_07330dc62f0b54375a05.jpeg"
+            }, {
+                "img": "1748691232_d11f8c9dc7d72d854f7b.jpeg"
+            }, {
+                "img": "1748691232_225cf3676526b278ded2.jpeg"
+            }, {
+                "img": "1748691232_bf5fd488e4d91f813d46.jpeg"
+            }, {
+                "img": "1748691232_46ac94492449ddea55d9.jpeg"
+            }, {
+                "img": "1748691232_bdcabe3b42e4c6e09eda.jpeg"
+            }],
+            "is_liked": false,
+            "is_favourite": false,
+            "total_likes": 0,
+            "id": "gallery-2229",
+            "meta": {
+                "address": "Ground Floor, Plot No- 2B, Tower 1, Capital City, Gautam Buddha Nagar, Sector 94, Noida",
+                "slug": "cad-techbar-noida-sector-98"
+            }
+        }
+    }],
+    "pagination": {
+        "limit": 10,
+        "count": 10,
+        "total": 2614,
+        "pages": 262
+    }
+}
