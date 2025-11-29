@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../color_manager.dart';
 import '../font_manager.dart';
@@ -38,11 +39,11 @@ ThemeData getApplicationTheme() {
         // shadowColor: ColorManager.primaryOpacity70,
         titleTextStyle:
             getRegularStyle(color: ColorManager.white, fontSize: FontSize.s16),
-        // systemOverlayStyle: SystemUiOverlayStyle(
-        //   statusBarColor: ColorManager.primaryOpacity70,
-        //   statusBarBrightness: Brightness.light,
-        //   statusBarIconBrightness: Brightness.light,
-        // ),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: ColorManager.white,
+          statusBarBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark,
+        ),
       ),
 
       //Button Theme

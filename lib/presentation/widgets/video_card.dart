@@ -1,3 +1,4 @@
+import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:video_player/video_player.dart';
@@ -5,15 +6,14 @@ import 'package:video_player/video_player.dart';
 class VideoCard extends StatefulWidget {
   final String url;
   final Function onTap;
-  const VideoCard({super.key,required this.onTap,required this.url});
+  const VideoCard({super.key, required this.onTap, required this.url});
 
   @override
   State<VideoCard> createState() => _VideoCardState();
 }
 
 class _VideoCardState extends State<VideoCard> {
-
-   late VideoPlayerController _controller;
+  late final CachedVideoPlayerPlus _player;
 
   @override
   void initState() {
@@ -25,38 +25,45 @@ class _VideoCardState extends State<VideoCard> {
     //   ),
     // )..initialize().then((_) => setState(() {}));
 
-    _controller = VideoPlayerController.networkUrl(
-      Uri.parse(
-        widget.url,
-      ),
+    _player = CachedVideoPlayerPlus.networkUrl(
+      Uri.parse(widget.url),
+      invalidateCacheIfOlderThan: const Duration(minutes: 69), // Nice!
     );
+      if(mounted)
+      {
+    _player.initialize();
 
-    // FIX: Check if the widget is still mounted before calling setState()
-    _controller.initialize().then((_) {
-      if (mounted) { 
-        setState(() {});
       }
-    });
   }
-  
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _player.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return (_controller.value.isInitialized
-                                ? Stack(
-                                  alignment: .center,
-                                  children: [
-                                    VideoPlayer(_controller),
-                                    //Play button
-                     
-                           Positioned(
-                              child: InkWell(
-                                onTap: () =>widget.onTap,
-                                child: Assets.homePlayIc.image(),
-                              ),
-                            )
-                          
-                                  ],
-                                )
-                                : Container());
+    return (
+      _player.isInitialized?
+       Stack(
+            alignment: .center,
+            children: [
+              VideoPlayer(_player.controller),
+
+              //Play button
+              Positioned(
+                child: InkWell(
+                  onTap: () => widget.onTap,
+                  child: Assets.homePlayIc.image(),
+                ),
+              ),
+            ],
+          )
+        : Container()
+        );
   }
 }
+
+

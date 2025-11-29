@@ -70,7 +70,7 @@ class BottomNavLoadedPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildNavItem(context,0, Assets.homeIc.path, 'Home'),
+           _buildNavItem(context,0, Assets.homeIc.path, 'Home'),
             _buildNavItem(context,1, Assets.searchIc.path, 'Search'),
             _buildNavItem(context,2,Assets.bidIc.path, 'Gavel'),
             _buildNavItem(context,3, Assets.bookingIc.path, 'Bookmark'),

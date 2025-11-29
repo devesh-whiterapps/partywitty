@@ -12,7 +12,7 @@ class FeedCardBloc extends Bloc<FeedCardEvent, FeedCardState> {
     on<SetDataTypeEvent>(_onSetDataType);
      switch(item.type){
                                   case 'event':
-                                  print("Listener Excuted");
+                                  // print("Listener Excuted");
                                   add(SetDataTypeEvent(type: item.type??'',eventItem: item.data as EventModel));
                                   case 'package':
                                  add(SetDataTypeEvent(type: item.type??'',packageItem: item.data as List<PackageModel>));

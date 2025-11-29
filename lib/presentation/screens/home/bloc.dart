@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -47,14 +49,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
 
   Future<List<HomeItemModel>> _fetchPage(int pageKey) async {
-
-      final dataSource = FeedRemoteDataSourceImpl(dio: Dio());
+     return Isolate.run(() async {
+        final dataSource = FeedRemoteDataSourceImpl(dio: Dio());
       final repository = FeedRepositoryImpl(remoteDataSource: dataSource);
       final result = await repository.getFeed(page: pageKey);
       return result.fold(
       (failure) => [],
       (data) => data.data??[],
     );
+      });
+      
         
 
     // final Uri url = Uri.parse(ApiConstants.BASE_URL).replace(queryParameters: {

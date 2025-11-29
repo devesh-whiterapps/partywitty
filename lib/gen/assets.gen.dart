@@ -127,7 +127,7 @@ class AssetGenImage {
     int? cacheWidth,
     int? cacheHeight,
   }) {
-    return Image.asset(
+    return  Image.asset(
       _assetName,
       key: key,
       bundle: bundle,

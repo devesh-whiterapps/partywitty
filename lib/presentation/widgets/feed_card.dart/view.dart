@@ -21,6 +21,7 @@ import 'state.dart';
 class FeedCardPage extends StatelessWidget {
   final HomeItemModel item;
   final double width;
+  
   const FeedCardPage({super.key, required this.item, required this.width});
 
   @override
@@ -55,6 +56,7 @@ class FeedCardPage extends StatelessWidget {
 class FeedCardLoadedPage extends StatelessWidget {
   FeedCardState state;
   final double width;
+  
   FeedCardLoadedPage({super.key, required this.state, required this.width});
 
   @override
@@ -155,228 +157,231 @@ class FeedCardLoadedPage extends StatelessWidget {
       );
     }
 
-    
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFE9EBDC).withOpacity(0.5),
-        border: Border.all(width: 0.76, color: ColorManager.reel_back),
-      ),
-      // color: Color(0xFFE9EBDC).withOpacity(0.5),
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
-
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              ClipOval(
-                child: Image.network(
-                  ImgAssets.boy,
-                  fit: BoxFit.cover,
-                  width: 25,
-                  height: 25,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.error),
+    //Event Teaser Gallery Card
+    return 
+       Container(
+        decoration: BoxDecoration(
+          color: Color(0xFFE9EBDC).withOpacity(0.5),
+          border: Border.all(width: 0.76, color: ColorManager.reel_back),
+        ),
+        // color: Color(0xFFE9EBDC).withOpacity(0.5),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
+      
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                ClipOval(
+                  child: Image.network(
+                    ImgAssets.boy,
+                    fit: BoxFit.cover,
+                    width: 25,
+                    height: 25,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.error),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                "User Name",
-                style: GoogleFonts.lexend(fontSize: 14, color: Colors.black),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                "shared this",
-                style: GoogleFonts.lexend(fontSize: 12, color: Colors.black),
-              ),
-            ],
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: Divider(color: ColorManager.dividerColor, thickness: 0.39),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Top Section Of Card
-          switch (state.type!) {
-            'event' => TopSectionCard(
-              isFollow: true,
-              leadingImg: "${state.eventItem?.clubLogo}",
-              onFollow: () {},
-              onMenu: () {},
-              since: "${state.eventItem?.eventTime}",
-              subTitle:
-                  "${state.eventItem?.areaName},${state.eventItem?.cityName}",
-              title: "${state.eventItem?.clubName}",
+                const SizedBox(width: 10),
+                Text(
+                  "User Name",
+                  style: GoogleFonts.lexend(fontSize: 14, color: Colors.black),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  "shared this",
+                  style: GoogleFonts.lexend(fontSize: 12, color: Colors.black),
+                ),
+              ],
             ),
-
-            //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
-            'gallery' => TopSectionCard(
-              isFollow: true,
-              leadingImg: "${state.galleryItem?.clubLogo}",
-              onFollow: () {},
-              onMenu: () {},
-              since: "${state.galleryItem?.clubId}",
-              subTitle: "${state.galleryItem?.category}",
-              title: "${state.galleryItem?.clubName}",
+      
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Divider(color: ColorManager.dividerColor, thickness: 0.39),
             ),
-
-            'teaser' => TopSectionCard(
-              isFollow: true,
-              leadingImg: "${state.teaserItem?.clubLogo}",
-              onFollow: () {},
-              onMenu: () {},
-              since: "${state.teaserItem?.clubId}",
-              subTitle:
-                  "${state.teaserItem?.areaName}${state.teaserItem?.cityName}",
-              title: "${state.teaserItem?.clubName}",
-            ),
-
-            // TODO: Handle this case.
-            String() => throw UnimplementedError(),
-          },
-
-          const SizedBox(height: 10),
-
-          // Media Content
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: width * 0.83,
-                height: 450,
-                child: switch (state.type!) {
-                  'event' => SingleImageSection(
-                    imageUrl: "${state.eventItem?.image}",
-                    onTap: () {},
+      
+            const SizedBox(height: 10),
+      
+            // Top Section Of Card
+            switch (state.type!) {
+              'event' => TopSectionCard(
+                isFollow: true,
+                leadingImg: "${state.eventItem?.clubLogo}",
+                onFollow: () {},
+                onMenu: () {},
+                since: "${state.eventItem?.eventTime}",
+                subTitle:
+                    "${state.eventItem?.areaName},${state.eventItem?.cityName}",
+                title: "${state.eventItem?.clubName}",
+              ),
+      
+              //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+              'gallery' => TopSectionCard(
+                isFollow: true,
+                leadingImg: "${state.galleryItem?.clubLogo}",
+                onFollow: () {},
+                onMenu: () {},
+                since: "${state.galleryItem?.clubId}",
+                subTitle: "${state.galleryItem?.category}",
+                title: "${state.galleryItem?.clubName}",
+              ),
+      
+              'teaser' => TopSectionCard(
+                isFollow: true,
+                leadingImg: "${state.teaserItem?.clubLogo}",
+                onFollow: () {},
+                onMenu: () {},
+                since: "${state.teaserItem?.clubId}",
+                subTitle:
+                    "${state.teaserItem?.areaName}${state.teaserItem?.cityName}",
+                title: "${state.teaserItem?.clubName}",
+              ),
+      
+              // TODO: Handle this case.
+              String() => throw UnimplementedError(),
+            },
+      
+            const SizedBox(height: 10),
+      
+            // Media Content
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: width * 0.83,
+                  height: 450,
+                  child: switch (state.type!) {
+                    'event' => SingleImageSection(
+                      imageUrl: "${state.eventItem?.image}",
+                      onTap: () {},
+                    ),
+      
+                    //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+                    'gallery' => MultiImgCard(
+                      imgList: state.galleryItem!.images!
+                          .map((data) => data.img ?? '')
+                          .toList(),
+                      onTap: () {},
+                    ),
+      
+                    'teaser' => VideoCard(
+                      onTap: () {},
+                      url: "${state.teaserItem?.video}",
+                    ),
+      
+                    // TODO: Handle this case.
+                    String() => throw UnimplementedError(),
+                  },
+                ),
+      
+                const SizedBox(width: 3),
+      
+                //SideBar Buttons
+                switch (state.type!) {
+                  'event' => SideBar(
+                    commentCount: 0,
+                    followCount: 0,
+                    likeCount: (state.eventItem?.totalLikes ?? 0).toDouble(),
+                    onBookmark: () {},
+                    onComment: () {},
+                    onFollow: () {},
+                    onLike: () {},
+                    onStar: () {},
                   ),
-
+      
                   //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
-                  'gallery' => MultiImgCard(
-                    imgList: state.galleryItem!.images!
-                        .map((data) => data.img ?? '')
-                        .toList(),
-                    onTap: () {},
+                  'gallery' => SideBar(
+                    commentCount: 0,
+                    followCount: 0,
+                    likeCount: 0,
+                    onBookmark: () {},
+                    onComment: () {},
+                    onFollow: () {},
+                    onLike: () {},
+                    onStar: () {},
                   ),
-
-                  'teaser' => VideoCard(
-                    onTap: () {},
-                    url: "${state.teaserItem?.video}",
+                  'teaser' => SideBar(
+                    commentCount: 0,
+                    followCount: 0,
+                    likeCount: (state.teaserItem?.totalLikes ?? 0).toDouble(),
+                    onBookmark: () {},
+                    onComment: () {},
+                    onFollow: () {},
+                    onLike: () {},
+                    onStar: () {},
                   ),
-
+      
                   // TODO: Handle this case.
                   String() => throw UnimplementedError(),
                 },
+                // SideBar(commentCount: 0, followCount: 0, likeCount: state.eventItem?.totalLikes as double, onBookmark: (){}, onComment: (){}, onFollow: (){}, onLike: (){}, onStar: (){})
+              ],
+            ),
+      
+            const SizedBox(height: 8),
+            //Caption Text
+            switch (state.type!) {
+              'event' => Column(
+                crossAxisAlignment: .start,
+                children: [
+                  Text(
+                    "${state.eventItem?.name}",
+                    style: getBold14Style(color: Colors.black),
+                    textAlign: .left,
+                  ),
+                  Text(
+                    "${state.eventItem?.eventDate},${state.eventItem?.eventTime} - ${state.eventItem?.eventEndTime}",
+                    style: getRegular14Style(color: Colors.black),
+                    textAlign: .left,
+                  ),
+                ],
               ),
-
-              const SizedBox(width: 3),
-
-              //SideBar Buttons
-              switch (state.type!) {
-                'event' => SideBar(
-                  commentCount: 0,
-                  followCount: 0,
-                  likeCount: (state.eventItem?.totalLikes ?? 0).toDouble(),
-                  onBookmark: () {},
-                  onComment: () {},
-                  onFollow: () {},
-                  onLike: () {},
-                  onStar: () {},
-                ),
-
-                //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
-                'gallery' => SideBar(
-                  commentCount: 0,
-                  followCount: 0,
-                  likeCount: 0,
-                  onBookmark: () {},
-                  onComment: () {},
-                  onFollow: () {},
-                  onLike: () {},
-                  onStar: () {},
-                ),
-                'teaser' => SideBar(
-                  commentCount: 0,
-                  followCount: 0,
-                  likeCount: (state.teaserItem?.totalLikes ?? 0).toDouble(),
-                  onBookmark: () {},
-                  onComment: () {},
-                  onFollow: () {},
-                  onLike: () {},
-                  onStar: () {},
-                ),
-
-                // TODO: Handle this case.
-                String() => throw UnimplementedError(),
-              },
-              // SideBar(commentCount: 0, followCount: 0, likeCount: state.eventItem?.totalLikes as double, onBookmark: (){}, onComment: (){}, onFollow: (){}, onLike: (){}, onStar: (){})
-            ],
-          ),
-
-          const SizedBox(height: 8),
-          //Caption Text
-          switch (state.type!) {
-            'event' => Column(
-              crossAxisAlignment: .start,
-              children: [
-                Text(
-                  "${state.eventItem?.name}",
-                  style: getBold14Style(color: Colors.black),
-                  textAlign: .left,
-                ),
-                Text(
-                  "${state.eventItem?.eventDate},${state.eventItem?.eventTime} - ${state.eventItem?.eventEndTime}",
-                  style: getRegular14Style(color: Colors.black),
-                  textAlign: .left,
-                ),
-              ],
-            ),
-
-            //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
-            'gallery' => Container(),
-            'teaser' => Column(
-              crossAxisAlignment: .start,
-              children: [
-                Text(
-                  "${state.teaserItem?.meta?.address}",
-                  style: getBold14Style(color: Colors.black),
-                  textAlign: .left,
-                ),
-                Text(
-                  "${state.teaserItem?.meta?.slug}",
-                  style: getRegular14Style(color: Colors.black),
-                  textAlign: .left,
-                ),
-              ],
-            ),
-
-            // TODO: Handle this case.
-            String() => throw UnimplementedError(),
-          },
-
-          // Caption
-          //  !widget.data.isAd
-          //       ?CaptionText(data: widget.data)
-          //       : Column(
-          //         crossAxisAlignment: .start,
-          //         children: [
-          //           Text(
-          //               "The Live Edit connaught club house 25 July 2025",
-          //               style: getBold14Style(color: Colors.black),
-          //               textAlign: .left,
-          //             ),
-          //              Text(
-          //               "12 Oct25, 8:00 PM – 11:30 PM",
-          //               style: getRegular14Style(color: Colors.black),
-          //               textAlign: .left,
-          //             ),
-          //         ],
-          //       ),
-        ],
-      ),
-    );
+      
+              //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+              'gallery' => Container(),
+              'teaser' => Column(
+                crossAxisAlignment: .start,
+                children: [
+                  Text(
+                    "${state.teaserItem?.meta?.address}",
+                    style: getBold14Style(color: Colors.black),
+                    textAlign: .left,
+                  ),
+                  Text(
+                    "${state.teaserItem?.meta?.slug}",
+                    style: getRegular14Style(color: Colors.black),
+                    textAlign: .left,
+                  ),
+                ],
+              ),
+      
+              // TODO: Handle this case.
+              String() => throw UnimplementedError(),
+            },
+      
+            // Caption
+            //  !widget.data.isAd
+            //       ?CaptionText(data: widget.data)
+            //       : Column(
+            //         crossAxisAlignment: .start,
+            //         children: [
+            //           Text(
+            //               "The Live Edit connaught club house 25 July 2025",
+            //               style: getBold14Style(color: Colors.black),
+            //               textAlign: .left,
+            //             ),
+            //              Text(
+            //               "12 Oct25, 8:00 PM – 11:30 PM",
+            //               style: getRegular14Style(color: Colors.black),
+            //               textAlign: .left,
+            //             ),
+            //         ],
+            //       ),
+          ],
+        ),
+      )
+      
+    ;
   }
 }
