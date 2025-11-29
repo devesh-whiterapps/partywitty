@@ -12,7 +12,7 @@ class FeedCardState extends Equatable {
   final FeedCardStatus status;
   final String? error;
   final EventModel? eventItem;
-  final PackageModel? packageItem;
+  final List<PackageModel>? packageItem;
   final TeaserModel? teaserItem;
   final GalleryModel? galleryItem;
   final String? type;
@@ -37,7 +37,7 @@ class FeedCardState extends Equatable {
     String? error,
     
      EventModel? eventItem,
-   PackageModel? packageItem,
+   List<PackageModel>? packageItem,
    TeaserModel? teaserItem,
    GalleryModel? galleryItem,
    String? type

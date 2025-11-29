@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:partywitty/core/const/api_const.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import '../../core/error/failures.dart';
-import '../../model/feed_model.dart' as feedModel;
-import '../models/feed_item_model.dart';
 
 
 abstract class FeedRemoteDataSource {
@@ -25,7 +23,7 @@ class FeedRemoteDataSourceImpl implements FeedRemoteDataSource {
 "page" : 1});
         // print(response.data);
       if (response.statusCode == 200 && response.data['status'] == true) {
-        final List<dynamic> rawList = response.data['data'];
+        // final List<dynamic> rawList = response.data['data'];
         final home = HomeResponse.fromJson(response.data);
         // Map raw JSON items to specific domain entities via the Model factory
         // final feedList =   rawList

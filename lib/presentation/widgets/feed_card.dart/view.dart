@@ -21,7 +21,7 @@ import 'state.dart';
 class FeedCardPage extends StatelessWidget {
   final HomeItemModel item;
   final double width;
-  const FeedCardPage({super.key,required this.item,required this.width});
+  const FeedCardPage({super.key, required this.item, required this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -29,37 +29,26 @@ class FeedCardPage extends StatelessWidget {
       create: (_) => FeedCardBloc(item: item)..add(FeedCardInitEvent()),
       child: BlocConsumer<FeedCardBloc, FeedCardState>(
         listener: (context, state) {
-          if(state.status == FeedCardStatus.loading){
-            
-                      switch(item.type){
-                                  case 'event':
-                                  print("Listener Excuted");
-                                  context.read<FeedCardBloc>().add(SetDataTypeEvent(type: item.type??'',eventItem: item.data as EventModel));
-                                  case 'package':
-                                  context.read<FeedCardBloc>().add(SetDataTypeEvent(type: item.type??'',packageItem: item.data as PackageModel));
-                                  case 'gallery':
-                                  context.read<FeedCardBloc>().add(SetDataTypeEvent(type: item.type??'',galleryItem: item.data as GalleryModel));
-                                  case 'teaser':
-                                  context.read<FeedCardBloc>().add(SetDataTypeEvent(type: item.type??'',teaserItem: item.data as TeaserModel));
-                                  default:
-                                  
-                              }
-          }
+          
         },
         builder: (context, state) {
           switch (state.status) {
+             case FeedCardStatus.initial:
+             return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
             case FeedCardStatus.loading:
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()),
               );
             case FeedCardStatus.loaded:
-              return FeedCardLoadedPage(state: state,width: width,);
+              return FeedCardLoadedPage(state: state, width: width);
             case FeedCardStatus.error:
               return Scaffold(
                 body: Center(child: Text(state.error ?? "An error occurred")),
               );
             default:
-              return const Center(child: Text("UnknownState"),);
+              return const Center(child: Text("UnknownState"));
           }
         },
       ),
@@ -70,16 +59,109 @@ class FeedCardPage extends StatelessWidget {
 class FeedCardLoadedPage extends StatelessWidget {
   FeedCardState state;
   final double width;
-  FeedCardLoadedPage({super.key, required this.state,required this.width});
+  FeedCardLoadedPage({super.key, required this.state, required this.width});
 
   @override
   Widget build(BuildContext context) {
-
-      
+    if(state.type == 'package'){
+      return  Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.76, color: ColorManager.reel_back)
+        ),
+        child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Party Packages',
+                                        style: GoogleFonts.lexend(
+                                          fontSize: 16,
+                                          color: Colors.black
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {},
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'View all',
+                                             style: GoogleFonts.lexend(fontSize: 14,
+                                             color: Colors.black
+                                             ),
+                                            ),
+                                            const SizedBox(width: 4),
+                                           Assets.arrowRight2Ic.image()
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+        
+                                  const SizedBox(height: 6),
+        
+                                  SizedBox(
+                                    height: 256,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 10,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 6,
+                                          ),
+                                          child: Container(
+                                            width: 185,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(
+                                                0,
+                                              ),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  state.packageItem![index].img??'',
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            alignment: Alignment.bottomCenter,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  '${state.packageItem![index].name}',
+                                                  style: getRegular14Style(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  (state.packageItem![index].totalLikes??0) > 199 ?'(199+)':'0',
+                                                  style: getRegular14Style(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+      );
+    }
     return Container(
       decoration: BoxDecoration(
         color: Color(0xFFE9EBDC).withOpacity(0.5),
-        border: Border.all(width: 0.76,color: ColorManager.reel_back)
+        border: Border.all(width: 0.76, color: ColorManager.reel_back),
       ),
       // color: Color(0xFFE9EBDC).withOpacity(0.5),
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -89,57 +171,75 @@ class FeedCardLoadedPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-                  children: [
-                    ClipOval(
-                      child: Image.network(
-                        ImgAssets.boy,
-                        fit: BoxFit.cover,
-                        width: 25,
-                        height: 25,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.error),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "User Name",
-                      style: GoogleFonts.lexend(
-                        fontSize: 14,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "shared this",
-                      style: GoogleFonts.lexend(
-                        fontSize: 12,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+            children: [
+              ClipOval(
+                child: Image.network(
+                  ImgAssets.boy,
+                  fit: BoxFit.cover,
+                  width: 25,
+                  height: 25,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.error),
                 ),
-             
-           Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: Divider(color: ColorManager.dividerColor,thickness: 0.39,),
-                ),
-             
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "User Name",
+                style: GoogleFonts.lexend(fontSize: 14, color: Colors.black),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "shared this",
+                style: GoogleFonts.lexend(fontSize: 12, color: Colors.black),
+              ),
+            ],
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: Divider(color: ColorManager.dividerColor, thickness: 0.39),
+          ),
+
           const SizedBox(height: 10),
 
           // Top Section Of Card
-            switch(state.type!){
-                                   'event' =>TopSectionCard(isFollow: true, leadingImg: "${state.eventItem?.clubLogo}", onFollow: (){}, onMenu: (){}, since: "${state.eventItem?.eventTime}", subTitle: "${state.eventItem?.areaName},${state.eventItem?.cityName}", title: "${state.eventItem?.clubName}"),
-                                  //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+          switch (state.type!) {
+            'event' => TopSectionCard(
+              isFollow: true,
+              leadingImg: "${state.eventItem?.clubLogo}",
+              onFollow: () {},
+              onMenu: () {},
+              since: "${state.eventItem?.eventTime}",
+              subTitle:
+                  "${state.eventItem?.areaName},${state.eventItem?.cityName}",
+              title: "${state.eventItem?.clubName}",
+            ),
 
-                                   'gallery' =>TopSectionCard(isFollow: true, leadingImg: "${state.galleryItem?.clubLogo}", onFollow: (){}, onMenu: (){}, since: "${state.galleryItem?.clubId}", subTitle: "${state.galleryItem?.category}", title: "${state.galleryItem?.clubName}"),
+            //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+            'gallery' => TopSectionCard(
+              isFollow: true,
+              leadingImg: "${state.galleryItem?.clubLogo}",
+              onFollow: () {},
+              onMenu: () {},
+              since: "${state.galleryItem?.clubId}",
+              subTitle: "${state.galleryItem?.category}",
+              title: "${state.galleryItem?.clubName}",
+            ),
 
-                                   'teaser'=>TopSectionCard(isFollow: true, leadingImg: "${state.teaserItem?.clubLogo}", onFollow: (){}, onMenu: (){}, since: "${state.teaserItem?.clubId}", subTitle: "${state.teaserItem?.areaName}${state.teaserItem?.cityName}", title: "${state.teaserItem?.clubName}"),
+            'teaser' => TopSectionCard(
+              isFollow: true,
+              leadingImg: "${state.teaserItem?.clubLogo}",
+              onFollow: () {},
+              onMenu: () {},
+              since: "${state.teaserItem?.clubId}",
+              subTitle:
+                  "${state.teaserItem?.areaName}${state.teaserItem?.cityName}",
+              title: "${state.teaserItem?.clubName}",
+            ),
 
-                                  
-                                  
-              // TODO: Handle this case.
-              String() => throw UnimplementedError(),
-                              },
+            // TODO: Handle this case.
+            String() => throw UnimplementedError(),
+          },
 
           const SizedBox(height: 10),
 
@@ -150,105 +250,135 @@ class FeedCardLoadedPage extends StatelessWidget {
               SizedBox(
                 width: width * 0.83,
                 height: 450,
-                child: switch(state.type!){
-                                   'event' =>SingleImageSection(imageUrl: "${state.eventItem?.image}", onTap: (){}),
-                                  //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+                child: switch (state.type!) {
+                  'event' => SingleImageSection(
+                    imageUrl: "${state.eventItem?.image}",
+                    onTap: () {},
+                  ),
 
-                                   'gallery' =>MultiImgCard(imgList: state.galleryItem!.images!.map((data)=>data.img??'').toList(), onTap: (){}),
+                  //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+                  'gallery' => MultiImgCard(
+                    imgList: state.galleryItem!.images!
+                        .map((data) => data.img ?? '')
+                        .toList(),
+                    onTap: () {},
+                  ),
 
-                                   'teaser'=>VideoCard(onTap: (){}, url: "${state.teaserItem?.video}"),
+                  'teaser' => VideoCard(
+                    onTap: () {},
+                    url: "${state.teaserItem?.video}",
+                  ),
 
-                                  
-                                  
-              // TODO: Handle this case.
-              String() => throw UnimplementedError(),
-                              },
+                  // TODO: Handle this case.
+                  String() => throw UnimplementedError(),
+                },
               ),
 
               const SizedBox(width: 3),
 
               //SideBar Buttons
-              switch(state.type!){
-                                   'event' =>SideBar(commentCount: 0, followCount: 0, likeCount: (state.eventItem?.totalLikes ??0).toDouble(), onBookmark: (){}, onComment: (){}, onFollow: (){}, onLike: (){}, onStar: (){}),
-                                  //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+              switch (state.type!) {
+                'event' => SideBar(
+                  commentCount: 0,
+                  followCount: 0,
+                  likeCount: (state.eventItem?.totalLikes ?? 0).toDouble(),
+                  onBookmark: () {},
+                  onComment: () {},
+                  onFollow: () {},
+                  onLike: () {},
+                  onStar: () {},
+                ),
 
-                                   'gallery' =>SideBar(commentCount: 0, followCount: 0, likeCount: 0, onBookmark: (){}, onComment: (){}, onFollow: (){}, onLike: (){}, onStar: (){}),
-                                   'teaser'=>SideBar(commentCount: 0, followCount: 0, likeCount:( state.teaserItem?.totalLikes ??0).toDouble(), onBookmark: (){}, onComment: (){}, onFollow: (){}, onLike: (){}, onStar: (){}),
+                //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+                'gallery' => SideBar(
+                  commentCount: 0,
+                  followCount: 0,
+                  likeCount: 0,
+                  onBookmark: () {},
+                  onComment: () {},
+                  onFollow: () {},
+                  onLike: () {},
+                  onStar: () {},
+                ),
+                'teaser' => SideBar(
+                  commentCount: 0,
+                  followCount: 0,
+                  likeCount: (state.teaserItem?.totalLikes ?? 0).toDouble(),
+                  onBookmark: () {},
+                  onComment: () {},
+                  onFollow: () {},
+                  onLike: () {},
+                  onStar: () {},
+                ),
 
-                                  
-                                  
-              // TODO: Handle this case.
-              String() => throw UnimplementedError(),
-                              },
+                // TODO: Handle this case.
+                String() => throw UnimplementedError(),
+              },
               // SideBar(commentCount: 0, followCount: 0, likeCount: state.eventItem?.totalLikes as double, onBookmark: (){}, onComment: (){}, onFollow: (){}, onLike: (){}, onStar: (){})
             ],
           ),
 
           const SizedBox(height: 8),
 
-           switch(state.type!){
-                                   'event' =>Column(
-                crossAxisAlignment: .start,
-                children: [
-                  Text(
-                      "${state.eventItem?.name}",
-                      style: getBold14Style(color: Colors.black),
-                      textAlign: .left,
-                    ),
-                     Text(
-                      "${state.eventItem?.eventDate},${state.eventItem?.eventTime} - ${state.eventItem?.eventEndTime}",
-                      style: getRegular14Style(color: Colors.black),
-                      textAlign: .left,
-                    ),
-                ],
-              ),
-                                  //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+          switch (state.type!) {
+            'event' => Column(
+              crossAxisAlignment: .start,
+              children: [
+                Text(
+                  "${state.eventItem?.name}",
+                  style: getBold14Style(color: Colors.black),
+                  textAlign: .left,
+                ),
+                Text(
+                  "${state.eventItem?.eventDate},${state.eventItem?.eventTime} - ${state.eventItem?.eventEndTime}",
+                  style: getRegular14Style(color: Colors.black),
+                  textAlign: .left,
+                ),
+              ],
+            ),
 
-                                   'gallery' =>Container(),
-                                   'teaser'=>Column(
-                crossAxisAlignment: .start,
-                children: [
-                  Text(
-                      "${state.teaserItem?.meta?.address}",
-                      style: getBold14Style(color: Colors.black),
-                      textAlign: .left,
-                    ),
-                     Text(
-                      "${state.teaserItem?.meta?.slug}",
-                      style: getRegular14Style(color: Colors.black),
-                      textAlign: .left,
-                    ),
-                ],
-              ),
+            //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
+            'gallery' => Container(),
+            'teaser' => Column(
+              crossAxisAlignment: .start,
+              children: [
+                Text(
+                  "${state.teaserItem?.meta?.address}",
+                  style: getBold14Style(color: Colors.black),
+                  textAlign: .left,
+                ),
+                Text(
+                  "${state.teaserItem?.meta?.slug}",
+                  style: getRegular14Style(color: Colors.black),
+                  textAlign: .left,
+                ),
+              ],
+            ),
 
-                                  
-                                  
-              // TODO: Handle this case.
-              String() => throw UnimplementedError(),
-                              },
+            // TODO: Handle this case.
+            String() => throw UnimplementedError(),
+          },
+
           // Caption
-        //  !widget.data.isAd
-        //       ?CaptionText(data: widget.data)
-        //       : Column(
-        //         crossAxisAlignment: .start,
-        //         children: [
-        //           Text(
-        //               "The Live Edit connaught club house 25 July 2025",
-        //               style: getBold14Style(color: Colors.black),
-        //               textAlign: .left,
-        //             ),
-        //              Text(
-        //               "12 Oct25, 8:00 PM – 11:30 PM",
-        //               style: getRegular14Style(color: Colors.black),
-        //               textAlign: .left,
-        //             ),
-        //         ],
-        //       ),
-                 
+          //  !widget.data.isAd
+          //       ?CaptionText(data: widget.data)
+          //       : Column(
+          //         crossAxisAlignment: .start,
+          //         children: [
+          //           Text(
+          //               "The Live Edit connaught club house 25 July 2025",
+          //               style: getBold14Style(color: Colors.black),
+          //               textAlign: .left,
+          //             ),
+          //              Text(
+          //               "12 Oct25, 8:00 PM – 11:30 PM",
+          //               style: getRegular14Style(color: Colors.black),
+          //               textAlign: .left,
+          //             ),
+          //         ],
+          //       ),
         ],
       ),
     );
-}
-
-
+  }
 }

@@ -48,7 +48,7 @@ class SingleImageSection extends StatelessWidget {
           },
           errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
             // Show an error icon and text if the image fails to load
-            return errorWidget ??
+            return
                 Container(
                   color: Colors.grey[200], // Light grey background for error
                   child: Column(

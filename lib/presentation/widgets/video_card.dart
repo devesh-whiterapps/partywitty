@@ -18,11 +18,25 @@ class _VideoCardState extends State<VideoCard> {
   @override
   void initState() {
     super.initState();
+
+    // _controller = VideoPlayerController.networkUrl(
+    //   Uri.parse(
+    //     widget.url,
+    //   ),
+    // )..initialize().then((_) => setState(() {}));
+
     _controller = VideoPlayerController.networkUrl(
       Uri.parse(
         widget.url,
       ),
-    )..initialize().then((_) => setState(() {}));
+    );
+
+    // FIX: Check if the widget is still mounted before calling setState()
+    _controller.initialize().then((_) {
+      if (mounted) { 
+        setState(() {});
+      }
+    });
   }
   
   @override

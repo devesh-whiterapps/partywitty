@@ -6,7 +6,7 @@ abstract class FeedCardEvent {}
 class SetDataTypeEvent extends FeedCardEvent {
   String type;
   EventModel? eventItem;
-  PackageModel? packageItem;
+  List<PackageModel>? packageItem;
   TeaserModel? teaserItem;
   GalleryModel? galleryItem;
   SetDataTypeEvent({

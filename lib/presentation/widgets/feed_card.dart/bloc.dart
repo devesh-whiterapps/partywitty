@@ -15,7 +15,7 @@ class FeedCardBloc extends Bloc<FeedCardEvent, FeedCardState> {
                                   print("Listener Excuted");
                                   add(SetDataTypeEvent(type: item.type??'',eventItem: item.data as EventModel));
                                   case 'package':
-                                 add(SetDataTypeEvent(type: item.type??'',packageItem: item.data as PackageModel));
+                                 add(SetDataTypeEvent(type: item.type??'',packageItem: item.data as List<PackageModel>));
                                   case 'gallery':
                                   add(SetDataTypeEvent(type: item.type??'',galleryItem: item.data as GalleryModel));
                                   case 'teaser':
