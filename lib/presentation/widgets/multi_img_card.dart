@@ -62,7 +62,7 @@ pageIndex =index;
                  
                }),)),
 
-              Positioned(bottom: 10, 
+              Positioned(bottom: 30, 
                child: Transform.scale(
                 scale: 0.5,
                 child: Container(
