@@ -65,6 +65,7 @@ class FeedCardLoadedPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: ListView(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -96,9 +97,9 @@ class FeedCardLoadedPage extends StatelessWidget {
                   ),
                 ],
               ),
-
+      
               const SizedBox(height: 6),
-
+      
               SizedBox(
                 height: 256,
                 child: ListView.builder(
