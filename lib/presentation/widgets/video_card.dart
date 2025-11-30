@@ -13,7 +13,7 @@ class VideoCard extends StatefulWidget {
 }
 
 class _VideoCardState extends State<VideoCard> {
-  late final CachedVideoPlayerPlus _player;
+   CachedVideoPlayerPlus? _player;
 
   @override
   void initState() {
@@ -24,33 +24,43 @@ class _VideoCardState extends State<VideoCard> {
     //     widget.url,
     //   ),
     // )..initialize().then((_) => setState(() {}));
-
+WidgetsBinding.instance.addPostFrameCallback((_) {
     _player = CachedVideoPlayerPlus.networkUrl(
       Uri.parse(widget.url),
       invalidateCacheIfOlderThan: const Duration(minutes: 69), // Nice!
     );
       if(mounted)
       {
-    _player.initialize();
+    _player!.initialize().then((_){setState(() {
+      
+    });});
 
       }
+  });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _player.dispose();
+    _player?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_player == null || !_player!.isInitialized) {
+      // Show a loading indicator or an empty container while initializing
+      return Container(
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(), 
+      );
+    }
     return (
-      _player.isInitialized?
+      
        Stack(
             alignment: .center,
             children: [
-              VideoPlayer(_player.controller),
+              VideoPlayer(_player!.controller),
 
               //Play button
               Positioned(
@@ -61,7 +71,7 @@ class _VideoCardState extends State<VideoCard> {
               ),
             ],
           )
-        : Container()
+        
         );
   }
 }

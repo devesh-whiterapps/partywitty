@@ -40,6 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
          paginationController: _pagingController
         ),
       );
+      
     } catch (e) {
       print("$e");
       emit(state.copyWith(status: HomeStatus.error, error: e.toString()));
@@ -55,7 +56,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final result = await repository.getFeed(page: pageKey);
       return result.fold(
       (failure) => [],
-      (data) => data.data??[],
+      (data) => data.data!,
     );
       });
       
