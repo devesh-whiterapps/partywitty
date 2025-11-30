@@ -14,6 +14,8 @@ class TopSectionCard extends StatelessWidget {
   final Function onFollow;
   final Function onMenu;
   final bool isFollow;
+  final bool hideSince;
+  final bool hideFollow;
 
   const TopSectionCard({super.key,
    required this.isFollow,
@@ -22,7 +24,9 @@ class TopSectionCard extends StatelessWidget {
    required this.onMenu,
    required this.since,
    required this.subTitle,
-   required this.title
+   required this.title,
+    this.hideFollow = false,
+    this.hideSince =false
    });
 
   @override
@@ -61,14 +65,14 @@ class TopSectionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Assets.checkIc.image(),
-                        Assets.dimondIc.image(),
-                        const SizedBox(width: 5),
-                        Text(
+                        !hideSince ?Assets.dimondIc.image():Container(),
+                        !hideSince ?const SizedBox(width: 5):Container(),
+                        !hideSince ? Text(
                           since == 0
                               ? "Just Now"
                               : "${since} H",
                           style: getRegular14Style(color: Colors.grey),
-                        ),
+                        ):Container(),
                       ],
                     ),
                     Text(
@@ -79,7 +83,7 @@ class TopSectionCard extends StatelessWidget {
                 ),
               ),
 
-              TextButton(
+              !hideFollow? TextButton(
                 onPressed: onFollow(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -98,7 +102,7 @@ class TopSectionCard extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              ):Container(),
 
               IconButton(onPressed: onMenu(), icon: const Icon(Icons.more_horiz)),
             ],

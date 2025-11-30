@@ -71,8 +71,9 @@ class FeedCardLoadedPage extends StatelessWidget {
                                 horizontal: 10,
                                 vertical: 10,
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: ListView(
+                                shrinkWrap: true,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     mainAxisAlignment:
@@ -206,7 +207,7 @@ class FeedCardLoadedPage extends StatelessWidget {
             // Top Section Of Card
             switch (state.type!) {
               'event' => TopSectionCard(
-                isFollow: true,
+                isFollow: false,
                 leadingImg: "${state.eventItem?.clubLogo}",
                 onFollow: () {},
                 onMenu: () {},
@@ -218,6 +219,8 @@ class FeedCardLoadedPage extends StatelessWidget {
       
               //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
               'gallery' => TopSectionCard(
+                hideFollow: true,
+                hideSince: true,
                 isFollow: true,
                 leadingImg: "${state.galleryItem?.clubLogo}",
                 onFollow: () {},
@@ -228,6 +231,7 @@ class FeedCardLoadedPage extends StatelessWidget {
               ),
       
               'teaser' => TopSectionCard(
+                hideFollow: true,
                 isFollow: true,
                 leadingImg: "${state.teaserItem?.clubLogo}",
                 onFollow: () {},
@@ -340,21 +344,7 @@ class FeedCardLoadedPage extends StatelessWidget {
       
               //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
               'gallery' => Container(),
-              'teaser' => Column(
-                crossAxisAlignment: .start,
-                children: [
-                  Text(
-                    "${state.teaserItem?.meta?.address}",
-                    style: getBold14Style(color: Colors.black),
-                    textAlign: .left,
-                  ),
-                  Text(
-                    "${state.teaserItem?.meta?.slug}",
-                    style: getRegular14Style(color: Colors.black),
-                    textAlign: .left,
-                  ),
-                ],
-              ),
+              'teaser' => Container(),
       
               // TODO: Handle this case.
               String() => throw UnimplementedError(),
