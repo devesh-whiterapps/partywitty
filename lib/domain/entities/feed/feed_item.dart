@@ -302,6 +302,7 @@ class GalleryModel {
   final String? clubLogo;
   final String? category;
   final List<GalleryImage>? images;
+  final MetaModel? meta;
 
   GalleryModel({
     this.clubId,
@@ -309,6 +310,7 @@ class GalleryModel {
     this.clubLogo,
     this.category,
     this.images,
+    this.meta
   });
 
   factory GalleryModel.fromJson(Map<String, dynamic> json) => GalleryModel(
@@ -320,6 +322,7 @@ class GalleryModel {
                 ?.map((x) => GalleryImage.fromJson(x))
                 .toList() ??
             [],
+            meta: json["meta"] != null ? MetaModel.fromJson(json["meta"]) : null,
       );
 
   Map<String, dynamic> toJson() => {

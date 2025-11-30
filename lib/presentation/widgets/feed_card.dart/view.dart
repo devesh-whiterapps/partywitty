@@ -223,7 +223,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                 onFollow: () {},
                 onMenu: () {},
                 since: "${state.galleryItem?.clubId}",
-                subTitle: "${state.galleryItem?.category}",
+                subTitle: "${state.galleryItem?.meta?.address}",
                 title: "${state.galleryItem?.clubName}",
               ),
       
