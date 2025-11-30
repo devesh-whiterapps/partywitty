@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:partywitty/domain/entities/feed/feed_event.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:partywitty/presentation/resources/image_assets.dart';
