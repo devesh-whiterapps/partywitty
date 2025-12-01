@@ -6,7 +6,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MultiImgCard extends StatefulWidget {
    final List<String> imgList;
-  final Function onTap;
+  final VoidCallback onTap;
   const MultiImgCard({super.key, required this.imgList, required this.onTap});
 
   @override
@@ -27,13 +27,13 @@ class _MultiImgCardState extends State<MultiImgCard> {
     return  Stack(
       alignment: .center,
       children: [
-        CarouselSlider(
-          carouselController: _controller,
-          items: widget.imgList
-              .map(
-                (url) => InkWell(
-                  onTap: () => widget.onTap,
-                  child: Image.network(
+        InkWell(
+          onTap: () => widget.onTap(),
+          child: CarouselSlider(
+            carouselController: _controller,
+            items: widget.imgList
+                .map(
+                  (url) => Image.network(
                     url,
                     width: double.infinity,
                     height: double.infinity,
@@ -60,16 +60,16 @@ class _MultiImgCardState extends State<MultiImgCard> {
                       ),
                     ),
                   ),
-                ),
-              )
-              .toList(),
-            
-               options: CarouselOptions(autoPlay: true,viewportFraction: 1,height: double.infinity,onPageChanged: (index, reason) => setState(() {
-                if(index<widget.imgList.length){
-pageIndex =index;
-                }
-                 
-               }),)),
+                )
+                .toList(),
+              
+                 options: CarouselOptions(autoPlay: true,viewportFraction: 1,height: double.infinity,onPageChanged: (index, reason) => setState(() {
+                  if(index<widget.imgList.length){
+          pageIndex =index;
+                  }
+                   
+                 }),)),
+        ),
 
               Positioned(bottom: 30, 
                child: Transform.scale(

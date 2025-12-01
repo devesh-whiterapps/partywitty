@@ -1,18 +1,18 @@
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:partywitty/core/global_state.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoCard extends StatefulWidget {
-  final String url;
-  final Function onTap;
-  const VideoCard({super.key, required this.onTap, required this.url});
+class VideoReel extends StatefulWidget {
+
+  const VideoReel({super.key,});
 
   @override
-  State<VideoCard> createState() => _VideoCardState();
+  State<VideoReel> createState() => _VideoReelState();
 }
 
-class _VideoCardState extends State<VideoCard> {
+class _VideoReelState extends State<VideoReel> {
    CachedVideoPlayerPlus? _player;
 
   @override
@@ -26,7 +26,7 @@ class _VideoCardState extends State<VideoCard> {
     // )..initialize().then((_) => setState(() {}));
 WidgetsBinding.instance.addPostFrameCallback((_) {
     _player = CachedVideoPlayerPlus.networkUrl(
-      Uri.parse(widget.url),
+      Uri.parse(GlobalState.instance.videoUrl),
       invalidateCacheIfOlderThan: const Duration(minutes: 69), // Nice!
     );
       if(mounted)
@@ -63,12 +63,12 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
               VideoPlayer(_player!.controller),
 
               //Play button
-              Positioned(
-                child: InkWell(
-                  onTap: () => widget.onTap(),
-                  child: Assets.homePlayIc.image(),
-                ),
-              ),
+              // Positioned(
+              //   child: InkWell(
+              //     onTap: () => widget.onTap,
+              //     child: Assets.homePlayIc.image(),
+              //   ),
+              // ),
             ],
           )
         

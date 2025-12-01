@@ -40,7 +40,7 @@ ThemeData getApplicationTheme() {
         titleTextStyle:
             getRegularStyle(color: ColorManager.white, fontSize: FontSize.s16),
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: ColorManager.white,
+          statusBarColor: Colors.transparent,
           statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.dark,
         ),

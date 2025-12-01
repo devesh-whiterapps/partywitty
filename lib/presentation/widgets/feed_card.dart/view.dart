@@ -2,9 +2,11 @@ import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:partywitty/core/global_state.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:partywitty/presentation/resources/image_assets.dart';
+import 'package:partywitty/presentation/resources/router/route_manager.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
 import 'package:partywitty/presentation/widgets/multi_img_card.dart';
 import 'package:partywitty/presentation/widgets/side_bar.dart';
@@ -45,9 +47,7 @@ class FeedCardPage extends StatelessWidget {
               return Scaffold(
                 body: Center(child: Text(state.error ?? "An error occurred")),
               );
-            default:
-              return const Center(child: Text("UnknownState"));
-          }
+            }
         },
       ),
     );
@@ -345,7 +345,10 @@ class FeedCardLoadedPage extends StatelessWidget {
                           child: SingleImageSection(
                             fit: .fill,
                             imageUrl: "${state.eventItem?.image}",
-                            onTap: () {},
+                            onTap: () {Navigator.of(context).pushNamed(Routes.singleImgPage,arguments: {
+'image': "${state.eventItem?.image}",
+    'id': 123,
+                            });},
                           ),
                         ),
       
@@ -380,7 +383,12 @@ class FeedCardLoadedPage extends StatelessWidget {
                             imgList: state.galleryItem!.images!
                                 .map((data) => data.img ?? '')
                                 .toList(),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).pushNamed( Routes.multiImgPage,arguments: {
+    'images': state.galleryItem?.toJson()??{},
+    'id': 123,
+  },);
+                            },
                           ),
                             
                           //  state.eventItem?.discount !=null && int.parse(state.eventItem?.discount??'0') > 0? Positioned(
@@ -428,7 +436,10 @@ class FeedCardLoadedPage extends StatelessWidget {
                     'teaser' => Stack(
                       children: [
                         VideoCard(
-                          onTap: () {},
+                          onTap: () {
+                            GlobalState.instance.videoUrl = state.teaserItem?.video??'';
+                            Navigator.of(context).pushNamed(Routes.videoPage);
+                          },
                           url: "${state.teaserItem?.video}",
                         ),
       
