@@ -145,7 +145,7 @@ pageIndex =index;
           },
           child: Transform.scale(
             scaleX: -1,
-            child: Assets.arrorLeft.image()),
+            child: Assets.arrowRight.image()),
         )),
 
         Positioned(right: 10, top: 220, child: InkWell(onTap:(){
