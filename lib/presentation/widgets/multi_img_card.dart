@@ -15,12 +15,21 @@ class MultiImgCard extends StatefulWidget {
 
 class _MultiImgCardState extends State<MultiImgCard> {
   int pageIndex = 0;
+  late CarouselSliderController _controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _controller = CarouselSliderController();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  Stack(
       alignment: .center,
       children: [
-        CarouselSlider(items: widget.imgList
+        CarouselSlider(
+          carouselController: _controller,
+          items: widget.imgList
               .map(
                 (url) => InkWell(
                   onTap: () => widget.onTap,
@@ -128,9 +137,22 @@ pageIndex =index;
         //       .toList(),
         // ),
 
-        Positioned(left: 10, top: 220, child: Assets.arrorLeft.image()),
+        Positioned(left: 10, top: 220, child: InkWell(
+          onTap: (){
+            setState(() {
+              _controller.previousPage();
+            });
+          },
+          child: Transform.scale(
+            scaleX: -1,
+            child: Assets.arrorLeft.image()),
+        )),
 
-        Positioned(right: 10, top: 220, child: Assets.arrowRight.image()),
+        Positioned(right: 10, top: 220, child: InkWell(onTap:(){
+          setState(() {
+            _controller.nextPage();
+          });
+        },child:  Assets.arrowRight.image())),
       ],
     );
   }

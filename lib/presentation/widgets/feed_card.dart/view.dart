@@ -335,6 +335,7 @@ class FeedCardLoadedPage extends StatelessWidget {
 
                         Expanded(
                           child: SingleImageSection(
+                            fit: .cover,
                             imageUrl: "${state.eventItem?.image}",
                             onTap: () {},
                           ),
