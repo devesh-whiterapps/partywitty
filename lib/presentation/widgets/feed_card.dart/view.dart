@@ -20,8 +20,10 @@ import 'state.dart';
 class FeedCardPage extends StatelessWidget {
   final HomeItemModel item;
   final double width;
+    final double height;
 
-  const FeedCardPage({super.key, required this.item, required this.width});
+
+  const FeedCardPage({super.key, required this.item, required this.width,required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class FeedCardPage extends StatelessWidget {
             case FeedCardStatus.loading:
               return Center(child: CircularProgressIndicator());
             case FeedCardStatus.loaded:
-              return FeedCardLoadedPage(state: state, width: width);
+              return FeedCardLoadedPage(state: state, width: width,height: height,);
             case FeedCardStatus.error:
               return Scaffold(
                 body: Center(child: Text(state.error ?? "An error occurred")),
@@ -53,8 +55,9 @@ class FeedCardPage extends StatelessWidget {
 class FeedCardLoadedPage extends StatelessWidget {
   FeedCardState state;
   final double width;
+  final double height;
 
-  FeedCardLoadedPage({super.key, required this.state, required this.width});
+  FeedCardLoadedPage({super.key, required this.state, required this.width,required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +109,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                 const SizedBox(height: 6),
         
                 SizedBox(
-                  height: 256,
+                  height: height,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: 10,
@@ -127,11 +130,12 @@ class FeedCardLoadedPage extends StatelessWidget {
                           alignment: Alignment.bottomCenter,
                           child: Container(
                             width: 185,
-                            padding: EdgeInsets.symmetric(vertical: 3),
+                            padding: EdgeInsets.symmetric(vertical: 4,horizontal: 10),
                             decoration: BoxDecoration(
                               color: Colors.black.withAlpha(127)
                             ),
                             child: Column(
+                              crossAxisAlignment: .center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
@@ -227,8 +231,10 @@ class FeedCardLoadedPage extends StatelessWidget {
         // margin: const EdgeInsets.symmetric(vertical: 4),
         padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
       
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Username shared
             Row(
@@ -313,7 +319,7 @@ class FeedCardLoadedPage extends StatelessWidget {
               children: [
                 SizedBox(
                   width: width * 0.83,
-                  height: 575,
+                  height: height,
                   child: switch (state.type!) {
                     'event' => Column(
                       children: [
@@ -335,7 +341,7 @@ class FeedCardLoadedPage extends StatelessWidget {
 
                         Expanded(
                           child: SingleImageSection(
-                            fit: .cover,
+                            fit: .fill,
                             imageUrl: "${state.eventItem?.image}",
                             onTap: () {},
                           ),
@@ -363,54 +369,58 @@ class FeedCardLoadedPage extends StatelessWidget {
                     ),
       
                     //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
-                    'gallery' => Stack(
-                      children: [
-                        MultiImgCard(
-                          imgList: state.galleryItem!.images!
-                              .map((data) => data.img ?? '')
-                              .toList(),
-                          onTap: () {},
-                        ),
-      
-                        //  state.eventItem?.discount !=null && int.parse(state.eventItem?.discount??'0') > 0? Positioned(
-                        //     top: 0,
-                        //     width: width * 0.83,
-                        //     height: 30,
-                        //     child: Container(
-                        //       color: ColorManager.offerColor,
-                        //       alignment: Alignment.center,
-                        //       child: Text(
-                        //         "Add On up to ${state.eventItem?.discount}% Extra on Food & Beverages",
-                        //         style: getBold14Style(
-                        //           color: Colors.black,
-                        //           fontSize: 12,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ):Container(),
-                        Positioned(
-                          bottom: 0,
-                          width: width * 0.83,
-                          height: 30,
-                          child: Container(
-                            color: ColorManager.followBtn,
-                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 3),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Book Now",
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 14,
-                                    color: Colors.white,
+                    'gallery' => SizedBox(
+                      height: height,
+                      width: width*0.83,
+                      child: Stack(
+                        children: [
+                          MultiImgCard(
+                            imgList: state.galleryItem!.images!
+                                .map((data) => data.img ?? '')
+                                .toList(),
+                            onTap: () {},
+                          ),
+                            
+                          //  state.eventItem?.discount !=null && int.parse(state.eventItem?.discount??'0') > 0? Positioned(
+                          //     top: 0,
+                          //     width: width * 0.83,
+                          //     height: 30,
+                          //     child: Container(
+                          //       color: ColorManager.offerColor,
+                          //       alignment: Alignment.center,
+                          //       child: Text(
+                          //         "Add On up to ${state.eventItem?.discount}% Extra on Food & Beverages",
+                          //         style: getBold14Style(
+                          //           color: Colors.black,
+                          //           fontSize: 12,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ):Container(),
+                          Positioned(
+                            bottom: 0,
+                            width: width * 0.83,
+                            height: 30,
+                            child: Container(
+                              color: ColorManager.followBtn,
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 3),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Book Now",
+                                    style: GoogleFonts.lexend(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                                Assets.arrowRightIc.image(scale: 0.9),
-                              ],
+                                  Assets.arrowRightIc.image(scale: 0.9),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
       
                     'teaser' => Stack(
@@ -456,7 +466,7 @@ class FeedCardLoadedPage extends StatelessWidget {
       
                 //SideBar Buttons
                 SizedBox(
-                  height: 575,
+                  height: height,
                   child: switch (state.type!) {
                     'event' => SideBar(
                       commentCount: 0,
@@ -645,7 +655,7 @@ class FeedCardLoadedPage extends StatelessWidget {
               children: [
                 SizedBox(
                   width: width * 0.83,
-                  height: 575,
+                  height: height,
                   child: Container()
                 ),
       

@@ -37,7 +37,7 @@ class _MultiImgCardState extends State<MultiImgCard> {
                     url,
                     width: double.infinity,
                     height: 450,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     errorBuilder: (context, error, stackTrace) => Container(
                       width:  double.infinity,
                       color:

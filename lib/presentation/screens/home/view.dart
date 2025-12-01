@@ -239,11 +239,12 @@ class HomeLoadedPage extends StatelessWidget {
                               offset: const Offset(
                                 0,
                                 -6,
-                              ), // ← Icon को ऊपर ले गया
+                              ), 
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)
                                 ),
                                 child: Assets.bellIc.image(),
                               ),
@@ -274,6 +275,16 @@ class HomeLoadedPage extends StatelessWidget {
                                           key: ValueKey(index),
                                           width: width,
                                           item: item,
+                                          height: switch(item.type){
+                                              'event'=>575.27,
+                                              'package'=>256,
+                                              'teaser' =>579.27,
+                                              'gallery'=>430,
+                                            // TODO: Handle this case.
+                                            String() => throw UnimplementedError(),
+                                            // TODO: Handle this case.
+                                            null => throw UnimplementedError(),
+                                          },
                                         ),
                                       ),
                                     ),
