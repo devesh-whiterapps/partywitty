@@ -78,6 +78,8 @@ class TopSectionCard extends StatelessWidget {
                     Text(
                       subTitle ,
                       style: GoogleFonts.lexend(color: Colors.black),
+                      overflow: .ellipsis,
+                      maxLines: 1,
                     ),
                   ],
                 ),
@@ -103,8 +105,8 @@ class TopSectionCard extends StatelessWidget {
                   ),
                 ),
               ):Container(),
-
-              IconButton(onPressed: onMenu(), icon: const Icon(Icons.more_horiz)),
+         IconButton(onPressed: (){}, icon:  Icon(Icons.more_horiz,color: ColorManager.rightIcColor,)),
+            SizedBox(width: 3,)
             ],
           );
   }

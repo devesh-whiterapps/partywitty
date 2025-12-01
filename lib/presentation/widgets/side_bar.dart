@@ -33,78 +33,78 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-                // width: 55,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Top two buttons
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: widget.onStar(),
-                          icon: Assets.starIc.image(color: ColorManager.rightIcColor),
-                        ),
-                        const SizedBox(height: 5), // explicit gap
-                        IconButton(
-                          onPressed: widget.onBookmark(),
-                          icon: Assets.bookmarkIc.image(color: ColorManager.rightIcColor),
-                        ),
-                      ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: .max,
+      children: [
+        // Top two buttons
+        Column(
+          children: [
+            IconButton(
+              onPressed: widget.onStar(),
+              icon: Assets.starIc.image(color: ColorManager.rightIcColor),
+            ),
+            const SizedBox(height: 5), // explicit gap
+            IconButton(
+              onPressed: widget.onBookmark(),
+              icon: Assets.bookmarkIc.image(color: ColorManager.rightIcColor),
+            ),
+          ],
+        ),
+    
+        const SizedBox(height: 158),
+    
+        Column(
+          children: [
+            IconButton(
+              onPressed: widget.onLike(),
+              icon: Column(
+                children: [
+                  Assets.likeIc.image(color:ColorManager.rightIcColor),
+                  Text(
+                    NumberFormat.compact().format(
+                      widget.likeCount,
                     ),
-
-                    const SizedBox(height: 158),
-
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: widget.onLike(),
-                          icon: Column(
-                            children: [
-                              Assets.likeIc.image(color:ColorManager.rightIcColor),
-                              Text(
-                                NumberFormat.compact().format(
-                                  widget.likeCount,
-                                ),
-                                style: getBold14Style(color: ColorManager.rightIcColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10), // explicit gap
-                        IconButton(
-                          onPressed: widget.onComment(),
-                          icon: Column(
-                            children: [
-                              Assets.commentIc.image(color: ColorManager.rightIcColor),
-                              Text(
-                                NumberFormat.compact().format(
-                                  widget.commentCount,
-                                ),
-                                style: getBold14Style(color: ColorManager.rightIcColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10), // explicit gap
-                        IconButton(
-                          onPressed: widget.onFollow(),
-                          icon: Column(
-                            children: [
-                              Assets.followerIc.image(color: ColorManager.rightIcColor),
-                              Text(
-                                NumberFormat.compact().format(
-                                  widget.followCount,
-                                ),
-                                style: getBold14Style(color: ColorManager.rightIcColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    style: getBold14Style(color: ColorManager.rightIcColor),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10), // explicit gap
+            IconButton(
+              onPressed: widget.onComment(),
+              icon: Column(
+                children: [
+                  Assets.commentIc.image(color: ColorManager.rightIcColor),
+                  Text(
+                    NumberFormat.compact().format(
+                      widget.commentCount,
                     ),
-                  ],
-                ),
-              );
+                    style: getBold14Style(color: ColorManager.rightIcColor),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10), // explicit gap
+            IconButton(
+              onPressed: widget.onFollow(),
+              icon: Column(
+                children: [
+                  Assets.followerIc.image(color: ColorManager.rightIcColor),
+                  Text(
+                    NumberFormat.compact().format(
+                      widget.followCount,
+                    ),
+                    style: getBold14Style(color: ColorManager.rightIcColor),
+                  ),
+                ],
+              ),
+            ),
+                         
+    
+          ],
+        ),
+      ],
+    );
   }
 }

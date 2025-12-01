@@ -61,7 +61,7 @@ class ColorManager {
   static Color shadowColor = HexColor.fromHex('#000000');
   static Color background = HexColor.fromHex('#F5F5F8');
   static Color success = HexColor.fromHex('#00ff00');
-  static Color svgIconColor = HexColor.fromHex("#F4770F");
+  static Color cardBackground = HexColor.fromHex("#F1F1F1");
   static Color pageBgColor = HexColor.fromHex("#fafafa");
   static Color inactiveToggleButtonColor = HexColor.fromHex("#969AA4");
   static Color keyboardArrowDown = HexColor.fromHex("#FF5963");
