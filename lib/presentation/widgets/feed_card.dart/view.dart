@@ -36,7 +36,9 @@ class FeedCardPage extends StatelessWidget {
             case FeedCardStatus.initial:
               return Center(child: CircularProgressIndicator());
             case FeedCardStatus.loading:
-              return Center(child: CircularProgressIndicator());
+              return SizedBox(
+                height: height,width: width,
+                child: Center(child: CircularProgressIndicator()));
             case FeedCardStatus.loaded:
               return FeedCardLoadedPage(state: state, width: width,height: height,);
             case FeedCardStatus.error:

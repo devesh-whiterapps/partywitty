@@ -36,7 +36,7 @@ class _MultiImgCardState extends State<MultiImgCard> {
                   child: Image.network(
                     url,
                     width: double.infinity,
-                    height: 450,
+                    height: double.infinity,
                     fit: BoxFit.fill,
                     errorBuilder: (context, error, stackTrace) => Container(
                       width:  double.infinity,
