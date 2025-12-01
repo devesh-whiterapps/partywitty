@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
@@ -49,7 +50,7 @@ addtionalCaption = widget.data.caption!.substring(0,35);
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.0),
               // It's crucial to use a constrained widget here (like SizedBox or Icon)
-              child: Assets.checkIc.image(),
+              child: SvgPicture.asset(Assets.checkIcSvg),
             ),
             // Alignment controls how the widget sits vertically relative to the text baseline
             alignment: PlaceholderAlignment.middle,

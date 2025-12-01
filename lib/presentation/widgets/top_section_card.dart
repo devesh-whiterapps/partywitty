@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
@@ -64,8 +65,8 @@ class TopSectionCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        Assets.checkIc.image(),
-                        !hideSince ?Assets.dimondIc.image():Container(),
+                        SvgPicture.asset(Assets.checkIcSvg),
+                        !hideSince ?SvgPicture.asset(Assets.dimondIcSvg):Container(),
                         !hideSince ?const SizedBox(width: 5):Container(),
                         !hideSince ? Text(
                           since == 0

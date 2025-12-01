@@ -1,6 +1,7 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:partywitty/core/global_state.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
@@ -101,7 +102,8 @@ class FeedCardLoadedPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 4),
-                          Assets.arrowRight2Ic.image(),
+                          SvgPicture.asset(Assets.arrowRight2IcSvg)
+                          // Assets.arrowRight2Ic.image(),
                         ],
                       ),
                     ),
@@ -199,7 +201,8 @@ class FeedCardLoadedPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 4),
-                          Assets.arrowRight2Ic.image(),
+                          SvgPicture.asset(Assets.arrowRight2IcSvg),
+                          // Assets.arrowRight2Ic.image(),
                         ],
                       ),
                     ),
@@ -366,7 +369,8 @@ class FeedCardLoadedPage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              Assets.arrowRightIc.image(scale: 0.9),
+                              SvgPicture.asset(Assets.arrowRight2IcSvg),
+                             
                             ],
                           ),
                         ),
@@ -424,7 +428,8 @@ class FeedCardLoadedPage extends StatelessWidget {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Assets.arrowRightIc.image(scale: 0.9),
+                                  SvgPicture.asset(Assets.arrowRightIcSvg,height: 30,width: 40,)
+                                  // Assets.arrowRightIc.image(scale: 0.9),
                                 ],
                               ),
                             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
@@ -42,12 +43,12 @@ class _SideBarState extends State<SideBar> {
           children: [
             IconButton(
               onPressed: widget.onStar(),
-              icon: Assets.starIc.image(color: ColorManager.rightIcColor),
+              icon: SvgPicture.asset(Assets.starIcSvg),
             ),
             const SizedBox(height: 5), // explicit gap
             IconButton(
               onPressed: widget.onBookmark(),
-              icon: Assets.bookmarkIc.image(color: ColorManager.rightIcColor),
+              icon: SvgPicture.asset(Assets.bookmarkIcSvg),
             ),
           ],
         ),
@@ -60,7 +61,7 @@ class _SideBarState extends State<SideBar> {
               onPressed: widget.onLike(),
               icon: Column(
                 children: [
-                  Assets.likeIc.image(color:ColorManager.rightIcColor),
+                  SvgPicture.asset(Assets.likeIcSvg),
                   Text(
                     NumberFormat.compact().format(
                       widget.likeCount,
@@ -75,7 +76,7 @@ class _SideBarState extends State<SideBar> {
               onPressed: widget.onComment(),
               icon: Column(
                 children: [
-                  Assets.commentIc.image(color: ColorManager.rightIcColor),
+                  SvgPicture.asset(Assets.commentIcSvg),
                   Text(
                     NumberFormat.compact().format(
                       widget.commentCount,
@@ -90,7 +91,7 @@ class _SideBarState extends State<SideBar> {
               onPressed: widget.onFollow(),
               icon: Column(
                 children: [
-                  Assets.followerIc.image(color: ColorManager.rightIcColor),
+                  SvgPicture.asset(Assets.followerIcSvg),
                   Text(
                     NumberFormat.compact().format(
                       widget.followCount,
