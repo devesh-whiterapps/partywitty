@@ -24,7 +24,7 @@ class _VideoCardState extends State<VideoCard> {
     //     widget.url,
     //   ),
     // )..initialize().then((_) => setState(() {}));
-WidgetsBinding.instance.addPostFrameCallback((_) {
+// WidgetsBinding.instance.addPostFrameCallback((_) {
     _player = CachedVideoPlayerPlus.networkUrl(
       Uri.parse(widget.url),
       invalidateCacheIfOlderThan: const Duration(minutes: 69), // Nice!
@@ -36,7 +36,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
     });});
 
       }
-  });
+  // });
   }
 
   @override
@@ -60,7 +60,7 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
        Stack(
             alignment: .center,
             children: [
-              VideoPlayer(_player!.controller),
+              VideoPlayer(_player!.controller,key: ValueKey(widget.url),),
 
               //Play button
               Positioned(

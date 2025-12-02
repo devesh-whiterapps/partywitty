@@ -32,6 +32,7 @@ class SingleImageSection extends StatelessWidget {
         child: 
 
 CachedNetworkImage(
+  key: ValueKey(imageUrl),
   imageUrl: imageUrl,
   fit: fit,
   // Equivalent to the original loadingBuilder
