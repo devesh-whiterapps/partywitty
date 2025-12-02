@@ -351,6 +351,12 @@ class FeedCardLoadedPage extends StatelessWidget {
                             onTap: () {Navigator.of(context).pushNamed(Routes.singleImgPage,arguments: {
 'image': "${state.eventItem?.image}",
     'id': 123,
+    'title': state.eventItem?.clubName,
+    'leadImg':state.eventItem?.clubLogo,
+    'subTitle':state.eventItem?.address,
+    'since':state.eventItem?.eventTime,
+    'isFollow':false
+
                             });},
                           ),
                         ),

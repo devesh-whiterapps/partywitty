@@ -10,6 +10,7 @@ import 'package:partywitty/presentation/resources/color_manager.dart';
 import 'package:partywitty/presentation/resources/image_assets.dart';
 import 'package:partywitty/presentation/resources/style_manager.dart';
 import 'package:partywitty/presentation/widgets/post_card.dart';
+import 'package:partywitty/presentation/widgets/top_section_card.dart';
 import 'package:video_player/video_player.dart';
 
 import 'bloc.dart';
@@ -26,15 +27,15 @@ class ReelPage extends StatelessWidget {
       child: BlocConsumer<ReelBloc, ReelState>(
         listener: (context, state) {
           // handle navigation or snackbars
-          if (state.status == ReelStatus.loaded){
-            state.controller!.play();
-          }
+          // if (state.status == ReelStatus.loaded){
+          //   state.controller!.play();
+          // }
         },
         builder: (context, state) {
           switch (state.status) {
             case ReelStatus.loading:
               return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
+                body: Center(child: CircularProgressIndicator(color: Colors.amber,)),
               );
             case ReelStatus.loaded:
               return ReelLoadedPage(state1: state);
@@ -71,9 +72,7 @@ class ReelLoadedPage extends StatelessWidget {
 
     // final Map<String,dynamic> data = args as Map<String, dynamic>;
 
-    return Scaffold(
-      body: state.controller!.value.isInitialized
-          ? Stack(
+    return  Stack(
             alignment: .center,
             children: [
               // VideoPlayer(state.controller!),
@@ -208,7 +207,7 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              SvgPicture.asset(Assets.likeIcSvg,height: 50,width: 50,),
+                              SvgPicture.asset(Assets.likeIcSvg,height: 50,width: 50,color: Colors.white,),
                               // Assets.likeIc.image(color: Colors.white,scale: 0.4),
                               Text(
                                 "${NumberFormat.compact().format(2560000)}",
@@ -224,7 +223,7 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              SvgPicture.asset(Assets.followerIcSvg,height: 50,width: 50,),
+                              SvgPicture.asset(Assets.followerIcSvg,height: 50,width: 50,color: Colors.white,),
 
                               // Assets.followerIc.image(color: Colors.white,scale: 0.4),
                               Text(
@@ -248,80 +247,9 @@ class ReelLoadedPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: .start,
               children: [
-                Row(
-                  mainAxisAlignment: .spaceEvenly,
-                  children: [
-                    ClipOval(
-                      clipBehavior: Clip.hardEdge,
-                      child: Image.network(
-                        ImgAssets.boy,
-                        fit: .cover,
-                        width: 50,
-                        height: 50,
-                        errorBuilder: (context, error, stackTrace) =>
-                            ErrorWidget("exception"),
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Column(
-                      crossAxisAlignment: .start,
-                      children: [
-                        Row(
-                          spacing: 10,
-                          children: [
-                            Text(
-                              "The Dark Room",
-                              style: getBold16Style(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                            SvgPicture.asset(Assets.checkIcSvg,),
-                              SvgPicture.asset(Assets.dimondIcSvg,),
-
-                            // Assets.checkIc.image(color: Colors.white),
-                            // Assets.dimondIc.image(color: Colors.white),
-                            Text(
-                              "22 H",
-                              style: getRegular14Style(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Sappire Plaza,Greater Noida, 0 Kms",
-                          style: getRegular14Style(color: Colors.white),
-                        ),
-                      ],
-                    ),
                 
-                    TextButton(
-                      onPressed: () {},
-                
-                      child: Card(
-                        color: Colors.deepPurpleAccent,
-                        shape: StadiumBorder(),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.deepPurpleAccent,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            "Reserve" ,
-                            style: getBold14Style(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                   
-                  ],
-                ),
+                TopSectionCard(isFollow: false, leadingImg: leadingImg, onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title),
+                        
 
                 TextButton(
                       onPressed: () {},
@@ -358,10 +286,8 @@ class ReelLoadedPage extends StatelessWidget {
             ),
           ),),
             ],
-          )
-          : Container(
-            alignment:.center,
-            child: Text("Video Loading"),),
-    );
+          );
+         
+    
   }
 }

@@ -8,7 +8,7 @@ import 'events.dart';
 import 'state.dart';
 
 class ReelBloc extends Bloc<ReelEvent, ReelState> {
-  ReelBloc() : super(ReelState.initial()) {
+  ReelBloc({required String title,required String subtitle,required String since,required bool isFollow,required String clubLogo}) : super(ReelState.initial()) {
     on<ReelInitEvent>(_onInit);
  
 }
@@ -17,18 +17,18 @@ class ReelBloc extends Bloc<ReelEvent, ReelState> {
     try {
       emit(state.copyWith(status: ReelStatus.loading));
 
-    VideoPlayerController controller = await VideoPlayerController.networkUrl(
-        Uri.parse(
-          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-        ),
-      );
+    // VideoPlayerController controller = await VideoPlayerController.networkUrl(
+    //     Uri.parse(
+    //       'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    //     ),
+    //   );
       
-      await controller.initialize();
-      controller.setLooping(true);
+      // await controller.initialize();
+      // controller.setLooping(true);
       emit(
         state.copyWith(
           status: ReelStatus.loaded,
-          controller: controller
+          // controller: controller
         ),
       );
     } catch (e) {
