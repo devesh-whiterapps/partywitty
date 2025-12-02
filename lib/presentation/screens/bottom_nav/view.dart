@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../gen/assets.gen.dart';
 import 'bloc.dart';
@@ -70,11 +71,11 @@ class BottomNavLoadedPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-           _buildNavItem(context,0, Assets.homeIc.path, 'Home'),
-            _buildNavItem(context,1, Assets.searchIc.path, 'Search'),
-            _buildNavItem(context,2,Assets.bidIc.path, 'Gavel'),
-            _buildNavItem(context,3, Assets.bookingIc.path, 'Bookmark'),
-            _buildNavItem(context,4,Assets.moreIc.path, 'More'),
+           _buildNavItem(context,0, Assets.homeIcSvg, 'Home'),
+            _buildNavItem(context,1, Assets.searchIcSvg, 'Search'),
+            _buildNavItem(context,2,Assets.bidIcSvg, 'Gavel'),
+            _buildNavItem(context,3, Assets.bookingIcSvg, 'Bookmark'),
+            _buildNavItem(context,4,Assets.moreIcSvg, 'More'),
           ],
         ),
       ),
@@ -100,7 +101,9 @@ class BottomNavLoadedPage extends StatelessWidget {
             : null,
         child: Row(
           children: [
-            Image.asset(icon,color: isSelected ? Colors.white : Color(0xFF454ABC)),
+            SvgPicture.asset(icon,color:isSelected ? Colors.white : Color(0xFF454ABC),),
+
+            // Image.asset(icon,color: isSelected ? Colors.white : Color(0xFF454ABC)),
             // Icon(
             //   icon,
             //   color: isSelected ? Colors.white : Colors.deepPurple,

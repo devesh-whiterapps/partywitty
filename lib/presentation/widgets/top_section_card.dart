@@ -66,6 +66,7 @@ class TopSectionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         SvgPicture.asset(Assets.checkIcSvg),
+                        !hideSince ?const SizedBox(width: 5):Container(),
                         !hideSince ?SvgPicture.asset(Assets.dimondIcSvg):Container(),
                         !hideSince ?const SizedBox(width: 5):Container(),
                         !hideSince ? Text(
@@ -107,7 +108,7 @@ class TopSectionCard extends StatelessWidget {
                 ),
               ):Container(),
          IconButton(onPressed: (){}, icon:  Icon(Icons.more_horiz,color: ColorManager.rightIcColor,)),
-            SizedBox(width: 3,)
+            SizedBox(width: 6,)
             ],
           );
   }

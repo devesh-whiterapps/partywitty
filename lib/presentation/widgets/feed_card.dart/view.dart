@@ -134,7 +134,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                           alignment: Alignment.bottomCenter,
                           child: Container(
                             width: 185,
-                            padding: EdgeInsets.symmetric(vertical: 4,horizontal: 10),
+                            padding: EdgeInsets.symmetric(vertical: 4,horizontal: 15),
                             decoration: BoxDecoration(
                               color: Colors.black.withAlpha(127)
                             ),
@@ -323,7 +323,7 @@ class FeedCardLoadedPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: width * 0.83,
+                  width: width * 0.82,
                   height: height,
                   child: switch (state.type!) {
                     'event' => Column(
@@ -369,7 +369,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              SvgPicture.asset(Assets.arrowRight2IcSvg),
+                              SvgPicture.asset(Assets.arrowRightIcSvg),
                              
                             ],
                           ),
@@ -380,7 +380,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                     //  'package'=>TopSectionCard(isFollow: true, leadingImg: "${state.packageItem?.clubLogo}", onFollow: onFollow, onMenu: onMenu, since: since, subTitle: subTitle, title: title);
                     'gallery' => SizedBox(
                       height: height,
-                      width: width*0.83,
+                      width: width*0.82,
                       child: Stack(
                         children: [
                           MultiImgCard(
@@ -389,7 +389,9 @@ class FeedCardLoadedPage extends StatelessWidget {
                                 .toList(),
                             onTap: () {
                               Navigator.of(context).pushNamed( Routes.multiImgPage,arguments: {
-    'images': state.galleryItem?.toJson()??{},
+    'images': List.generate(state.galleryItem?.images?.length??0, (index){
+      return state.galleryItem!.images![index].img;
+    }),
     'id': 123,
   },);
                             },
@@ -413,7 +415,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                           //   ):Container(),
                           Positioned(
                             bottom: 0,
-                            width: width * 0.83,
+                            width: width * 0.82,
                             height: 30,
                             child: Container(
                               color: ColorManager.followBtn,
@@ -480,7 +482,7 @@ class FeedCardLoadedPage extends StatelessWidget {
                   },
                 ),
       
-                const SizedBox(width: 3),
+                // const SizedBox(width: 3),
       
                 //SideBar Buttons
                 SizedBox(

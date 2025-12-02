@@ -2,6 +2,7 @@ import 'package:blur/blur.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/model/feed_model.dart';
@@ -162,7 +163,7 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.likeIc.image(color: Colors.white,scale: 0.4),
+                              SvgPicture.asset(Assets.likeIcSvg,height: 50,width: 50,),
                               Text(
                                 "${NumberFormat.compact().format(2560000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -177,7 +178,8 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.followerIc.image(color: Colors.white,scale: 0.4),
+                              SvgPicture.asset(Assets.followerIcSvg,height: 50,width: 50,),
+                              // Assets.followerIc.image(color: Colors.white,scale: 0.4),
                               Text(
                                 "${NumberFormat.compact().format(40000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -206,7 +208,8 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.likeIc.image(color: Colors.white,scale: 0.4),
+                              SvgPicture.asset(Assets.likeIcSvg,height: 50,width: 50,),
+                              // Assets.likeIc.image(color: Colors.white,scale: 0.4),
                               Text(
                                 "${NumberFormat.compact().format(2560000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -221,7 +224,9 @@ class ReelLoadedPage extends StatelessWidget {
                           onPressed: () {},
                           icon: Column(
                             children: [
-                              Assets.followerIc.image(color: Colors.white,scale: 0.4),
+                              SvgPicture.asset(Assets.followerIcSvg,height: 50,width: 50,),
+
+                              // Assets.followerIc.image(color: Colors.white,scale: 0.4),
                               Text(
                                 "${NumberFormat.compact().format(40000)}",
                                 style: getBold14Style(color: Colors.white),
@@ -271,9 +276,11 @@ class ReelLoadedPage extends StatelessWidget {
                                 fontSize: 14,
                               ),
                             ),
-                
-                            Assets.checkIc.image(color: Colors.white),
-                            Assets.dimondIc.image(color: Colors.white),
+                            SvgPicture.asset(Assets.checkIcSvg,),
+                              SvgPicture.asset(Assets.dimondIcSvg,),
+
+                            // Assets.checkIc.image(color: Colors.white),
+                            // Assets.dimondIc.image(color: Colors.white),
                             Text(
                               "22 H",
                               style: getRegular14Style(color: Colors.white),

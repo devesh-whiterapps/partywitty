@@ -91,7 +91,7 @@ class _SideBarState extends State<SideBar> {
               onPressed: widget.onFollow(),
               icon: Column(
                 children: [
-                  SvgPicture.asset(Assets.followerIcSvg),
+                  SvgPicture.asset(Assets.followerIcSvg,),
                   Text(
                     NumberFormat.compact().format(
                       widget.followCount,

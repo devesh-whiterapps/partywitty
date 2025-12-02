@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
@@ -143,7 +144,7 @@ class HomeLoadedPage extends StatelessWidget {
         children: [
           Positioned(
             top: 0,bottom: 0,right: 0,left: 0,
-            child: Assets.bgImg.image(fit: .fill)),
+            child: Assets.bgImgPng.image(fit: .fill)),
 
           Positioned.fill(
             child: Container(
@@ -196,7 +197,8 @@ class HomeLoadedPage extends StatelessWidget {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Assets.locationIc.image(),
+                                      SvgPicture.asset(Assets.locationIcSvg),
+
                                       const SizedBox(width: 8),
                                       Text(
                                         "Vasant Kunj",
@@ -206,7 +208,8 @@ class HomeLoadedPage extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(width: 4),
-                                      Assets.arrowDownIc.image(),
+                              SvgPicture.asset(Assets.arrowDownIcSvg),
+                                                                  
                                     ],
                                   ),
                                 ),
@@ -231,24 +234,18 @@ class HomeLoadedPage extends StatelessWidget {
                       ),
               
                       actions: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Transform.translate(
-                              offset: const Offset(
-                                0,
-                                -6,
-                              ), 
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4)
-                                ),
-                                child: Assets.bellIc.image(),
-                              ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Container(
+                            height: 45,width: 45,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: .rectangle,
+                              borderRadius: BorderRadius.circular(4)
                             ),
+                            child:SvgPicture.asset(Assets.bellIcSvg,height: 50,width: 50,),
+                          
                           ),
                         ),
                       ],

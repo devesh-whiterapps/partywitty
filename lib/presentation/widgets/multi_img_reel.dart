@@ -29,18 +29,20 @@ class _MultiImgReelState extends State<MultiImgReel> {
     final Map<String, dynamic> args = 
       ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       
-  final GalleryModel galleryModel = GalleryModel.fromJson(args['images']) ;
+  final List<String?> imgList = args['images'] ;
+  // print("1245 ${imgList![0]}");
   final int itemId = args['id'];
 
-    return  Stack(
+    return 
+    Scaffold(body: Stack(
       alignment: .center,
       children: [
         CarouselSlider(
           carouselController: _controller,
-          items: galleryModel.images!
+          items: imgList
               .map(
                 (url) =>CachedNetworkImage(
-  imageUrl: url.img??'',
+  imageUrl: url??'',
   fit: .fill,
   // Equivalent to the original loadingBuilder
   placeholder: (BuildContext context, String url) {
@@ -82,7 +84,7 @@ class _MultiImgReelState extends State<MultiImgReel> {
               .toList(),
             
                options: CarouselOptions(autoPlay: true,viewportFraction: 1,height: double.infinity,onPageChanged: (index, reason) => setState(() {
-                if(index<galleryModel.images!.length){
+                if(index<imgList!.length){
 pageIndex =index;
                 }
                  
@@ -130,7 +132,7 @@ pageIndex =index;
         //   });
         // },child:  Assets.arrowRight.image())),
       ],
-    );
+    ),); 
 
   
     
