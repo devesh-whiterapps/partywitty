@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:partywitty/domain/entities/feed/feed_item.dart';
 import 'package:partywitty/gen/assets.gen.dart';
 import 'package:partywitty/presentation/resources/color_manager.dart';
+import 'package:partywitty/presentation/screens/reel/view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MultiImgReel extends StatefulWidget {
@@ -30,11 +31,16 @@ class _MultiImgReelState extends State<MultiImgReel> {
       ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       
   final List<String?> imgList = args['images'] ;
-  // print("1245 ${imgList![0]}");
+  final String title = args['title'] ;
+  final String subTitle = args['subTitle'] ;
+  final String leadImg = args['leadImg'] ;
+  final String since = args['since'] ;
+  final int disc = args['disc'];
   final int itemId = args['id'];
 
     return 
-    Scaffold(body: Stack(
+    Scaffold(
+      body: Stack(
       alignment: .center,
       children: [
         CarouselSlider(
@@ -89,6 +95,7 @@ pageIndex =index;
                 }
                  
                }),)),
+          Positioned.fill(child: ReelPage(title: title, subTitle: subTitle, since: since, disc: disc, clubLogo: leadImg, id: itemId,width: MediaQuery.of(context).size.width,))
 
               // Positioned(bottom: 30, 
               //  child: Transform.scale(

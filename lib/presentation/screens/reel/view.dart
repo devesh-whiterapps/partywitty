@@ -348,10 +348,10 @@ class ReelLoadedPage extends StatelessWidget {
                                             fontSize: 14,
                                           ),
                                           overflow: .ellipsis,
-                                                                          maxLines: 1,
+                                          maxLines: 1,
                                         ),
                                         SvgPicture.asset(Assets.checkIcSvg,color: Colors.white,),
-                                          SvgPicture.asset(Assets.dimondIcSvg,color: Colors.white,),
+                                          state.since!.isNotEmpty? SvgPicture.asset(Assets.dimondIcSvg,color: Colors.white,):Container(),
                                                   
                                         // Assets.checkIc.image(color: Colors.white),
                                         // Assets.dimondIc.image(color: Colors.white),

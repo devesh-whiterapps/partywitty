@@ -399,6 +399,12 @@ class FeedCardLoadedPage extends StatelessWidget {
       return state.galleryItem!.images![index].img;
     }),
     'id': 123,
+
+    'title': state.galleryItem?.clubName,
+    'leadImg':state.galleryItem?.clubLogo,
+    'subTitle':state.galleryItem?.meta?.address,
+    'since':'',
+    'disc':int.parse("0")
   },);
                             },
                           ),
@@ -453,7 +459,13 @@ class FeedCardLoadedPage extends StatelessWidget {
                             GlobalState.instance.videoUrl = state.teaserItem?.video??'';
                             Future.delayed(const Duration(milliseconds: 900),(){
                               if(GlobalState.instance.videoUrl.isNotEmpty){
-                            Navigator.of(context).pushNamed(Routes.videoPage);
+                            Navigator.of(context).pushNamed(Routes.videoPage,arguments: {
+                              'title': state.eventItem?.clubName,
+    'leadImg':state.eventItem?.clubLogo,
+    'subTitle':state.eventItem?.address,
+    'since':state.eventItem?.eventTime,
+    'disc':int.parse(state.eventItem?.discount??"0")
+                            });
 
                               }
 
