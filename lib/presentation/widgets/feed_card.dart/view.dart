@@ -355,7 +355,7 @@ class FeedCardLoadedPage extends StatelessWidget {
     'leadImg':state.eventItem?.clubLogo,
     'subTitle':state.eventItem?.address,
     'since':state.eventItem?.eventTime,
-    'isFollow':false
+    'disc':int.parse(state.eventItem?.discount??"0")
 
                             });},
                           ),

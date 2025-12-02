@@ -37,15 +37,20 @@ class _SingleImgReelState extends State<SingleImgReel> {
 
   final String since = args['since'] ;
 
-  final String isFollow = args['isFollow'] ;
+  final int disc = args['disc'] ;
 
   final int itemId = args['id'];
 
-    return  Stack(
+    return 
+    Scaffold(
+      extendBody: true,
+      body: Stack(
       children: [
         Expanded(
             child: CachedNetworkImage(
               imageUrl: imageUrl,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               fit: .fill,
               // Equivalent to the original loadingBuilder
               placeholder: (BuildContext context, String url) {
@@ -82,10 +87,9 @@ class _SingleImgReelState extends State<SingleImgReel> {
             ),
           ),
 
-          Positioned.fill(child: ReelPage())
+          Positioned.fill(child: ReelPage(title: title, subTitle: subTitle, since: since, disc: disc, clubLogo: leadImg, id: itemId,width: MediaQuery.of(context).size.width,))
       ],
+    ),
     );
-    
-    
        }
 }

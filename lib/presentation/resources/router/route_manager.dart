@@ -30,8 +30,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>  HomePage(),settings: routeSettings);
        case Routes.bottomNav:
         return MaterialPageRoute(builder: (_) =>  BottomNavPage(),settings: routeSettings);
-        case Routes.reelPage:
-        return MaterialPageRoute(builder: (_) =>  ReelPage(),settings: routeSettings);
+        // case Routes.reelPage:
+        // return MaterialPageRoute(builder: (_) =>  ReelPage(),settings: routeSettings);
          case Routes.multiImgPage:
         return MaterialPageRoute(builder: (_) =>  MultiImgReel(),settings: routeSettings);
          case Routes.singleImgPage:

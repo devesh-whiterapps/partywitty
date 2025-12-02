@@ -8,8 +8,16 @@ import 'events.dart';
 import 'state.dart';
 
 class ReelBloc extends Bloc<ReelEvent, ReelState> {
-  ReelBloc({required String title,required String subtitle,required String since,required bool isFollow,required String clubLogo}) : super(ReelState.initial()) {
+  ReelBloc({required String title,required String subtitle,required String since,required String clubLogo,required int id,required int disc}) : super(ReelState.initial()) {
     on<ReelInitEvent>(_onInit);
+    emit(state.copyWith(
+      clubLogo: clubLogo,
+      since: since,
+      subTitle: subtitle,
+      disc: disc,
+      id: id,
+      title: title
+    ));
  
 }
 

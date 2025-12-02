@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,248 +55,251 @@ class HomeLoadedPage extends StatelessWidget {
     final state = context.watch<HomeBloc>().state;
     final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFE9EBDC).withOpacity(0.4),
-
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   automaticallyImplyLeading: false,
-      //   centerTitle: false,
-      //   leading: Container(
-      //     margin: const EdgeInsets.only(left: 10),
-      //     child: Assets.appLogo.image(scale: 0.9),
-      //   ),
-      //   title: Transform.translate(
-      //     offset: const Offset(-10, -4),
-      //     child: Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       mainAxisSize: MainAxisSize.min,
-      //       children: [
-      //         TextButton(
-      //           onPressed: () {},
-      //           style: ElevatedButton.styleFrom(
-      //             padding: const EdgeInsets.symmetric(horizontal: 5),
-      //           ),
-      //           child: Card(
-      //             elevation: 0,
-      //             shape: RoundedRectangleBorder(
-      //               borderRadius: BorderRadius.circular(0),
-      //             ),
-      //             child: Padding(
-      //               padding: const EdgeInsets.symmetric(
-      //                 vertical: 2.8,
-      //                 horizontal: 8,
-      //               ),
-      //               child: Row(
-      //                 mainAxisSize: MainAxisSize.min,
-      //                 children: [
-      //                   Assets.locationIc.image(),
-      //                   const SizedBox(width: 8),
-      //                   Text(
-      //                     "Vasant Kunj",
-      //                     style: GoogleFonts.lexend(
-      //                         fontSize: 10,
-      //                         color: Colors.black54
-      //                     ),
-      //                   ),
-      //                   const SizedBox(width: 4),
-      //                   Assets.arrowDownIc.image(),
-      //                 ],
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-
-      //         Transform.translate(
-      //           offset: const Offset(0, -7),
-      //           child: Padding(
-      //             padding: const EdgeInsets.only(left: 10),
-      //             child: Text(
-      //               "Asant Kunj Comes Under ...",
-      //               style: GoogleFonts.lexend(
-      //                   fontSize: 10,
-      //                   color: Colors.black54
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-
-      //   actions: [
-      //     Padding(
-      //       padding: const EdgeInsets.only(right: 8.0),
-      //       child: IconButton(
-      //         onPressed: () {},
-      //         icon: Transform.translate(
-      //           offset: const Offset(0, -6), // ← Icon को ऊपर ले गया
-      //           child: Container(
-      //             padding: const EdgeInsets.all(8),
-      //             decoration: BoxDecoration(color: Colors.white),
-      //             child: Assets.bellIc.image(),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,bottom: 0,right: 0,left: 0,
-            child: Assets.bgImgPng.image(fit: .fill)),
-
-          Positioned.fill(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 18),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.10),
-                    borderRadius: BorderRadius.circular(0),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.30),
-                      width: 1.2,
+    return PopScope(
+      onPopInvokedWithResult: (didPop,res) => SystemNavigator.pop(),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFE9EBDC).withOpacity(0.4),
+      
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   automaticallyImplyLeading: false,
+        //   centerTitle: false,
+        //   leading: Container(
+        //     margin: const EdgeInsets.only(left: 10),
+        //     child: Assets.appLogo.image(scale: 0.9),
+        //   ),
+        //   title: Transform.translate(
+        //     offset: const Offset(-10, -4),
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         TextButton(
+        //           onPressed: () {},
+        //           style: ElevatedButton.styleFrom(
+        //             padding: const EdgeInsets.symmetric(horizontal: 5),
+        //           ),
+        //           child: Card(
+        //             elevation: 0,
+        //             shape: RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(0),
+        //             ),
+        //             child: Padding(
+        //               padding: const EdgeInsets.symmetric(
+        //                 vertical: 2.8,
+        //                 horizontal: 8,
+        //               ),
+        //               child: Row(
+        //                 mainAxisSize: MainAxisSize.min,
+        //                 children: [
+        //                   Assets.locationIc.image(),
+        //                   const SizedBox(width: 8),
+        //                   Text(
+        //                     "Vasant Kunj",
+        //                     style: GoogleFonts.lexend(
+        //                         fontSize: 10,
+        //                         color: Colors.black54
+        //                     ),
+        //                   ),
+        //                   const SizedBox(width: 4),
+        //                   Assets.arrowDownIc.image(),
+        //                 ],
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+      
+        //         Transform.translate(
+        //           offset: const Offset(0, -7),
+        //           child: Padding(
+        //             padding: const EdgeInsets.only(left: 10),
+        //             child: Text(
+        //               "Asant Kunj Comes Under ...",
+        //               style: GoogleFonts.lexend(
+        //                   fontSize: 10,
+        //                   color: Colors.black54
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+      
+        //   actions: [
+        //     Padding(
+        //       padding: const EdgeInsets.only(right: 8.0),
+        //       child: IconButton(
+        //         onPressed: () {},
+        //         icon: Transform.translate(
+        //           offset: const Offset(0, -6), // ← Icon को ऊपर ले गया
+        //           child: Container(
+        //             padding: const EdgeInsets.all(8),
+        //             decoration: BoxDecoration(color: Colors.white),
+        //             child: Assets.bellIc.image(),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        body: Stack(
+          children: [
+            Positioned(
+              top: 0,bottom: 0,right: 0,left: 0,
+              child: Assets.bgImgPng.image(fit: .fill)),
+      
+            Positioned.fill(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 18),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.10),
+                      borderRadius: BorderRadius.circular(0),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.30),
+                        width: 1.2,
+                      ),
                     ),
-                  ),
-              
-                  child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    appBar: AppBar(
+                
+                    child: Scaffold(
                       backgroundColor: Colors.transparent,
-                      automaticallyImplyLeading: false,
-                      centerTitle: false,
-                      leading: Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Assets.appLogo.image(scale: 0.9),
-                      ),
-                      title: Transform.translate(
-                        offset: const Offset(-10, -4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                ),
-                              ),
-                              child: Card(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(0),
-                                ),
-                                child: Padding(
+                      appBar: AppBar(
+                        backgroundColor: Colors.transparent,
+                        automaticallyImplyLeading: false,
+                        centerTitle: false,
+                        leading: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Assets.appLogo.image(scale: 0.9),
+                        ),
+                        title: Transform.translate(
+                          offset: const Offset(-10, -4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 2.8,
-                                    horizontal: 8,
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SvgPicture.asset(Assets.locationIcSvg),
-
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        "Vasant Kunj",
-                                        style: GoogleFonts.lexend(
-                                          fontSize: 10,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                              SvgPicture.asset(Assets.arrowDownIcSvg),
-                                                                  
-                                    ],
+                                    horizontal: 5,
                                   ),
                                 ),
-                              ),
-                            ),
-              
-                            Transform.translate(
-                              offset: const Offset(0, -7),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  "Asant Kunj Comes Under ...",
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 10,
-                                    color: Colors.black54,
+                                child: Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0),
                                   ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-              
-                      actions: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Container(
-                            height: 45,width: 45,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: .rectangle,
-                              borderRadius: BorderRadius.circular(4)
-                            ),
-                            child:SvgPicture.asset(Assets.bellIcSvg,height: 50,width: 50,),
-                          
-                          ),
-                        ),
-                      ],
-                    ),
-                    body: PagingListener(
-                      controller: state.paginationController!,
-                      builder: (context, state, fetchNextPage) =>
-                          PagedListView<int, HomeItemModel>(
-                            physics: BouncingScrollPhysics(),
-                            cacheExtent: 80000,
-                            state: state,
-                            fetchNextPage: fetchNextPage,
-                            // itemExtent: 5.5,
-                            builderDelegate: PagedChildBuilderDelegate(
-                              itemBuilder: (context, item, index) =>
-                                  RepaintBoundary.wrap(
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 0,
-                                      ), // reduced gap
-                                      child: Container(
-                                        margin: EdgeInsets.symmetric(vertical: 5),
-                                        child: FeedCardPage(
-                                          key: ValueKey(index),
-                                          width: width,
-                                          item: item,
-                                          height: switch(item.type){
-                                              'event'=>575.27,
-                                              'package'=>256,
-                                              'teaser' =>579.27,
-                                              'gallery'=>430,
-                                            // TODO: Handle this case.
-                                            String() => throw UnimplementedError(),
-                                            // TODO: Handle this case.
-                                            null => throw UnimplementedError(),
-                                          },
-                                        ),
-                                      ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 2.8,
+                                      horizontal: 8,
                                     ),
-                                    index,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SvgPicture.asset(Assets.locationIcSvg),
+      
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          "Vasant Kunj",
+                                          style: GoogleFonts.lexend(
+                                            fontSize: 10,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                SvgPicture.asset(Assets.arrowDownIcSvg),
+                                                                    
+                                      ],
+                                    ),
                                   ),
+                                ),
+                              ),
+                
+                              Transform.translate(
+                                offset: const Offset(0, -7),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    "Asant Kunj Comes Under ...",
+                                    style: GoogleFonts.lexend(
+                                      fontSize: 10,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                
+                        actions: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Container(
+                              height: 45,width: 45,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: .rectangle,
+                                borderRadius: BorderRadius.circular(4)
+                              ),
+                              child:SvgPicture.asset(Assets.bellIcSvg,height: 50,width: 50,),
+                            
                             ),
                           ),
+                        ],
+                      ),
+                      body: PagingListener(
+                        controller: state.paginationController!,
+                        builder: (context, state, fetchNextPage) =>
+                            PagedListView<int, HomeItemModel>(
+                              physics: BouncingScrollPhysics(),
+                              cacheExtent: 80000,
+                              state: state,
+                              fetchNextPage: fetchNextPage,
+                              // itemExtent: 5.5,
+                              builderDelegate: PagedChildBuilderDelegate(
+                                itemBuilder: (context, item, index) =>
+                                    RepaintBoundary.wrap(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 0,
+                                        ), // reduced gap
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(vertical: 5),
+                                          child: FeedCardPage(
+                                            key: ValueKey(index),
+                                            width: width,
+                                            item: item,
+                                            height: switch(item.type){
+                                                'event'=>575.27,
+                                                'package'=>256,
+                                                'teaser' =>579.27,
+                                                'gallery'=>430,
+                                              // TODO: Handle this case.
+                                              String() => throw UnimplementedError(),
+                                              // TODO: Handle this case.
+                                              null => throw UnimplementedError(),
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      index,
+                                    ),
+                              ),
+                            ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
