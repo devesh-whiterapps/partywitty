@@ -460,11 +460,12 @@ class FeedCardLoadedPage extends StatelessWidget {
                             Future.delayed(const Duration(milliseconds: 900),(){
                               if(GlobalState.instance.videoUrl.isNotEmpty){
                             Navigator.of(context).pushNamed(Routes.videoPage,arguments: {
-                              'title': state.eventItem?.clubName,
-    'leadImg':state.eventItem?.clubLogo,
-    'subTitle':state.eventItem?.address,
-    'since':state.eventItem?.eventTime,
-    'disc':int.parse(state.eventItem?.discount??"0")
+                              'title': state.teaserItem?.clubName,
+                              'id': 123,
+    'leadImg':state.teaserItem?.clubLogo,
+    'subTitle':state.teaserItem?.meta?.address,
+    'since':'',
+    'disc':int.parse(state.teaserItem?.discount??"0")
                             });
 
                               }

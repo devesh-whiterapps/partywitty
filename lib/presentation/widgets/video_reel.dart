@@ -2,6 +2,7 @@ import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:partywitty/core/global_state.dart';
 import 'package:partywitty/gen/assets.gen.dart';
+import 'package:partywitty/presentation/screens/reel/view.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoReel extends StatefulWidget {
@@ -66,6 +67,16 @@ class _VideoReelState extends State<VideoReel> {
       ),);
       
     }
+
+    final Map<String, dynamic> args = 
+      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      
+  final String title = args['title'] ;
+  final String subTitle = args['subTitle'] ;
+  final String leadImg = args['leadImg'] ;
+  final String since = args['since'] ;
+  final int disc = args['disc'];
+  final int itemId = args['id'];
     return Scaffold(
       body: 
        Stack(
@@ -82,6 +93,9 @@ class _VideoReelState extends State<VideoReel> {
                   child: Assets.homePlayIc.image(),
                 ),
               ),
+          Positioned.fill(child: ReelPage(title: title, subTitle: subTitle, since: since, disc: disc, clubLogo: leadImg, id: itemId,width: MediaQuery.of(context).size.width,))
+
+
             ],
           )
         

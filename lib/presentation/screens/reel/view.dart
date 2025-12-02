@@ -334,7 +334,7 @@ class ReelLoadedPage extends StatelessWidget {
                               Positioned(
                     left: 65,bottom: 85,
                     child:SizedBox(
-                                width: width*0.5,
+                                width: width*0.55,
                                 child: Column(
                                   crossAxisAlignment: .start,
                                   children: [
