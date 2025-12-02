@@ -76,7 +76,7 @@ class ReelLoadedPage extends StatelessWidget {
           ? Stack(
             alignment: .center,
             children: [
-              VideoPlayer(state.controller!),
+              // VideoPlayer(state.controller!),
               Positioned(
                 top: 35,
                 child: Blur(

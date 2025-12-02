@@ -445,7 +445,13 @@ class FeedCardLoadedPage extends StatelessWidget {
                         VideoCard(
                           onTap: () {
                             GlobalState.instance.videoUrl = state.teaserItem?.video??'';
+                            Future.delayed(const Duration(milliseconds: 900),(){
+                              if(GlobalState.instance.videoUrl.isNotEmpty){
                             Navigator.of(context).pushNamed(Routes.videoPage);
+
+                              }
+
+                            });
                           },
                           url: "${state.teaserItem?.video}",
                         ),
