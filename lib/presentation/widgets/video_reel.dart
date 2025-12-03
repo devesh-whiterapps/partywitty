@@ -69,29 +69,28 @@ try{
         alignment: .center,
         children: [
           
-          Video(controller: controller..player.setAudioDevice(AudioDevice.auto())..player.pause(),fit: .fill,),
+          Video(controller: controller..player.setAudioDevice(AudioDevice.auto())..player.play(),fit: .fill,),
 
           //Play button
            Positioned(
                   child:!controller.player.state.playing? InkWell(
                     onTap: () {
                       controller.player.play();
-                      setState(() {
+                      // setState(() {
                         
-                      });
+                      // });
                     },
                     child: Assets.homePlayIc.image(),
                   ):InkWell(
                     onTap: () {
                       controller.player.pause();
-                      setState(() {
+                      // setState(() {
                         
-                      });
+                      // });
                     },
                     child: Icon(Icons.pause_circle_filled_outlined),
                   ),
-                )
-             ,
+                ),
           Positioned.fill(
             child: ReelPage(
               title: title,
