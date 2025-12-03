@@ -14,6 +14,7 @@ import 'package:partywitty/presentation/widgets/side_bar.dart';
 import 'package:partywitty/presentation/widgets/single_image_section.dart';
 import 'package:partywitty/presentation/widgets/top_section_card.dart';
 import 'package:partywitty/presentation/widgets/video_card.dart';
+import 'package:partywitty/presentation/widgets/video_reel.dart';
 
 import '../../../gen/assets.gen.dart';
 import 'bloc.dart';
@@ -455,22 +456,24 @@ class FeedCardLoadedPage extends StatelessWidget {
                     'teaser' => Stack(
                       children: [
                         VideoCard(
-                          onTap: () {
+                          onTap: ()  {
                             GlobalState.instance.videoUrl = state.teaserItem?.video??'';
-                            Future.delayed(const Duration(milliseconds: 900),(){
+                               Future.delayed(const Duration(milliseconds: 00),(){
                               if(GlobalState.instance.videoUrl.isNotEmpty){
-                            Navigator.of(context).pushNamed(Routes.videoPage,arguments: {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_)=>VideoReel(),settings: RouteSettings(arguments: {
                               'title': state.teaserItem?.clubName,
                               'id': 123,
     'leadImg':state.teaserItem?.clubLogo,
     'subTitle':state.teaserItem?.meta?.address,
     'since':'',
     'disc':int.parse(state.teaserItem?.discount??"0")
-                            });
+                            })));
 
                               }
 
                             });
+                             
+                           
                           },
                           url: "${state.teaserItem?.video}",
                         ),

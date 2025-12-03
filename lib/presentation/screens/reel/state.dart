@@ -1,7 +1,6 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' ;
-import 'package:video_player/video_player.dart';
 
 
 enum ReelStatus { initial, loading, loaded, error }
@@ -16,12 +15,12 @@ class ReelState extends Equatable {
   final int? disc;
   final int? id;
 
-VideoPlayerController? controller;
+// VideoPlayerController? controller;
 
    ReelState({
     required this.status,
     this.error,
-    this.controller,
+    // this.controller,
     this.clubLogo,
     this.id,
     this.disc,
@@ -39,7 +38,7 @@ VideoPlayerController? controller;
   ReelState copyWith({
     ReelStatus? status,
     String? error,
-    VideoPlayerController? controller,
+    // VideoPlayerController? controller,
        String? title,
    String? subTitle,
    String? clubLogo,
@@ -50,7 +49,7 @@ VideoPlayerController? controller;
     return ReelState(
       status: status ?? this.status,
       error: error ?? this.error,
-      controller: controller?? this.controller,
+      // controller: controller?? this.controller,
       id: id?? this.id,
       title: title?? this.title,
       subTitle: subTitle?? this.subTitle,
@@ -61,5 +60,5 @@ VideoPlayerController? controller;
   }
 
   @override
-  List<Object?> get props => [status, error,controller,disc,since,title,subTitle,id];
+  List<Object?> get props => [status, error,disc,since,title,subTitle,id];
 }

@@ -6,13 +6,6 @@ class GlobalState extends ChangeNotifier {
   factory GlobalState() => instance;
   GlobalState._internal();
 
-  String _videoUrl = '';
-  String get videoUrl => _videoUrl;
+  String videoUrl = '';
 
-  set videoUrl(String url) {
-    if (_videoUrl != url) {
-      _videoUrl = url;
-      notifyListeners(); // <-- THIS IS THE KEY
-    }
-  }
 }

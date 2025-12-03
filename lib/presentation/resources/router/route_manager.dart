@@ -37,7 +37,7 @@ class RouteGenerator {
          case Routes.singleImgPage:
         return MaterialPageRoute(builder: (_) =>  SingleImgReel(),settings: routeSettings);
          case Routes.videoPage:
-        return MaterialPageRoute(builder: (_) =>  VideoReel(),settings: routeSettings);
+        // return MaterialPageRoute(builder: (_) =>  VideoReel(),settings: routeSettings);
       default:
         return unDefinedRoute();
     }

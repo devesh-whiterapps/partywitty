@@ -18,8 +18,8 @@ dependencies:
   dev_bloc_cli: ^0.0.7
   equatable: ^2.0.7
   intl: ^0.20.2
-  cached_video_player_plus: ^4.0.4
-  video_player: ^2.10.0
+  # cached_video_player_plus: ^4.0.4
+  # video_player: ^2.10.0
   
   carousel_slider: ^5.1.1
   smooth_page_indicator: ^1.2.1
@@ -32,6 +32,10 @@ dependencies:
   infinite_scroll_pagination: ^5.1.1
   cached_network_image: ^3.4.1
   flutter_svg: ^2.2.3
+  media_kit: ^1.2.3 # Primary package.
+  media_kit_video: ^2.0.1 # For video rendering.
+  media_kit_libs_video: ^1.0.7 # Native video dependencies.
+  # media_kit_libs_audio: ^1.0.7 
 
 dev_dependencies:
   flutter_test:
