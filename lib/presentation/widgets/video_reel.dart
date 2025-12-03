@@ -72,15 +72,26 @@ try{
           Video(controller: controller..player.setAudioDevice(AudioDevice.auto())..player.pause(),fit: .fill,),
 
           //Play button
-          !controller.player.state.playing? Positioned(
-                  child: InkWell(
+           Positioned(
+                  child:!controller.player.state.playing? InkWell(
                     onTap: () {
                       controller.player.play();
+                      setState(() {
+                        
+                      });
                     },
                     child: Assets.homePlayIc.image(),
+                  ):InkWell(
+                    onTap: () {
+                      controller.player.pause();
+                      setState(() {
+                        
+                      });
+                    },
+                    child: Icon(Icons.pause_circle_filled_outlined),
                   ),
                 )
-              : Container(),
+             ,
           Positioned.fill(
             child: ReelPage(
               title: title,
