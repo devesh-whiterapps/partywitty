@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
   final int currentIndex;
@@ -74,7 +75,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F0), // Light beige/off-white
+        color: const Color(0xFFF5F5F0),
         borderRadius: BorderRadius.circular(70),
         boxShadow: [
           BoxShadow(
@@ -131,35 +132,38 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
                 onTap: () => widget.onTap?.call(index),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
+                    horizontal: 10,
+                    vertical: 6,
                   ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.purple[700]!, Colors.blue[400]!],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xFF5D50B6), // Same as booking tab
+                        Color(0xFF2943C3), // Same as booking tab
+                      ],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
                     ),
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.purple.withValues(alpha: 0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                    borderRadius: BorderRadius.circular(40),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      icon,
-                      const SizedBox(width: 8),
+                      // Apply white color filter to icon when selected
+                      ColorFiltered(
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                        child: icon,
+                      ),
+                      const SizedBox(width: 2),
                       Text(
                         label,
-                        style: const TextStyle(
+                        style: GoogleFonts.lexend(
                           color: Colors.white,
                           fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -196,27 +200,27 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
                 onTap: () => widget.onTap?.call(index),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 10,
+                    horizontal: 10,
+                    vertical: 6,
                   ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFF7464E4),
+                        Color(0xFF5D50B6), // 20% darker than 0xFF7464E4
                         // Colors.purple[700]!,
-                        Color(0xFF3354F4),
+                        Color(0xFF2943C3), // 20% darker than 0xFF3354F4
                       ],
                       begin: Alignment.bottomLeft,
                       end: Alignment.topRight,
                     ),
                     borderRadius: BorderRadius.circular(40),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.purple.withValues(alpha: 0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.purple.withValues(alpha: 0.3),
+                    //     blurRadius: 8,
+                    //     offset: const Offset(0, 4),
+                    //   ),
+                    // ],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -224,15 +228,17 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
                       // Calendar + Shopping cart icon
                       Stack(
                         children: [
-                          // const Icon(
-                          //   Icons.calendar_today,
-                          //   color: Colors.white,
-                          //   size: 20,
-                          // ),
-                          Image.asset(
-                            'assets/icons/booking.png',
-                            width: 24,
-                            height: 24,
+                          // Apply white color filter to booking icon when selected
+                          ColorFiltered(
+                            colorFilter: const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                            child: Image.asset(
+                              'assets/icons/booking.png',
+                              width: 24,
+                              height: 24,
+                            ),
                           ),
                           // Positioned(
                           //   right: -4,
@@ -252,43 +258,47 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
                           // ),
                         ],
                       ),
-                      const SizedBox(width: 8),
-                      const Text(
+                      const SizedBox(width: 2),
+                      Text(
                         'Booking',
-                        style: TextStyle(
+                        style: GoogleFonts.lexend(
                           color: Colors.white,
                           fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       if (badge != null) ...[
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 2),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
+                          // padding: const EdgeInsets.symmetric(
+                          //   horizontal: 6,
+                          //   vertical: 2,
+                          // ),
+                          width: 15,
+                          height: 15,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
                           ),
-                          child: Container(
-                            padding: const EdgeInsets.all(0),
-                            // decoration: BoxDecoration(
-                            //   gradient: LinearGradient(
-                            //     colors: [
-                            //       Colors.purple[700]!,
-                            //       Colors.blue[400]!,
-                            //     ],
-                            //   ),
-                            //shape: BoxShape.circle,
-                            //),
-                            child: Text(
-                              badge,
-                              style: const TextStyle(
-                                color: Color(0xFF3354F4),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                          child: Center(
+                            child: Container(
+                              padding: const EdgeInsets.all(0),
+                              // decoration: BoxDecoration(
+                              //   gradient: LinearGradient(
+                              //     colors: [
+                              //       Colors.purple[700]!,
+                              //       Colors.blue[400]!,
+                              //     ],
+                              //   ),
+                              //shape: BoxShape.circle,
+                              //),
+                              child: Text(
+                                badge,
+                                style: GoogleFonts.lexend(
+                                  color: Color(0xFF3354F4),
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
                           ),
@@ -307,12 +317,15 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
         onTap: () => widget.onTap?.call(index),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          // child: _GradientIcon(
-          //   icon: Icons.calendar_today_outlined,
-          //   size: 24,
-          //   isSelected: false,
-          // ),
-          child: Icon(Icons.calendar_today_outlined, size: 24),
+          child: _GradientIcon(
+            icon: Image.asset(
+              'assets/icons/booking.png',
+              width: 24,
+              height: 24,
+            ),
+            size: 24,
+            isSelected: false,
+          ),
         ),
       );
     }
@@ -336,14 +349,14 @@ class _GradientIcon extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (Rect bounds) {
         return LinearGradient(
-          colors: [Colors.purple[700]!, Colors.blue[400]!],
+          colors: [
+            Color(0xFF5D50B6), // Same gradient as booking tab
+            Color(0xFF2943C3), // Same gradient as booking tab
+          ],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
         ).createShader(bounds);
       },
-      // child: Icon(
-      //   icon as IconData,
-      //   size: size,
-      //   color: Colors.white, // This will be replaced by the gradient
-      // ),
       child: icon,
     );
   }

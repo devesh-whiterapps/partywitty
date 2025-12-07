@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/models/user_activity_model.dart';
 
-/// Reusable user activity section widget
-/// Shows stacked avatars and activity text
+
 class UserActivitySection extends StatelessWidget {
   final List<UserActivityModel> users;
 

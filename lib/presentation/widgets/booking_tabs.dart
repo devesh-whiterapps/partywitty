@@ -4,7 +4,7 @@ import '../bloc/booking/booking_bloc.dart';
 import '../bloc/booking/booking_event.dart';
 import '../bloc/booking/booking_state.dart';
 
-/// Tab bar widget for booking types
+
 class BookingTabs extends StatelessWidget {
   final List<String> tabs;
 

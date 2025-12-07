@@ -3,7 +3,7 @@ import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../screens/event_details_screen.dart';
 
-/// Event details card with full information
+
 class EventDetailsCard extends StatelessWidget {
   final EventModel event;
   final ArtistModel artist;

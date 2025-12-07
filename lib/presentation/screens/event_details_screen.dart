@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:partywitty/presentation/widgets/gradient_background.dart';
 import 'package:partywitty/presentation/widgets/unified_event_card.dart';
 import 'package:partywitty/presentation/widgets/inclusions_dialog.dart';
@@ -6,7 +9,6 @@ import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../../domain/models/ticket_model.dart';
 
-/// Event details screen with payment QR and ticket options
 class EventDetailsScreen extends StatelessWidget {
   final EventModel event;
   final ArtistModel artist;
@@ -23,50 +25,12 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Sample data - in real app, this would come from a repository
-    final featuredEvent = EventModel(
-      id: '1',
-      title: 'Desi Techno Tuesdays',
-      venue: 'FLOAT BY DUTY FREE',
-      location: 'DLP Phase 3, Gurugram',
-      imageUrl: '',
-      date: 'Today',
-      time: '10:00 PM Onwards',
-      type: 'Carnival',
-      rating: 4.1,
-      reviewCount: 3,
-      eventCategory: 'Stand-up Comedy',
-      inclusions: ['3 Starters', '2 Main Course'],
-      advancePaid: 1800,
-      balanceAmount: 3800,
-      distance: 1.2,
-    );
+    // Use the passed event data
+    final featuredEvent = event;
+    final eventDetails = event;
 
-    final eventDetails = EventModel(
-      id: '2',
-      title: 'Sitar Magic by Rishabh Rikhiram Sharma',
-      venue: 'F-Bar',
-      location: 'DLP Phase 3, Gurugram',
-      imageUrl: '',
-      date: 'Today',
-      time: '10:00 PM Onwards',
-      type: 'Event',
-      rating: 4.1,
-      reviewCount: 3,
-      eventCategory: 'Stand-up Comedy',
-      inclusions: ['3 Starters', '2 Main Course'],
-      advancePaid: 1800,
-      balanceAmount: 3800,
-      distance: 1.2,
-    );
-
-    final artist = ArtistModel(
-      id: '1',
-      name: 'Malvika Khanna',
-      imageUrl: '',
-      role: 'Artist',
-    );
-
+    // Default tickets - in a real app, these would come from the booking data
+    // For now, using sample data based on the event
     final tickets = [
       TicketModel(
         id: '1',
@@ -74,26 +38,29 @@ class EventDetailsScreen extends StatelessWidget {
         type: 'Single',
         category: 'Domestic',
         price: 1800,
+        // price: event.advancePaid,
         quantity: 1,
-        inclusions: ['3 Starters', '2 Main Course'],
+        inclusions: event.inclusions,
       ),
       TicketModel(
         id: '2',
         title: 'General Pass (Domestic Liquor & Food)',
         type: 'Couple',
         category: 'Domestic',
-        price: 1800,
+        price: event.advancePaid,
         quantity: 2,
-        inclusions: ['3 Starters', '2 Main Course'],
+        inclusions: event.inclusions,
       ),
+
       TicketModel(
-        id: '3',
-        title: 'General Pass (Imported Liquor & Food)',
+        id: '1',
+        title: 'General Pass (Domestic Liquor & Food)',
         type: 'Single',
-        category: 'Imported',
+        category: 'Domestic',
         price: 1800,
+        // price: event.advancePaid,
         quantity: 1,
-        inclusions: ['3 Starters', '2 Main Course'],
+        inclusions: event.inclusions,
       ),
     ];
 
@@ -109,15 +76,20 @@ class EventDetailsScreen extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  icon: Image.asset(
+                    'assets/icons/arrow_back.png',
+                    width: 16,
+                    height: 13,
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: const Text(
+                titleSpacing: -10,
+                title: Text(
                   'Details',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.lexend(
+                    color: Color(0xff070707),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 centerTitle: false,
@@ -135,12 +107,8 @@ class EventDetailsScreen extends StatelessWidget {
                         _buildPaymentSection(),
                         const SizedBox(height: 0),
 
-                        // Unified event card - in event details screen:
-                        // - No user activity section
-                        // - No inclusions, payment details, or offer button (those are shown separately in payment section)
                         UnifiedEventCard(
-                          users:
-                              null, // Don't show user activity in event details
+                          users: null,
                           featuredEvent: featuredEvent,
                           eventDetails: eventDetails,
                           artist: artist,
@@ -169,141 +137,162 @@ class EventDetailsScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(2),
+        color: Colors.white.withValues(alpha: 0.71),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Color(0xffF3F4F6), width: 1),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 13.0),
-        child: Column(
-          children: [
-            // QR Code
-            Center(
-              child: Column(
-                children: [
-                  Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      // color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(4),
-                      // border: Border.all(color: Colors.grey[400]!),
-                    ),
-                    child: ClipRRect(
-                      //  borderRadius: BorderRadius.circular(4),
-                      child: Image.asset(
-                        "assets/images/generated_qr.png",
-                        width: 176,
-                        height: 176,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Generated payment QR',
-                    style: TextStyle(
-                      color: Color(0xff7464E4),
-                      fontSize: 14,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ],
-              ),
+      child: ClipRRect(
+        // borderRadius: BorderRadius.circular(2),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 13.0,
+              vertical: 13.0,
             ),
-            const SizedBox(height: 20),
-            // Advance Amount
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                //borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Advance Amount',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    '₹${advancePaid.toStringAsFixed(0)}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green[700],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-            // Balance Amount
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                // borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
+            child: Column(
+              children: [
+                // QR Code
+                Center(
+                  child: Column(
                     children: [
-                      Text(
-                        'Balance Amount',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
+                      Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Color(0xffF8F9FA),
+                          borderRadius: BorderRadius.circular(4),
+                          // border: Border.all(color: Colors.grey[400]!),
+                        ),
+                        child: ClipRRect(
+                          //  borderRadius: BorderRadius.circular(4),
+                          child: Image.asset(
+                            "assets/images/generated_qr.png",
+                            width: 176,
+                            height: 176,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                      const SizedBox(height: 8),
                       Text(
-                        '₹${balanceAmount.toStringAsFixed(0)}',
-                        style: const TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
+                        'Generated payment QR',
+                        style: TextStyle(
+                          color: Color(0xff7464E4),
+                          fontSize: 14,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 10),
-                  Row(
+                ),
+                const SizedBox(height: 20),
+                // Advance Amount
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xffECECE9).withValues(alpha: 0.71),
+                    //borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(width: 12),
-
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                            colors: [Color(0xff7464E4), Color(0xff1A00D2)],
-                          ),
-                          // borderRadius: BorderRadius.circular(8),
+                      Text(
+                        'Advance Amount',
+                        style: GoogleFonts.lexend(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff070707),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 8,
+                      ),
+                      Spacer(),
+                      Text(
+                        '₹${advancePaid.toStringAsFixed(0)}',
+                        style: GoogleFonts.lexend(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff16A34A),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Balance Amount
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xffECECE9).withValues(alpha: 0.71),
+                    // borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            'Balance Amount',
+                            style: GoogleFonts.lexend(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff070707),
+                            ),
                           ),
-                          child: Center(
-                            child: Text(
-                              'Pay Now',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                          Text(
+                            '₹${balanceAmount.toStringAsFixed(0)}',
+                            style: GoogleFonts.lexend(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xff070707),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: 10),
+                      Row(
+                        children: [
+                          const SizedBox(width: 12),
+
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                colors: [Color(0xff7464E4), Color(0xff1A00D2)],
+                              ),
+                              // borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                                vertical: 8,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Pay Now',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -313,7 +302,7 @@ class EventDetailsScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.75),
         borderRadius: BorderRadius.circular(2),
         boxShadow: [
           BoxShadow(
@@ -323,18 +312,27 @@ class EventDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Tickets Pass',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Tickets Pass',
+                  style: GoogleFonts.lexend(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ...tickets.map((ticket) => _buildTicketCard(context, ticket)),
+              ],
             ),
-            const SizedBox(height: 12),
-            ...tickets.map((ticket) => _buildTicketCard(context, ticket)),
-          ],
+          ),
         ),
       ),
     );
@@ -347,20 +345,24 @@ class EventDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withValues(alpha: 0.1),
+        //     blurRadius: 4,
+        //     offset: const Offset(0, 2),
+        //   ),
+        // ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '${ticket.title} || ${ticket.type}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: GoogleFonts.lexend(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xff4f4f4f),
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -381,9 +383,9 @@ class EventDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     '₹${ticket.price.toStringAsFixed(0)}',
-                    style: TextStyle(
+                    style: GoogleFonts.lexend(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: Color(0xff7464E4),
                     ),
                   ),
@@ -427,10 +429,10 @@ class EventDetailsScreen extends StatelessWidget {
                     ),
                     child: Text(
                       'Inclusions',
-                      style: TextStyle(
+                      style: GoogleFonts.lexend(
                         color: Color(0xff7464E4),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -448,10 +450,10 @@ class EventDetailsScreen extends StatelessWidget {
                     ),
                     child: Text(
                       'T&C',
-                      style: TextStyle(
+                      style: GoogleFonts.lexend(
                         color: Color(0xff7464E4),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                         decoration: TextDecoration.underline,
                       ),
                     ),

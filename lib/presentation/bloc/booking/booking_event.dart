@@ -18,3 +18,23 @@ class ChangeBookingTabEvent extends BookingEvent {
   List<Object?> get props => [tabName];
 }
 
+/// Event to fetch booking history
+class FetchBookingHistoryEvent extends BookingEvent {
+  final String userId;
+  final String longitude;
+  final String latitude;
+  final String type; // 'upcoming' or 'past'
+  final String? sessionCookie;
+
+  const FetchBookingHistoryEvent({
+    required this.userId,
+    required this.longitude,
+    required this.latitude,
+    required this.type,
+    this.sessionCookie,
+  });
+
+  @override
+  List<Object?> get props => [userId, longitude, latitude, type, sessionCookie];
+}
+

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../screens/event_details_screen.dart';
 
-/// Reusable event details section widget
-/// Can optionally show/hide inclusions, payment details, and offer button
 class EventDetailsSection extends StatelessWidget {
   final EventModel eventDetails;
   final ArtistModel artist;
@@ -26,10 +25,10 @@ class EventDetailsSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
       decoration: const BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
+          bottomLeft: Radius.circular(4),
+          bottomRight: Radius.circular(4),
         ),
       ),
       child: Column(
@@ -128,16 +127,40 @@ class EventDetailsSection extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           eventDetails.venue,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          style: GoogleFonts.lexend(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff070707),
+          ),
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 4),
         Icon(Icons.star, color: Colors.amber[700], size: 18),
         const SizedBox(width: 4),
-        Text('${eventDetails.rating}', style: const TextStyle(fontSize: 14)),
+        Text(
+          '${eventDetails.rating}',
+          style: GoogleFonts.lexend(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff070707),
+          ),
+        ),
         const SizedBox(width: 4),
         Text(
-          'Review (${eventDetails.reviewCount.toString().padLeft(2, '0')})',
-          style: TextStyle(fontSize: 14, color: Colors.black),
+          'Review ',
+          style: GoogleFonts.lexend(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            decoration: TextDecoration.underline,
+            color: Color(0xff070707),
+          ),
+        ),
+        Text(
+          '(${eventDetails.reviewCount.toString().padLeft(2, '0')})',
+          style: GoogleFonts.lexend(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff070707),
+          ),
         ),
       ],
     );
@@ -149,8 +172,19 @@ class EventDetailsSection extends StatelessWidget {
       children: [
         Icon(Icons.location_on_outlined, color: Colors.grey[700], size: 20),
         const SizedBox(width: 6),
-        Text(eventDetails.location, style: const TextStyle(fontSize: 14)),
-        const SizedBox(width: 16),
+        Flexible(
+          child: Text(
+            eventDetails.location,
+            style: GoogleFonts.lexend(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Color(0xff4F4F4F),
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        const SizedBox(width: 15),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
@@ -182,7 +216,14 @@ class EventDetailsSection extends StatelessWidget {
       children: [
         Icon(Icons.theater_comedy_outlined, color: Colors.grey[900], size: 20),
         const SizedBox(width: 6),
-        Text(eventDetails.eventCategory, style: const TextStyle(fontSize: 14)),
+        Text(
+          eventDetails.eventCategory,
+          style: GoogleFonts.lexend(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xff4F4F4F),
+          ),
+        ),
       ],
     );
   }
@@ -191,9 +232,13 @@ class EventDetailsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Inclusion:',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          style: GoogleFonts.lexend(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff070707),
+          ),
         ),
         const SizedBox(height: 6),
         Wrap(
@@ -203,12 +248,19 @@ class EventDetailsSection extends StatelessWidget {
             ...eventDetails.inclusions
                 .take(2)
                 .map(
-                  (item) =>
-                      Text("• ${item}", style: const TextStyle(fontSize: 13)),
+                  (item) => Text(
+                    "• ${item}",
+                    style: GoogleFonts.lexend(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff4F4F4F),
+                    ),
+                  ),
                 ),
             Text(
               '10+ More',
-              style: TextStyle(
+              style: GoogleFonts.lexend(
+                decoration: TextDecoration.underline,
                 fontSize: 13,
                 color: Color(0xff7464E4),
                 fontWeight: FontWeight.w500,
@@ -226,20 +278,20 @@ class EventDetailsSection extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Advance Paid',
-              style: TextStyle(
+              style: GoogleFonts.lexend(
                 fontSize: 14,
                 color: Color(0xff070707),
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 1),
             Text(
               '₹${eventDetails.advancePaid.toStringAsFixed(0)}',
-              style: const TextStyle(
+              style: GoogleFonts.lexend(
                 fontSize: 15,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w400,
                 color: Color(0xff008000),
               ),
             ),
@@ -265,20 +317,28 @@ class EventDetailsSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Use Partywitty Pay',
-                    style: TextStyle(fontSize: 12),
+                    style: GoogleFonts.lexend(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xffffffff),
+                    ),
                     textAlign: TextAlign.center,
                   ),
-                  const Text(
-                    'Balance Amount - ₹3800',
-                    style: TextStyle(fontSize: 12),
+                  Text(
+                    'Balance Amount - ₹${eventDetails.balanceAmount.toStringAsFixed(0)}',
+                    style: GoogleFonts.lexend(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xffffffff),
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 5),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -326,9 +386,9 @@ class EventDetailsSection extends StatelessWidget {
           child: Center(
             child: Text(
               'Get Flat 25% Off On Food & Bever.',
-              style: TextStyle(
+              style: GoogleFonts.lexend(
                 fontSize: 13,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 color: Colors.white,
               ),
             ),
@@ -338,4 +398,3 @@ class EventDetailsSection extends StatelessWidget {
     );
   }
 }
-

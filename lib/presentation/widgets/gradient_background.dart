@@ -18,7 +18,7 @@ class GradientBackground extends StatelessWidget {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color(0xFFDBF658).withOpacity(0.2), // Top right - DBF658
+              Color(0xFFDBF658).withOpacity(0.15), // Top right - DBF658
               Color(
                 0xFFF6C656,
               ).withOpacity(0.2), // Slightly above bottom right - F6C656

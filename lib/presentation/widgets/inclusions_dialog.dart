@@ -1,6 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-/// Dialog showing ticket inclusions organized by categories
 class InclusionsDialog extends StatefulWidget {
   final Map<String, List<String>> inclusionsByCategory;
 
@@ -24,131 +25,134 @@ class _InclusionsDialogState extends State<InclusionsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.grey[400],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      child: Container(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //  Top indicator
-          Container(
-            margin: const EdgeInsets.only(top: 12),
-            width: 60,
-            height: 6,
-            decoration: BoxDecoration(
-              color: Colors.grey[700],
-              borderRadius: BorderRadius.circular(6),
-            ),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.7),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
-          // Title
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Ticket Inclusion',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //  Top indicator
+            Container(
+              margin: const EdgeInsets.only(top: 12),
+              width: 60,
+              height: 6,
+              decoration: BoxDecoration(
+                color: Colors.grey[700],
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+            // Title
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Ticket Inclusion',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
-          ),
-          // Inclusions list
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              bottom: 16.0,
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                // color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(4),
+            // Inclusions list
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                bottom: 16.0,
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: CustomPaint(
-                  //   painter: _DottedBorderPainter(),
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Column(
-                      children: [
-                        // ...widget.inclusionsByCategory.entries
-                        //     .toList()
-                        //     .asMap()
-                        //     .entries
-                        //     .map((entry) {
-                        //       final index = entry.key;
-                        //       final categoryEntry = entry.value;
-                        //       final category = categoryEntry.key;
-                        //       final items = categoryEntry.value;
-                        //       final isExpanded =
-                        //           _expandedCategories[category] ?? false;
-                        //       final isLast =
-                        //           index ==
-                        //           widget.inclusionsByCategory.length - 1;
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: CustomPaint(
+                    //   painter: _DottedBorderPainter(),
+                    child: Container(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Column(
+                        children: [
+                          // ...widget.inclusionsByCategory.entries
+                          //     .toList()
+                          //     .asMap()
+                          //     .entries
+                          //     .map((entry) {
+                          //       final index = entry.key;
+                          //       final categoryEntry = entry.value;
+                          //       final category = categoryEntry.key;
+                          //       final items = categoryEntry.value;
+                          //       final isExpanded =
+                          //           _expandedCategories[category] ?? false;
+                          //       final isLast =
+                          //           index ==
+                          //           widget.inclusionsByCategory.length - 1;
 
-                        //       return _buildCategorySection(
-                        //         category: category,
-                        //         items: items,
-                        //         isExpanded: isExpanded,
-                        //         isLast: isLast,
-                        //       );
-                        //     }),
-                        _buildCategorySection(
-                          category: 'Starters',
-                          items: [
-                            'Paneer Tikka',
-                            'Chicken Wings',
-                            'Spring Rolls',
-                          ],
-                          isExpanded: false,
-                          isLast: false,
-                        ),
-                        SizedBox(height: 2),
-                        _buildCategorySection(
-                          category: 'Main Course',
-                          items: [
-                            'Butter Chicken',
-                            'Biryani',
-                            'Dal Makhani',
-                            'Naan',
-                          ],
-                          isExpanded: false,
-                          isLast: false,
-                        ),
-                        SizedBox(height: 2),
-                        _buildCategorySection(
-                          category: 'Desserts',
-                          items: ['Gulab Jamun', 'Ice Cream', 'Brownie'],
-                          isExpanded: false,
-                          isLast: false,
-                        ),
-                        SizedBox(height: 2),
-                        _buildCategorySection(
-                          category: 'Drinks',
-                          items: ['Soft Drinks', 'Mocktails', 'Water'],
-                          isExpanded: false,
-                          isLast: false,
-                        ),
-                      ],
+                          //       return _buildCategorySection(
+                          //         category: category,
+                          //         items: items,
+                          //         isExpanded: isExpanded,
+                          //         isLast: isLast,
+                          //       );
+                          //     }),
+                          _buildCategorySection(
+                            category: 'Starters',
+                            items: [
+                              'Paneer Tikka',
+                              'Chicken Wings',
+                              'Spring Rolls',
+                            ],
+                            isExpanded: false,
+                            isLast: false,
+                          ),
+                          SizedBox(height: 2),
+                          _buildCategorySection(
+                            category: 'Main Course',
+                            items: [
+                              'Butter Chicken',
+                              'Biryani',
+                              'Dal Makhani',
+                              'Naan',
+                            ],
+                            isExpanded: false,
+                            isLast: false,
+                          ),
+                          SizedBox(height: 2),
+                          _buildCategorySection(
+                            category: 'Desserts',
+                            items: ['Gulab Jamun', 'Ice Cream', 'Brownie'],
+                            isExpanded: false,
+                            isLast: false,
+                          ),
+                          SizedBox(height: 2),
+                          _buildCategorySection(
+                            category: 'Drinks',
+                            items: ['Soft Drinks', 'Mocktails', 'Water'],
+                            isExpanded: false,
+                            isLast: false,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

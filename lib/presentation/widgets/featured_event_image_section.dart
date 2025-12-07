@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/models/event_model.dart';
 
-/// Reusable featured event image section widget
-/// Shows the event image with overlay elements (bookmark, share, date/time banner)
 class FeaturedEventImageSection extends StatelessWidget {
   final EventModel featuredEvent;
 
@@ -38,11 +36,11 @@ class FeaturedEventImageSection extends StatelessWidget {
           // Bottom banner with date/time
           Positioned(
             bottom: -28,
-            left: 43,
+            left: (MediaQuery.of(context).size.width - 330) / 2,
             child: Container(
               padding: const EdgeInsets.only(bottom: 0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Stack(
                     clipBehavior: Clip.none,
@@ -75,11 +73,86 @@ class FeaturedEventImageSection extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Image.asset(
-                    'assets/images/carnival_container.png',
-                    width: 120,
-                    height: 90,
+
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(
+                        'assets/icons/carnival_container.png',
+                        width: 100,
+                        height: 70,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      Positioned.fill(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/celebration.png',
+                                  width: 13,
+                                  height: 13,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Carnival',
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  // Image.asset(
+                  //   'assets/icons/carnival_container.png',
+                  //   width: 120,
+                  //   height: 90,
+                  // ),
+                  // Container(
+                  //   width: 100,
+                  //   height: 90,
+                  //   padding: const EdgeInsets.all(0.0),
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: AssetImage(
+                  //         'assets/icons/carnival_container.png',
+                  //       ),
+                  //       // fit: BoxFit
+                  //       //     .cover, // or BoxFit.fill, BoxFit.contain, etc.
+                  //     ),
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Image.asset(
+                  //         'assets/icons/celebration.png',
+                  //         width: 13,
+                  //         height: 13,
+                  //       ),
+                  //       const SizedBox(width: 4),
+                  //       Text(
+                  //         'Carnival',
+                  //         style: TextStyle(
+                  //           color: Colors.white,
+                  //           fontSize: 13,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

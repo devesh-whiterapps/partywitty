@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../bloc/booking/booking_bloc.dart';
+import '../bloc/booking/booking_event.dart';
+import '../bloc/booking/booking_state.dart';
 import '../widgets/app_header.dart';
 import '../widgets/booking_tabs.dart';
 import '../widgets/unified_event_card.dart';
+import '../../domain/models/user_activity_model.dart';
+import '../../domain/models/booking_history_model.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
-import '../../domain/models/user_activity_model.dart';
+import '../../data/mappers/booking_mapper.dart';
 
-/// Main booking screen matching the UI design
-class BookingScreen extends StatelessWidget {
+class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Sample data - in real app, this would come from a repository
-    final featuredEvent = EventModel(
+  State<BookingScreen> createState() => _BookingScreenState();
+}
+
+class _BookingScreenState extends State<BookingScreen> {
+  // Default/hardcoded data that will be used as fallback
+  late final EventModel _defaultFeaturedEvent;
+  late final EventModel _defaultEventDetails;
+  late final ArtistModel _defaultArtist;
+  late final List<UserActivityModel> _defaultUserActivities;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize default data
+    _defaultFeaturedEvent = EventModel(
       id: '1',
       title: 'Desi Techno Tuesdays',
       venue: 'FLOAT BY DUTY FREE',
@@ -33,7 +49,7 @@ class BookingScreen extends StatelessWidget {
       distance: 1.2,
     );
 
-    final eventDetails = EventModel(
+    _defaultEventDetails = EventModel(
       id: '2',
       title: 'Sitar Magic by Rishabh Rikhiram Sharma',
       venue: 'F-Bar',
@@ -51,14 +67,14 @@ class BookingScreen extends StatelessWidget {
       distance: 1.2,
     );
 
-    final artist = ArtistModel(
+    _defaultArtist = ArtistModel(
       id: '1',
       name: 'Malvika Khanna',
       imageUrl: '',
       role: 'Artist',
     );
 
-    final userActivities = [
+    _defaultUserActivities = [
       UserActivityModel(
         id: '1',
         name: 'Rohit Sharma',
@@ -102,7 +118,10 @@ class BookingScreen extends StatelessWidget {
         activityText: '',
       ),
     ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => BookingBloc(),
       child: Scaffold(
@@ -131,38 +150,153 @@ class BookingScreen extends StatelessWidget {
               const SizedBox(height: 8),
               // Tabs
               const BookingTabs(),
-              //  const SizedBox(height: 1),
               // Content
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // Unified event card combining all sections
-                      // In booking screen, show all sections including user activity
-                      UnifiedEventCard(
-                        users: userActivities,
-                        featuredEvent: featuredEvent,
-                        eventDetails: eventDetails,
-                        artist: artist,
-                        showUserActivity: true,
-                        showInclusions: true,
-                        showPaymentDetails: true,
-                        showOfferButton: true,
-                      ),
-                      // const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 13.0,
+                child: BlocBuilder<BookingBloc, BookingState>(
+                  builder: (context, state) {
+                    if (state is BookingHistoryLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (state is BookingHistoryError) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Error: ${state.message}',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                context.read<BookingBloc>().add(
+                                  const FetchBookingHistoryEvent(
+                                    userId: '14393',
+                                    longitude: '77.0801664',
+                                    latitude: '28.6294016',
+                                    type: 'upcoming',
+                                    sessionCookie:
+                                        'ci_session=r635a1dspb8t0mbodajeho1bjttliuv4',
+                                  ),
+                                );
+                              },
+                              child: const Text('Retry'),
+                            ),
+                          ],
                         ),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: _buildPastBookingsLink(),
+                      );
+                    }
+
+                    // Get selected tab from state
+                    String selectedTab = 'Carnival';
+                    if (state is BookingTabSelected) {
+                      selectedTab = state.selectedTab;
+                    } else if (state is BookingHistoryLoaded) {
+                      selectedTab = state.selectedTab;
+                    } else if (state is BookingHistoryError) {
+                      selectedTab = state.selectedTab;
+                    } else if (state is BookingHistoryLoading) {
+                      selectedTab = state.selectedTab;
+                    }
+
+                    // Only show content for Carnival tab
+                    if (selectedTab != 'Carnival') {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(32.0),
+                          child: Text('Select Carnival tab to view bookings'),
                         ),
+                      );
+                    }
+
+                    // Show multiple carnival cards for all bookings
+                    if (state is BookingHistoryLoaded &&
+                        state.bookings.isNotEmpty) {
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            // Show a card for each booking
+                            ...state.bookings.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final bookingData = entry.value;
+                              final booking =
+                                  bookingData as BookingHistoryModel;
+                              final featuredEvent =
+                                  BookingMapper.toFeaturedEventModelWithDefaults(
+                                    booking,
+                                    _defaultFeaturedEvent,
+                                  );
+                              final eventDetails =
+                                  BookingMapper.toEventDetailsModelWithDefaults(
+                                    booking,
+                                    _defaultEventDetails,
+                                  );
+
+                              return Column(
+                                children: [
+                                  UnifiedEventCard(
+                                    users: _defaultUserActivities,
+                                    featuredEvent: featuredEvent,
+                                    eventDetails: eventDetails,
+                                    artist: _defaultArtist,
+                                    showUserActivity: true,
+                                    showInclusions: true,
+                                    showPaymentDetails: true,
+                                    showOfferButton: true,
+                                  ),
+                                  // Add spacing between cards (except for last card)
+                                  if (index < state.bookings.length - 1)
+                                    const SizedBox(height: 12),
+                                ],
+                              );
+                            }).toList(),
+                            // Show "Check your past bookings" only after all cards
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 13.0,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: _buildPastBookingsLink(),
+                              ),
+                            ),
+                            const SizedBox(height: 85),
+                          ],
+                        ),
+                      );
+                    }
+
+                    // Default/empty state - show default data
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          UnifiedEventCard(
+                            users: _defaultUserActivities,
+                            featuredEvent: _defaultFeaturedEvent,
+                            eventDetails: _defaultEventDetails,
+                            artist: _defaultArtist,
+                            showUserActivity: true,
+                            showInclusions: true,
+                            showPaymentDetails: true,
+                            showOfferButton: true,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 13.0,
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: _buildPastBookingsLink(),
+                            ),
+                          ),
+                          const SizedBox(height: 85),
+                        ],
                       ),
-                      const SizedBox(height: 85),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -176,9 +310,10 @@ class BookingScreen extends StatelessWidget {
 Widget _buildPastBookingsLink() {
   return Text(
     'Check your past bookings',
-    style: TextStyle(
+    style: GoogleFonts.lexend(
       color: Color(0xff7464E4),
       fontSize: 14,
+      fontWeight: FontWeight.w500,
       decoration: TextDecoration.underline,
     ),
   );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/models/user_activity_model.dart';
 
-/// User activity card showing recent activities with stacked avatars
 class UserActivityCard extends StatelessWidget {
   final List<UserActivityModel> users;
 

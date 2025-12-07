@@ -22,13 +22,43 @@ class AppHeader extends StatelessWidget {
           //   icon: const Icon(Icons.notifications_outlined),
           //   onPressed: () {},
           // ),
-          Image.asset('assets/icons/notification.png', width: 44, height: 45),
-          const SizedBox(width: 12),
-          Image.asset(
-            'assets/icons/scanner.png',
+          // Image.asset('assets/icons/notification.png', width: 44, height: 45),
+          // const SizedBox(width: 12),
+          // Image.asset(
+          //   'assets/icons/scanner.png',
+          //   width: 44,
+          //   height: 45,
+          //   //color: Color(0xffffffff).withOpacity(0.5),
+          // ),
+          Container(
             width: 44,
             height: 45,
-            //color: Color(0xffffffff).withOpacity(0.5),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Image.asset(
+              'assets/icons/notification_new.png',
+              width: 40,
+              height: 41,
+              color: Colors.black.withOpacity(0.8),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            width: 44,
+            height: 45,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Image.asset(
+              'assets/icons/qr_new.png',
+              width: 40,
+              height: 41,
+              color: Colors.black.withOpacity(0.8),
+              //color: Color(0xffffffff).withOpacity(0.5),
+            ),
           ),
         ],
       ),
@@ -114,7 +144,7 @@ class AppHeader extends StatelessWidget {
         Container(
           // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            color: Color(0xffffffff).withOpacity(0.5),
+            color: Color(0xffffffff).withOpacity(0.55),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Row(
