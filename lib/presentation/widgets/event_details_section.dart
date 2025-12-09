@@ -50,10 +50,10 @@ class EventDetailsSection extends StatelessWidget {
           _buildArtistInfo(),
           const SizedBox(height: 12),
           // Venue and rating
-          _buildVenueAndRating(),
+          buildVenueAndRating(),
           const SizedBox(height: 12),
           // Location
-          _buildLocation(),
+          buildLocation(),
           const SizedBox(height: 12),
           // Event type
           _buildEventType(),
@@ -120,7 +120,7 @@ class EventDetailsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildVenueAndRating() {
+  Widget buildVenueAndRating() {
     return Row(
       children: [
         Image.asset('assets/icons/f_bar.png', width: 24, height: 24),
@@ -166,7 +166,7 @@ class EventDetailsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildLocation() {
+  Widget buildLocation() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

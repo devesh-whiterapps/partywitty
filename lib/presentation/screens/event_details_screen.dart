@@ -8,6 +8,7 @@ import 'package:partywitty/presentation/widgets/inclusions_dialog.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../../domain/models/ticket_model.dart';
+import 'payment_screen.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   final EventModel event;
@@ -104,7 +105,7 @@ class EventDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Payment Section
-                        _buildPaymentSection(),
+                        _buildPaymentSection(context),
                         const SizedBox(height: 0),
 
                         UnifiedEventCard(
@@ -133,7 +134,7 @@ class EventDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentSection() {
+  Widget _buildPaymentSection(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
@@ -259,27 +260,43 @@ class EventDetailsScreen extends StatelessWidget {
                         children: [
                           const SizedBox(width: 12),
 
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                                colors: [Color(0xff7464E4), Color(0xff1A00D2)],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => PaymentScreen(
+                                    event: event,
+                                    artist: artist,
+                                    balanceAmount: balanceAmount,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                  colors: [
+                                    Color(0xff7464E4),
+                                    Color(0xff1A00D2),
+                                  ],
+                                ),
+                                // borderRadius: BorderRadius.circular(8),
                               ),
-                              // borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 25,
-                                vertical: 8,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Pay Now',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 25,
+                                  vertical: 8,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Pay Now',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
