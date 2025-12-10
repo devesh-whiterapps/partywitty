@@ -46,3 +46,5 @@ app.*.map.json
 
 # Environment variables
 .env
+remove_key_from_history.sh
+SECURITY_FIX.md
