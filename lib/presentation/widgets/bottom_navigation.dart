@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
@@ -75,8 +76,8 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F0),
-        borderRadius: BorderRadius.circular(70),
+        color: const Color(0xFFFFFFFF).withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(100),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -91,23 +92,39 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(
-              Image.asset('assets/icons/home.png', width: 24, height: 24),
+              //   Image.asset('assets/icons/home.png', width: 24, height: 24),
+              SvgPicture.asset('assets/icons/home.svg', width: 20, height: 20),
               0,
               'Home',
             ),
             _buildNavItem(
-              Image.asset('assets/icons/search.png', width: 24, height: 24),
+              //   Image.asset('assets/icons/search.png', width: 24, height: 24),
+              SvgPicture.asset(
+                'assets/icons/search.svg',
+                width: 19,
+                height: 19,
+              ),
               1,
               'Search',
             ),
             _buildNavItem(
-              Image.asset('assets/icons/fi-rr-bid.png', width: 24, height: 24),
+              //   Image.asset('assets/icons/fi-rr-bid.png', width: 24, height: 24),
+              SvgPicture.asset(
+                'assets/icons/bid_icon.svg',
+                width: 19,
+                height: 19,
+              ),
               2,
               'Tools',
             ),
             _buildBookingNavItem(3, badge: '01'),
             _buildNavItem(
-              Image.asset('assets/icons/more.png', width: 24, height: 24),
+              //   Image.asset('assets/icons/more.png', width: 24, height: 24),
+              SvgPicture.asset(
+                'assets/icons/more.svg',
+                width: 18.5,
+                height: 18.5,
+              ),
               4,
               'More',
             ),
@@ -234,10 +251,10 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
                               Colors.white,
                               BlendMode.srcIn,
                             ),
-                            child: Image.asset(
-                              'assets/icons/booking.png',
-                              width: 24,
-                              height: 24,
+                            child: SvgPicture.asset(
+                              'assets/icons/book_icon.svg',
+                              width: 17.5,
+                              height: 16.5,
                             ),
                           ),
                           // Positioned(
@@ -318,10 +335,15 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: _GradientIcon(
-            icon: Image.asset(
-              'assets/icons/booking.png',
-              width: 24,
-              height: 24,
+            // icon: Image.asset(
+            //   'assets/icons/booking.png',
+            //   width: 24,
+            //   height: 24,
+            // ),
+            icon: SvgPicture.asset(
+              'assets/icons/book_icon.svg',
+              width: 17.5,
+              height: 16.5,
             ),
             size: 24,
             isSelected: false,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:partywitty/presentation/screens/payment_screen.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../screens/event_details_screen.dart';
@@ -124,6 +126,15 @@ class EventDetailsSection extends StatelessWidget {
     return Row(
       children: [
         Image.asset('assets/icons/f_bar.png', width: 24, height: 24),
+        // SvgPicture.asset(
+        //   'assets/icons/diamond.svg',
+        //   width: 24,
+        //   height: 24,
+        //   colorFilter: const ColorFilter.mode(
+        //     Color(0xff070707),
+        //     BlendMode.srcIn,
+        //   ),
+        // ),
         const SizedBox(width: 6),
         Text(
           eventDetails.venue,
@@ -170,7 +181,8 @@ class EventDetailsSection extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(Icons.location_on_outlined, color: Colors.grey[700], size: 20),
+        // Icon(Icons.location_on_outlined, color: Colors.grey[700], size: 20),
+        SvgPicture.asset('assets/icons/location.svg', width: 20, height: 20),
         const SizedBox(width: 6),
         Flexible(
           child: Text(
@@ -180,7 +192,7 @@ class EventDetailsSection extends StatelessWidget {
               fontWeight: FontWeight.w400,
               color: Color(0xff4F4F4F),
             ),
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -194,7 +206,12 @@ class EventDetailsSection extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/icons/distance.png', width: 12, height: 12),
+              // Image.asset('assets/icons/distance.svg', width: 12, height: 12),
+              SvgPicture.asset(
+                'assets/icons/distance.svg',
+                width: 12,
+                height: 12,
+              ),
               const SizedBox(width: 4),
               Text(
                 '${eventDetails.distance.toStringAsFixed(1)} Kms',
@@ -301,44 +318,57 @@ class EventDetailsSection extends StatelessWidget {
         Spacer(),
         Row(
           children: [
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff7464E4),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 10,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Use Partywitty Pay',
-                    style: GoogleFonts.lexend(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffffffff),
+            SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PaymentScreen(
+                        event: eventDetails,
+                        artist: artist,
+                        balanceAmount: eventDetails.balanceAmount,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff7464E4),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
                   ),
-                  Text(
-                    'Balance Amount - ₹${eventDetails.balanceAmount.toStringAsFixed(0)}',
-                    style: GoogleFonts.lexend(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffffffff),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Use Partywitty Pay',
+                      style: GoogleFonts.lexend(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xffffffff),
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                    Text(
+                      'Balance Amount - ₹${eventDetails.balanceAmount.toStringAsFixed(0)}',
+                      style: GoogleFonts.lexend(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xffffffff),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: 7),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -353,14 +383,25 @@ class EventDetailsSection extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: const EdgeInsets.all(0),
+                height: 50,
+                width: 50,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
+                  color: Color(0xff7464E4).withValues(alpha: 0.11),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Image.asset(
-                  'assets/icons/qr.png',
-                  width: 50,
-                  height: 50,
+                // child: Image.asset(
+                //   'assets/icons/qr.png',
+                //   width: 50,
+                //   height: 50,
+                // ),
+                child: SvgPicture.asset(
+                  'assets/icons/qr-code.svg',
+                  width: 22.5,
+                  height: 22.5,
                 ),
               ),
             ),

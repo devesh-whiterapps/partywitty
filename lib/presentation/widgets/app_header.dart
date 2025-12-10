@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 /// Header widget with logo, location, and notifications
 class AppHeader extends StatelessWidget {
@@ -12,7 +13,8 @@ class AppHeader extends StatelessWidget {
         children: [
           // Logo
           // _buildLogo(),
-          Image.asset('assets/logo/Vector.png', width: 40, height: 40),
+          //   Image.asset('assets/logo/logs.png', width: 40, height: 40),
+          SvgPicture.asset('assets/logo/logo.svg', width: 40, height: 40),
           const SizedBox(width: 12),
           // Location selector
           _buildLocationSelector(),
@@ -33,31 +35,45 @@ class AppHeader extends StatelessWidget {
           Container(
             width: 44,
             height: 45,
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Image.asset(
-              'assets/icons/notification_new.png',
-              width: 40,
-              height: 41,
+            // child: Image.asset(
+            //   'assets/icons/notification_new.png',
+            //   width: 40,
+            //   height: 41,
+            //   color: Colors.black.withOpacity(0.8),
+            // ),
+            child: SvgPicture.asset(
+              'assets/icons/bell.svg',
+              width: 26,
+              height: 26,
               color: Colors.black.withOpacity(0.8),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
           Container(
             width: 44,
             height: 45,
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Image.asset(
-              'assets/icons/qr_new.png',
-              width: 40,
-              height: 41,
+            // child: Image.asset(
+            //   'assets/icons/qr_new.png',
+            //   width: 40,
+            //   height: 41,
+            //   color: Colors.black.withOpacity(0.8),
+            //   //color: Color(0xffffffff).withOpacity(0.5),
+            // ),
+            child: SvgPicture.asset(
+              'assets/icons/scan.svg',
+              width: 25,
+              height: 27,
               color: Colors.black.withOpacity(0.8),
-              //color: Color(0xffffffff).withOpacity(0.5),
             ),
           ),
         ],
@@ -141,6 +157,7 @@ class AppHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 5),
         Container(
           // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(

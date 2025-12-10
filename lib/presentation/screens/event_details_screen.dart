@@ -10,7 +10,7 @@ import '../../domain/models/artist_model.dart';
 import '../../domain/models/ticket_model.dart';
 import 'payment_screen.dart';
 
-class EventDetailsScreen extends StatelessWidget {
+class EventDetailsScreen extends StatefulWidget {
   final EventModel event;
   final ArtistModel artist;
   final double advancePaid;
@@ -25,10 +25,24 @@ class EventDetailsScreen extends StatelessWidget {
   });
 
   @override
+  State<EventDetailsScreen> createState() => _EventDetailsScreenState();
+}
+
+class _EventDetailsScreenState extends State<EventDetailsScreen> {
+  bool _isQrRevealed = false;
+
+  void _revealQr() {
+    if (_isQrRevealed) return;
+    setState(() {
+      _isQrRevealed = true;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Use the passed event data
-    final featuredEvent = event;
-    final eventDetails = event;
+    final featuredEvent = widget.event;
+    final eventDetails = widget.event;
 
     // Default tickets - in a real app, these would come from the booking data
     // For now, using sample data based on the event
@@ -39,18 +53,18 @@ class EventDetailsScreen extends StatelessWidget {
         type: 'Single',
         category: 'Domestic',
         price: 1800,
-        // price: event.advancePaid,
+        // price: widget.event.advancePaid,
         quantity: 1,
-        inclusions: event.inclusions,
+        inclusions: widget.event.inclusions,
       ),
       TicketModel(
         id: '2',
         title: 'General Pass (Domestic Liquor & Food)',
         type: 'Couple',
         category: 'Domestic',
-        price: event.advancePaid,
+        price: widget.event.advancePaid,
         quantity: 2,
-        inclusions: event.inclusions,
+        inclusions: widget.event.inclusions,
       ),
 
       TicketModel(
@@ -59,9 +73,9 @@ class EventDetailsScreen extends StatelessWidget {
         type: 'Single',
         category: 'Domestic',
         price: 1800,
-        // price: event.advancePaid,
+        // price: widget.event.advancePaid,
         quantity: 1,
-        inclusions: event.inclusions,
+        inclusions: widget.event.inclusions,
       ),
     ];
 
@@ -112,7 +126,7 @@ class EventDetailsScreen extends StatelessWidget {
                           users: null,
                           featuredEvent: featuredEvent,
                           eventDetails: eventDetails,
-                          artist: artist,
+                          artist: widget.artist,
                           showUserActivity: false,
                           showInclusions: false,
                           showPaymentDetails: false,
@@ -154,37 +168,51 @@ class EventDetailsScreen extends StatelessWidget {
             child: Column(
               children: [
                 // QR Code
-                Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Color(0xffF8F9FA),
-                          borderRadius: BorderRadius.circular(4),
-                          // border: Border.all(color: Colors.grey[400]!),
-                        ),
-                        child: ClipRRect(
-                          //  borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(
-                            "assets/images/generated_qr.png",
-                            width: 176,
-                            height: 176,
-                            fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: _revealQr,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            color: Color(0xffF8F9FA),
+                            borderRadius: BorderRadius.circular(4),
+                            // border: Border.all(color: Colors.grey[400]!),
+                          ),
+                          child: ClipRRect(
+                            //  borderRadius: BorderRadius.circular(4),
+                            child: ImageFiltered(
+                              imageFilter: ImageFilter.blur(
+                                sigmaX: _isQrRevealed ? 0 : 12,
+                                sigmaY: _isQrRevealed ? 0 : 12,
+                              ),
+                              // child: Image.asset(
+                              //   "assets/images/generated_qr.png",
+                              //   width: 176,
+                              //   height: 176,
+                              //   fit: BoxFit.cover,
+                              // ),
+                              child: Icon(
+                                Icons.qr_code,
+                                size: 176,
+                                color: Colors.grey[800],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Generated payment QR',
-                        style: TextStyle(
-                          color: Color(0xff7464E4),
-                          fontSize: 14,
-                          decoration: TextDecoration.underline,
+                        const SizedBox(height: 8),
+                        Text(
+                          'Generated payment QR',
+                          style: TextStyle(
+                            color: Color(0xff7464E4),
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -211,7 +239,7 @@ class EventDetailsScreen extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        '₹${advancePaid.toStringAsFixed(0)}',
+                        '₹${widget.advancePaid.toStringAsFixed(0)}',
                         style: GoogleFonts.lexend(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -246,7 +274,7 @@ class EventDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '₹${balanceAmount.toStringAsFixed(0)}',
+                            '₹${widget.balanceAmount.toStringAsFixed(0)}',
                             style: GoogleFonts.lexend(
                               fontSize: 36,
                               fontWeight: FontWeight.w500,
@@ -265,9 +293,9 @@ class EventDetailsScreen extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => PaymentScreen(
-                                    event: event,
-                                    artist: artist,
-                                    balanceAmount: balanceAmount,
+                                    event: widget.event,
+                                    artist: widget.artist,
+                                    balanceAmount: widget.balanceAmount,
                                   ),
                                 ),
                               );

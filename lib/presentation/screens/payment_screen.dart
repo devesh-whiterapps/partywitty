@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:partywitty/presentation/widgets/event_details_section.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
@@ -10,9 +12,9 @@ import '../../domain/models/tulips_model.dart';
 import '../../domain/models/discount_offer_model.dart';
 import '../../data/services/tulips_service.dart';
 import '../../data/services/discount_offer_service.dart';
+import '../../data/services/payment_service.dart';
 import '../widgets/gradient_background.dart';
 import 'payment_success_screen.dart';
-import 'dart:math';
 
 class PaymentScreen extends StatefulWidget {
   final EventModel event;
@@ -33,6 +35,8 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   final TulipsService _tulipsService = TulipsService();
   final DiscountOfferService _discountOfferService = DiscountOfferService();
+  final PaymentService _paymentService = PaymentService();
+  late Razorpay _razorpay;
   bool _isLoadingTulips = true;
   bool _isLoadingDiscountOffer = true;
   TulipsModel? _tulipsData;
@@ -40,19 +44,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
   bool _useTulips = false;
   int _usableTulips = 0;
   double _platformCharges = 5.90;
-  String _selectedPaymentMethod = 'razorpay'; // Default to Razorpay
+  String _selectedPaymentMethod = 'razorpay';
+  bool _isProcessingPayment = false;
+  String? _activeOrderId;
 
   @override
   void initState() {
     super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     _fetchTulips();
     _fetchDiscountOffer();
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
   }
 
   Future<void> _fetchTulips() async {
     try {
       setState(() => _isLoadingTulips = true);
-      // TODO: Replace with actual values from app state/storage
       final tulips = await _tulipsService.getAvailableTulips(
         userId: '14393',
         clubId: '621',
@@ -137,6 +152,148 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return _discountOfferData?.payableAmount ?? widget.balanceAmount;
   }
 
+  String get _razorpayKey => dotenv.env['RAZORPAY_KEY'] ?? '';
+
+  Future<void> _handlePayNow() async {
+    if (_isProcessingPayment) return;
+
+    if (_isLoadingDiscountOffer) {
+      _showMessage('Fetching order details, please wait...');
+      return;
+    }
+
+    if (_discountOfferData == null || _discountOfferData!.orderId.isEmpty) {
+      _showMessage('Order details not available. Please retry.');
+      return;
+    }
+
+    if (_selectedPaymentMethod != 'razorpay') {
+      _showMessage('Only Razorpay is supported right now.');
+      return;
+    }
+
+    final orderId = _discountOfferData!.orderId;
+
+    setState(() {
+      _isProcessingPayment = true;
+      _activeOrderId = orderId;
+    });
+
+    try {
+      final paymentData = await _paymentService.submitCarnivalPass(
+        orderId: orderId,
+        couponCode: '',
+        paymentGateway: 'razorpay',
+        carrotUse: _useTulips,
+      );
+
+      _openRazorpay(paymentData);
+    } catch (e) {
+      _showMessage(e.toString());
+      setState(() {
+        _isProcessingPayment = false;
+      });
+    }
+  }
+
+  void _openRazorpay(Map<String, dynamic> paymentData) {
+    try {
+      final amountValue =
+          double.tryParse(paymentData['amount']?.toString() ?? '') ??
+          _finalPayableAmount;
+      final razorpayOrderId = paymentData['rzp_order_id']?.toString() ?? '';
+      final displayOrderId =
+          paymentData['order_id']?.toString() ?? _activeOrderId ?? '';
+      final contact =
+          paymentData['userMobile']?.toString() ??
+          paymentData['mobile']?.toString() ??
+          '';
+      final name = paymentData['userName']?.toString() ?? '';
+      final email = paymentData['userEmail']?.toString() ?? '';
+
+      if (razorpayOrderId.isEmpty) {
+        throw Exception('Razorpay order id not received from server.');
+      }
+
+      final options = {
+        'key': _razorpayKey,
+        'amount': (amountValue * 100).toInt(),
+        'currency': 'INR',
+        'name': 'PartyWitty',
+        'description': 'PartyWitty Booking - Order $displayOrderId',
+        'order_id': razorpayOrderId,
+        'prefill': {
+          if (name.isNotEmpty) 'name': name,
+          if (email.isNotEmpty) 'email': email,
+          if (contact.isNotEmpty) 'contact': contact,
+        },
+        'theme': {'color': '#FF6B6B'},
+      };
+
+      _razorpay.open(options);
+    } catch (e) {
+      _showMessage('Failed to open Razorpay. Please try again.');
+      setState(() {
+        _isProcessingPayment = false;
+      });
+    }
+  }
+
+  Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    try {
+      final verified = await _paymentService.verifyRazorpayPayment({
+        'razorpay_payment_id': response.paymentId,
+        'razorpay_order_id': response.orderId,
+        'razorpay_signature': response.signature,
+      });
+
+      if (verified) {
+        _navigateToSuccess(response.paymentId ?? '');
+      } else {
+        _showMessage('Payment verification failed. Please contact support.');
+      }
+    } catch (e) {
+      _showMessage('Something went wrong during payment verification.');
+    } finally {
+      setState(() {
+        _isProcessingPayment = false;
+      });
+    }
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    _showMessage('Payment failed: ${response.message ?? 'Please try again.'}');
+    setState(() {
+      _isProcessingPayment = false;
+    });
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    _showMessage('External wallet selected: ${response.walletName}');
+  }
+
+  void _navigateToSuccess(String transactionId) {
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PaymentSuccessScreen(
+          event: widget.event,
+          artist: widget.artist,
+          paidAmount: _finalPayableAmount,
+          orderId: _activeOrderId ?? transactionId,
+          carrotsEarned: 200,
+        ),
+      ),
+    );
+  }
+
+  void _showMessage(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,10 +336,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey[300]!, width: 1),
                       ),
-                      child: Image.asset(
-                        'assets/logo/Vector.png',
-                        width: 40,
-                        height: 40,
+                      // child: Image.asset(
+                      //   'assets/logo/Vector.png',
+                      //   width: 40,
+                      //   height: 40,
+                      // ),
+                      child: SvgPicture.asset(
+                        'assets/logo/logo.svg',
+                        width: 34,
+                        height: 34,
                       ),
                     ),
                   ),
@@ -273,7 +435,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             //           'F',
             //           style: TextStyle(
             //             color: Colors.white,
-            //             fontSize: 14,
+            //              fontSize: 14,
             //             fontWeight: FontWeight.bold,
             //           ),
             //         ),
@@ -324,7 +486,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               artist: widget.artist,
             ).buildVenueAndRating(),
             const SizedBox(height: 12),
-            const SizedBox(height: 12),
+            //  const SizedBox(height: 12),
 
             // Location
             // Row(
@@ -384,15 +546,82 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _buildInfoColumn(
-                  Icons.calendar_today_outlined,
-                  'Date',
-                  widget.event.date,
+                // _buildInfoColumn(
+                //   Icons.calendar_today_outlined,
+                //   'Date',
+                //   widget.event.date,
+                // ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // Icon(, size: 16, color: Colors.grey[700]),
+                        SvgPicture.asset(
+                          'assets/icons/calender.svg',
+                          width: 16,
+                          height: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Date',
+                          style: GoogleFonts.lexend(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff4F4F4F),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.event.date,
+                      style: GoogleFonts.lexend(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff070707),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 28),
                 _buildInfoColumn(Icons.access_time, 'Time', widget.event.time),
-                const SizedBox(width: 16),
-                _buildInfoColumn(Icons.person_add_outlined, 'Pax', '50'),
+                const SizedBox(width: 28),
+
+                // _buildInfoColumn(Icons.person_add_outlined, 'Pax', '50'),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // Icon(, size: 16, color: Colors.grey[700]),
+                        SvgPicture.asset(
+                          'assets/icons/user.svg',
+                          width: 16,
+                          height: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Date',
+                          style: GoogleFonts.lexend(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff4F4F4F),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '50',
+                      style: GoogleFonts.lexend(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff070707),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
@@ -412,7 +641,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Text(
               label,
               style: GoogleFonts.lexend(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: Color(0xff4F4F4F),
               ),
@@ -633,36 +862,36 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               color: Color(0xff070707),
                             ),
                           ),
-                          if (_useTulips) ...[
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  'Usable Tulips',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff4F4F4F),
-                                  ),
+                          // if (_useTulips) ...[
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Text(
+                                'Usable Tulips',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff4F4F4F),
                                 ),
-                                const SizedBox(width: 8),
-                                SvgPicture.asset(
-                                  'assets/icons/tulip.svg',
-                                  width: 16,
-                                  height: 16,
+                              ),
+                              const SizedBox(width: 8),
+                              SvgPicture.asset(
+                                'assets/icons/tulip.svg',
+                                width: 16,
+                                height: 16,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '$_usableTulips',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff070707),
                                 ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '$_usableTulips',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xff070707),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
+                          // ],
                         ],
                       ),
                     ),
@@ -847,30 +1076,31 @@ class _PaymentScreenState extends State<PaymentScreen> {
           const SizedBox(width: 8),
           Expanded(
             child: GestureDetector(
-              onTap: () {
-                // Use order ID from API if available, otherwise generate one
-                String orderId;
-                if (_discountOfferData != null &&
-                    _discountOfferData!.orderId.isNotEmpty) {
-                  orderId = _discountOfferData!.orderId;
-                } else {
-                  final random = Random();
-                  orderId =
-                      '#${random.nextInt(10000)}${String.fromCharCodes(List.generate(5, (index) => random.nextInt(26) + 65))}\$';
-                }
+              onTap: _isProcessingPayment ? null : _handlePayNow,
+              // onTap: () {
+              //   // Use order ID from API if available, otherwise generate one
+              //   String orderId;
+              //   if (_discountOfferData != null &&
+              //       _discountOfferData!.orderId.isNotEmpty) {
+              //     orderId = _discountOfferData!.orderId;
+              //   } else {
+              //     final random = Random();
+              //     orderId =
+              //         '#${random.nextInt(10000)}${String.fromCharCodes(List.generate(5, (index) => random.nextInt(26) + 65))}\$';
+              //   }
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => PaymentSuccessScreen(
-                      event: widget.event,
-                      artist: widget.artist,
-                      paidAmount: _finalPayableAmount,
-                      orderId: orderId,
-                      carrotsEarned: 200,
-                    ),
-                  ),
-                );
-              },
+              //   Navigator.of(context).push(
+              //     MaterialPageRoute(
+              //       builder: (context) => PaymentSuccessScreen(
+              //         event: widget.event,
+              //         artist: widget.artist,
+              //         paidAmount: _finalPayableAmount,
+              //         orderId: orderId,
+              //         carrotsEarned: 200,
+              //       ),
+              //     ),
+              //   );
+              // },
               child: Container(
                 height: 44,
                 alignment: Alignment.center,
@@ -879,17 +1109,44 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: Color(0xff7464E4),
+                  color: _isProcessingPayment
+                      ? Color(0xff7464E4).withValues(alpha: 0.6)
+                      : Color(0xff7464E4),
                   borderRadius: BorderRadius.circular(2),
                 ),
-                child: Text(
-                  '₹${_finalPayableAmount.toStringAsFixed(2)}  Pay Now',
-                  style: GoogleFonts.lexend(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xffffffff),
-                  ),
-                ),
+                child: _isProcessingPayment
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 18,
+                            width: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xffffffff),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Processing...',
+                            style: GoogleFonts.lexend(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xffffffff),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        '₹${_finalPayableAmount.toStringAsFixed(2)}  Pay Now',
+                        style: GoogleFonts.lexend(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
               ),
             ),
           ),
@@ -1124,8 +1381,8 @@ class PromoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.maxFinite,
-      height: double.minPositive,
+      width: 200,
+      height: 120,
       child: CustomPaint(
         painter: _PromoCardDottedBorderPainter(),
         child: Opacity(
@@ -1165,10 +1422,10 @@ class PromoCard extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Color(0xff070707),
-                      height: 1.3,
+                      //height: 1,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 5),
                   Text(
                     subtitle,
                     style: GoogleFonts.lexend(
@@ -1177,36 +1434,44 @@ class PromoCard extends StatelessWidget {
                       color: Color(0xff070707),
                     ),
                   ),
-                  const SizedBox(height: 7),
+                  //const SizedBox(height: 7),
+                  Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 5,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color(0xff000000).withValues(alpha: 0.06),
-                          borderRadius: BorderRadius.circular(26),
-                          border: Border.all(
-                            color: Color(0xffffffff).withValues(alpha: 0.3),
-                            width: 1,
+                      Flexible(
+                        child: Transform.translate(
+                          offset: const Offset(0, -6),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 9,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xff000000).withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(26),
+                              border: Border.all(
+                                color: Color(
+                                  0xff000000,
+                                ).withValues(alpha: 0.06),
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              buttonText,
+                              style: GoogleFonts.lexend(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff070707),
+                              ),
+                              //  maxLines: 1,
+                              // overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          buttonText,
-                          style: GoogleFonts.lexend(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff070707),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.clip,
                         ),
                       ),
-                      const SizedBox(width: 3),
+                      const SizedBox(width: 0),
 
                       // Image.asset(
                       //   imagePath,
