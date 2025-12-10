@@ -172,7 +172,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       return;
     }
 
-    final orderId = _discountOfferData!.orderId;
+    // Temporarily hard-code order id for debugging a backend issue.
+    const orderId = 'PWCP1765196540896';
 
     setState(() {
       _isProcessingPayment = true;
@@ -189,7 +190,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       _openRazorpay(paymentData);
     } catch (e) {
-      _showMessage(e.toString());
+      // ignore: avoid_print
+      print('[PaymentScreen] submitCarnivalPass error for order=$orderId : $e');
+      _showMessage('Unable to start payment: ${e.toString()}');
       setState(() {
         _isProcessingPayment = false;
       });
@@ -198,9 +201,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void _openRazorpay(Map<String, dynamic> paymentData) {
     try {
-      final amountValue =
-          double.tryParse(paymentData['amount']?.toString() ?? '') ??
-          _finalPayableAmount;
+      // Prefer backend-provided payable fields; fall back to local calc.
+      double _parseAmount(String key) =>
+          double.tryParse(paymentData[key]?.toString() ?? '') ?? 0;
+
+      final rawAmount = _parseAmount('amount');
+      final payableAmount = _parseAmount('payable_amount');
+      final netPayableAmount = _parseAmount('net_payable_amount');
+      final totalAmount = _parseAmount('total_amount');
+
+      final amountValue = [
+        rawAmount,
+        payableAmount,
+        netPayableAmount,
+        totalAmount,
+        _finalPayableAmount,
+      ].firstWhere((v) => v > 0, orElse: () => _finalPayableAmount);
+
+      // ignore: avoid_print
+      print(
+        '[PaymentScreen] Amounts raw=$rawAmount payable=$payableAmount net=$netPayableAmount total=$totalAmount chosen=$amountValue',
+      );
       final razorpayOrderId = paymentData['rzp_order_id']?.toString() ?? '';
       final displayOrderId =
           paymentData['order_id']?.toString() ?? _activeOrderId ?? '';
@@ -212,7 +233,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
       final email = paymentData['userEmail']?.toString() ?? '';
 
       if (razorpayOrderId.isEmpty) {
-        throw Exception('Razorpay order id not received from server.');
+        // ignore: avoid_print
+        print(
+          '[PaymentScreen] Missing rzp_order_id. Raw payload: $paymentData',
+        );
+        throw Exception(
+          'Razorpay order id not received. Please try again or contact support.',
+        );
       }
 
       final options = {
