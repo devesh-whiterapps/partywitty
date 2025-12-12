@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,28 +37,28 @@ class _MenuScreenState extends State<MenuScreen> {
       'phone': '91-958 297 4280',
       'company': 'Rapper',
       'role': 'Artist',
-      'image': 'assets/images/image2.png',
+      'image': 'assets/images/image1.png',
     },
     {
       'name': 'Zeeshan Ahmad',
       'phone': '91-958 297 4280',
       'company': 'Global Foods',
       'role': 'Caterer',
-      'image': 'assets/images/image3.png',
+      'image': 'assets/images/image1.png',
     },
     {
       'name': 'Zeeshan Ahmad',
       'phone': '91-958 297 4280',
       'company': 'Lifestyle',
       'role': 'Influencer',
-      'image': 'assets/images/image4.png',
+      'image': 'assets/images/image1.png',
     },
     {
       'name': 'Zeeshan Ahmad',
       'phone': '91-958 297 4280',
       'company': 'Stage ur Music',
       'role': 'Event Organizer',
-      'image': 'assets/images/image5.png',
+      'image': 'assets/images/image1.png',
     },
   ];
 
@@ -323,7 +324,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFFFFFF).withValues(alpha: 0.5),
+      backgroundColor: Color(0xffFFFFFF).withValues(alpha: 0.6),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
@@ -429,13 +430,18 @@ class _MenuScreenState extends State<MenuScreen> {
                         gradient: LinearGradient(
                           colors: [
                             Color(0xff7464E4).withOpacity(0.1),
-                            Color(0xffffffff).withOpacity(0.5),
-                            Color(0xffffffff),
+                            Color(0xffB5A78B).withOpacity(0.08),
+                            // Color(0xffffffff).withOpacity(0.1),
+                            // Color(0xffffffff),
 
                             //  Color(0xff7464E4).withValues(alpha: 0.2),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.centerRight,
+                        ),
+                        border: Border.all(
+                          color: Color(0xffEDEDED),
+                          width: 0.5,
                         ),
                       ),
                       child: Stack(
@@ -604,235 +610,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                   ],
                                 ),
                               ),
-
-                              // Account List Dropdown
-                              if (_showAccountList)
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffffffff),
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //     color: Color(0xffDCDCDC),
-                                    //     blurRadius: 10,
-                                    //     offset: Offset(0, 5),
-                                    //   ),
-                                    // ],
-                                    border: Border.all(
-                                      color: Color(0xffDCDCDC),
-                                    ),
-                                  ),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: accounts.length,
-                                    padding: EdgeInsets.symmetric(vertical: 9),
-                                    itemBuilder: (context, index) {
-                                      final account = accounts[index];
-                                      final isSelected =
-                                          _selectedAccountIndex == index;
-
-                                      return GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedAccountIndex = index;
-                                            _showAccountList = false;
-                                          });
-                                        },
-                                        child: Container(
-                                          // margin: EdgeInsets.symmetric(
-                                          //   horizontal: 12,
-                                          //   vertical: 2,
-                                          // ),
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            //color: Colors.white,
-                                            // border: Border.all(
-                                            //   color: Color(0xffE0E0E0),
-                                            //   width: 1,
-                                            // ),
-                                            // borderRadius: BorderRadius.circular(
-                                            //   8,
-                                            // ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              // Profile image
-                                              Container(
-                                                width: 50,
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                  //   color: Colors.grey[200],
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  child: Image.asset(
-                                                    account['image'],
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder:
-                                                        (
-                                                          context,
-                                                          error,
-                                                          stackTrace,
-                                                        ) {
-                                                          return Icon(
-                                                            Icons.person,
-                                                            size: 25,
-                                                          );
-                                                        },
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 10),
-                                              // Account details
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          account['name'],
-                                                          style:
-                                                              GoogleFonts.lexend(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Color(
-                                                                  0xff1C1B1D,
-                                                                ),
-                                                              ),
-                                                        ),
-                                                        SizedBox(width: 6),
-                                                        Container(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                horizontal: 10,
-                                                                vertical: 3,
-                                                              ),
-                                                          decoration: BoxDecoration(
-                                                            // color: _getRoleColor(
-                                                            //   account['role'],
-                                                            // ),
-                                                            gradient: LinearGradient(
-                                                              colors: [
-                                                                Color(
-                                                                  0xFF5D50B6,
-                                                                ), // Same as booking tab
-                                                                Color(
-                                                                  0xFF2943C3,
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                  10,
-                                                                ),
-                                                          ),
-                                                          child: Text(
-                                                            account['role'],
-                                                            style:
-                                                                GoogleFonts.lexend(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 3),
-                                                    Text(
-                                                      account['phone'],
-                                                      style: GoogleFonts.lexend(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Color(
-                                                          0xff4F4F4F,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 3),
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                            horizontal: 10,
-                                                            vertical: 4,
-                                                          ),
-                                                      decoration: BoxDecoration(
-                                                        color: Color(
-                                                          0xffDDDDDD,
-                                                        ).withOpacity(0.8),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              100,
-                                                            ),
-                                                      ),
-                                                      child: Text(
-                                                        account['company'],
-                                                        style:
-                                                            GoogleFonts.lexend(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Color(
-                                                                0xff4F4F4F,
-                                                              ),
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              // Selection indicator
-                                              if (isSelected)
-                                                Container(
-                                                  width: 26,
-                                                  height: 26,
-                                                  padding: EdgeInsets.all(3),
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFF5D50B6),
-                                                    gradient: LinearGradient(
-                                                      colors: [
-                                                        Color(
-                                                          0xFF5D50B6,
-                                                        ), // Same as booking tab
-                                                        Color.fromARGB(
-                                                          231,
-                                                          47,
-                                                          74,
-                                                          207,
-                                                        ),
-                                                        // Color(
-                                                        //   0xff000000,
-                                                        // ).withOpacity(0.2),
-                                                      ],
-                                                    ),
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.check,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
                             ],
                           ),
 
@@ -858,6 +635,189 @@ class _MenuScreenState extends State<MenuScreen> {
                         ],
                       ),
                     ),
+
+                    // Account List Dropdown
+                    if (_showAccountList)
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Color(0xffffffff).withOpacity(0.5),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: Color(0xffDCDCDC),
+                          //     blurRadius: 10,
+                          //     offset: Offset(0, 5),
+                          //   ),
+                          // ],
+                          border: Border.all(color: Color(0xffDCDCDC)),
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: accounts.length,
+                          padding: EdgeInsets.symmetric(vertical: 9),
+                          itemBuilder: (context, index) {
+                            final account = accounts[index];
+                            final isSelected = _selectedAccountIndex == index;
+
+                            return Container(
+                              // margin: EdgeInsets.symmetric(
+                              //   horizontal: 12,
+                              //   vertical: 2,
+                              // ),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                //color: Colors.white,
+                                // border: Border.all(
+                                //   color: Color(0xffE0E0E0),
+                                //   width: 1,
+                                // ),
+                                // borderRadius: BorderRadius.circular(
+                                //   8,
+                                // ),
+                              ),
+                              child: Row(
+                                children: [
+                                  // Profile image
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      //   color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: Image.asset(
+                                        account['image'],
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                              return Icon(
+                                                Icons.person,
+                                                size: 25,
+                                              );
+                                            },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  // Account details
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              account['name'],
+                                              style: GoogleFonts.lexend(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Color(0xff1C1B1D),
+                                              ),
+                                            ),
+                                            SizedBox(width: 6),
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                                vertical: 3,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                // color: _getRoleColor(
+                                                //   account['role'],
+                                                // ),
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Color(
+                                                      0xFF5D50B6,
+                                                    ), // Same as booking tab
+                                                    Color(0xFF2943C3),
+                                                  ],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                account['role'],
+                                                style: GoogleFonts.lexend(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 3),
+                                        Text(
+                                          account['phone'],
+                                          style: GoogleFonts.lexend(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xff4F4F4F),
+                                          ),
+                                        ),
+                                        SizedBox(height: 3),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Color(
+                                              0xffDDDDDD,
+                                            ).withOpacity(0.8),
+                                            borderRadius: BorderRadius.circular(
+                                              100,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            account['company'],
+                                            style: GoogleFonts.lexend(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff4F4F4F),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Selection indicator
+                                  if (isSelected)
+                                    Container(
+                                      width: 26,
+                                      height: 26,
+                                      padding: EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF5D50B6),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color(
+                                              0xFF5D50B6,
+                                            ), // Same as booking tab
+                                            Color.fromARGB(231, 47, 74, 207),
+                                            // Color(
+                                            //   0xff000000,
+                                            // ).withOpacity(0.2),
+                                          ],
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -1131,6 +1091,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: 15),
             ],
           ),
         ),
@@ -1832,39 +1793,6 @@ class _ProfileBottomOverlayState extends State<ProfileBottomOverlay> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// Example usage in your app
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile Example'),
-          backgroundColor: const Color(0xFF6C63FF),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              showProfileBottomOverlay(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6C63FF),
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            ),
-            child: const Text(
-              'Show Profile',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
       ),
     );
   }
