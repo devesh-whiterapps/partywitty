@@ -76,7 +76,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF).withValues(alpha: 0.85),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(100),
         boxShadow: [
           BoxShadow(

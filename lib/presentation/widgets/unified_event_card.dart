@@ -16,6 +16,8 @@ class UnifiedEventCard extends StatelessWidget {
   final bool showInclusions;
   final bool showPaymentDetails;
   final bool showOfferButton;
+  final bool showWriteReviewButton;
+  final VoidCallback? onWriteReview;
 
   const UnifiedEventCard({
     super.key,
@@ -27,6 +29,8 @@ class UnifiedEventCard extends StatelessWidget {
     this.showInclusions = true,
     this.showPaymentDetails = true,
     this.showOfferButton = true,
+    this.showWriteReviewButton = false,
+    this.onWriteReview,
   });
 
   @override
@@ -63,6 +67,8 @@ class UnifiedEventCard extends StatelessWidget {
                 showInclusions: showInclusions,
                 showPaymentDetails: showPaymentDetails,
                 showOfferButton: showOfferButton,
+                showWriteReviewButton: showWriteReviewButton,
+                onWriteReview: onWriteReview,
               ),
             ],
           ),

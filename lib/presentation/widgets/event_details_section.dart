@@ -12,6 +12,8 @@ class EventDetailsSection extends StatelessWidget {
   final bool showInclusions;
   final bool showPaymentDetails;
   final bool showOfferButton;
+  final bool showWriteReviewButton;
+  final VoidCallback? onWriteReview;
 
   const EventDetailsSection({
     super.key,
@@ -20,6 +22,8 @@ class EventDetailsSection extends StatelessWidget {
     this.showInclusions = true,
     this.showPaymentDetails = true,
     this.showOfferButton = true,
+    this.showWriteReviewButton = false,
+    this.onWriteReview,
   });
 
   @override
@@ -73,6 +77,11 @@ class EventDetailsSection extends StatelessWidget {
             const SizedBox(height: 12),
             // Offer button
             _buildOfferButton(),
+          ],
+          if (showWriteReviewButton) ...[
+            const SizedBox(height: 12),
+            // Write Review button
+            _buildWriteReviewButton(),
           ],
           const SizedBox(height: 12),
         ],
@@ -433,6 +442,29 @@ class EventDetailsSection extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWriteReviewButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onWriteReview,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xff7464E4),
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        ),
+        child: Text(
+          'Write Review',
+          style: GoogleFonts.lexend(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
         ),
       ),

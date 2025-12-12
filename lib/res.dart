@@ -61,3 +61,17 @@
 //             }
 //             ]
 //             }
+
+
+
+
+// {"status":true,"
+// msg":"Data Found",
+// "data":[
+//   {"id":"790",
+//   "party_date":"2025-09-25",
+//   "order_id":"PWCP1758109051790",
+//   "total_amount":"10643",
+//   "status":"success",
+//   "club_name":"Downtown Skye",
+//   "club_id":"937","latitude":"28.434031908913422","longitude":"77.1054861067458","address":"3rd Floor, Suncity Business Tower, Golf Course Road, Suncity, Sector 54, Gurgaon","club_img":"http:\/\/admin.partywitty.com\/master\/assets\/uploads\/1761298227_6845481e3fcfaac90dc2.jpg","Carnival_name":"Freemium dasdfasd dasdfasdfa","carnial_img":"http:\/\/admin.partywitty.com\/master\/assets\/uploads\/1758108440_e861dc5ee1403c49c7f6.jpg","category_type":"task_status","start_time":"19:56","end_time":"21:56","distance":"21.86","carnival_info":{"id":"790","couple_amount":"889","male_amount":"769","female_amount":"446","couple_qty":"5","male_qty":"4","female_qty":"7","coupon_code":""},"coupon_code":"AUTO-68ff670f038f8","rating":""}]}

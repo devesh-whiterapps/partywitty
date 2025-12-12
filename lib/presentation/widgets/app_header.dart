@@ -37,7 +37,7 @@ class AppHeader extends StatelessWidget {
             height: 45,
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
+              // color: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
             ),
             // child: Image.asset(

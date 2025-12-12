@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:partywitty/presentation/screens/past_booking_screen.dart';
 import '../bloc/booking/booking_bloc.dart';
 import '../bloc/booking/booking_event.dart';
 import '../bloc/booking/booking_state.dart';
@@ -144,10 +145,10 @@ class _BookingScreenState extends State<BookingScreen> {
                   toolbarHeight: 57,
                   flexibleSpace: ClipRect(
                     child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                       child: Container(
                         decoration: BoxDecoration(
-                          // color: Colors.white.withOpacity(0.5),
+                          //color: Colors.white.withOpacity(0.01),
                         ),
                         child: const AppHeader(),
                       ),
@@ -161,8 +162,9 @@ class _BookingScreenState extends State<BookingScreen> {
                   delegate: _StickyHeaderDelegate(
                     child: ClipRect(
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                         child: Container(
+                          //   color: Colors.white.withOpacity(0.01),
                           decoration: BoxDecoration(
                             //   color: Colors.white.withOpacity(0.5),
                           ),
@@ -297,7 +299,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: _buildPastBookingsLink(),
+                  child: _buildPastBookingsLink(context),
                 ),
               );
             }
@@ -357,7 +359,7 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             child: Align(
               alignment: Alignment.centerRight,
-              child: _buildPastBookingsLink(),
+              child: _buildPastBookingsLink(context),
             ),
           ),
           const SizedBox(height: 220),
@@ -367,14 +369,22 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 }
 
-Widget _buildPastBookingsLink() {
-  return Text(
-    'Check your past bookings',
-    style: GoogleFonts.lexend(
-      color: Color(0xff7464E4),
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      decoration: TextDecoration.underline,
+Widget _buildPastBookingsLink(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PastBookingsScreen()),
+      );
+    },
+    child: Text(
+      'Check your past bookings',
+      style: GoogleFonts.lexend(
+        color: Color(0xff7464E4),
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        decoration: TextDecoration.underline,
+      ),
     ),
   );
 }
@@ -398,6 +408,16 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     return child;
+    //Container(
+    // return Container(
+    //   margin: const EdgeInsets.only(top: -1.0),
+    //   child: ClipRect(
+    //     child: BackdropFilter(
+    //       filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+    //       child: Container(color: Colors.white.withOpacity(0.1), child: child),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
