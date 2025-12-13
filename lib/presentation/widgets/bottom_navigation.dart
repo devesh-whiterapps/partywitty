@@ -18,6 +18,10 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
   late List<Animation<double>> _scaleAnimations;
   late List<Animation<double>> _fadeAnimations;
 
+  // Add slide animation specifically for the More tab (index 4)
+  late AnimationController _slideController;
+  late Animation<Offset> _slideAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -42,24 +46,63 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
       ).animate(CurvedAnimation(parent: controller, curve: Curves.easeIn));
     }).toList();
 
+    // Create slide animation controller for More tab (index 4)
+    _slideController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 40000),
+    );
+
+    _slideAnimation =
+        Tween<Offset>(
+          begin: const Offset(1.0, 0.0), // Start from right
+          end: Offset.zero, // End at normal position
+        ).animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.easeInOut),
+        );
+
     // Start animation for initial selected tab
-    if (widget.currentIndex < 5) {
+    // if (widget.currentIndex < 5) {
+    //   _animationControllers[widget.currentIndex].forward();
+    // }
+
+    // Start animation for initial selected tab
+    if (widget.currentIndex < 4) {
       _animationControllers[widget.currentIndex].forward();
+    } else if (widget.currentIndex == 4) {
+      _slideController.forward();
     }
   }
 
   @override
   void didUpdateWidget(CustomBottomNavigation oldWidget) {
     super.didUpdateWidget(oldWidget);
+    // if (widget.currentIndex != oldWidget.currentIndex) {
+    //   // Reverse previous tab animation
+    //   if (oldWidget.currentIndex < 5) {
+    //     _animationControllers[oldWidget.currentIndex].reverse();
+    //   }
+    //   // Forward new tab animation
+    //   if (widget.currentIndex < 5) {
+    //     _animationControllers[widget.currentIndex].reset();
+    //     _animationControllers[widget.currentIndex].forward();
+    //   }
+    // }
+
     if (widget.currentIndex != oldWidget.currentIndex) {
       // Reverse previous tab animation
-      if (oldWidget.currentIndex < 5) {
+      if (oldWidget.currentIndex < 4) {
         _animationControllers[oldWidget.currentIndex].reverse();
+      } else if (oldWidget.currentIndex == 4) {
+        _slideController.reverse();
       }
+
       // Forward new tab animation
-      if (widget.currentIndex < 5) {
+      if (widget.currentIndex < 4) {
         _animationControllers[widget.currentIndex].reset();
         _animationControllers[widget.currentIndex].forward();
+      } else if (widget.currentIndex == 4) {
+        _slideController.reset();
+        _slideController.forward();
       }
     }
   }
@@ -69,6 +112,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
     for (var controller in _animationControllers) {
       controller.dispose();
     }
+    _slideController.dispose();
     super.dispose();
   }
 
@@ -118,16 +162,18 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
               'Tools',
             ),
             _buildBookingNavItem(3, badge: '01'),
-            _buildNavItem(
-              //   Image.asset('assets/icons/more.png', width: 24, height: 24),
-              SvgPicture.asset(
-                'assets/icons/more.svg',
-                width: 18.5,
-                height: 18.5,
-              ),
-              4,
-              'More',
-            ),
+
+            // _buildNavItem(
+            //   //   Image.asset('assets/icons/more.png', width: 24, height: 24),
+            //   SvgPicture.asset(
+            //     'assets/icons/more.svg',
+            //     width: 18.5,
+            //     height: 18.5,
+            //   ),
+            //   4,
+            //   'More',
+            // ),
+            _buildMoreNavItem(4), //
           ],
         ),
       ),
@@ -197,6 +243,82 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation>
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: _GradientIcon(icon: icon, size: 24, isSelected: isSelected),
+        ),
+      );
+    }
+  }
+
+  // Special build method for More tab with slide animation
+  Widget _buildMoreNavItem(int index) {
+    final isSelected = index == widget.currentIndex;
+
+    if (isSelected) {
+      return AnimatedBuilder(
+        animation: _slideController,
+        builder: (context, child) {
+          return ClipRect(
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: GestureDetector(
+                onTap: () => widget.onTap?.call(index),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF5D50B6), Color(0xFF2943C3)],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                    ),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ColorFiltered(
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icons/more.svg',
+                          width: 18.5,
+                          height: 18.5,
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        'More',
+                        style: GoogleFonts.lexend(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      return GestureDetector(
+        onTap: () => widget.onTap?.call(index),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: _GradientIcon(
+            icon: SvgPicture.asset(
+              'assets/icons/more.svg',
+              width: 18.5,
+              height: 18.5,
+            ),
+            size: 24,
+            isSelected: isSelected,
+          ),
         ),
       );
     }

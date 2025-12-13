@@ -1290,6 +1290,19 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  // NEW METHOD: Reset search to normal state
+  void _resetSearchState() {
+    setState(() {
+      _isSearchFocused = false;
+      _showSuggestions = false;
+      _showHistory = false;
+      _isSearchExpanded = false;
+      _searchController.clear();
+      _searchResponse = null;
+    });
+    _searchFocusNode.unfocus();
+  }
+
   double get _containerHeight {
     if (!_isSearchExpanded) return 76.0;
     if (_showHistory) return 336.0;
@@ -1301,200 +1314,213 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Fixed Search Container (always visible at top)
-            AnimatedContainer(
-              duration: Duration(milliseconds: 400),
-              curve: Curves.easeInOut,
-              height: _containerHeight,
-              decoration: BoxDecoration(
-                color: _isSearchExpanded
-                    ? Color(0xffF1F1F1).withOpacity(0.5)
-                    : Color(0xffF1F1F1).withOpacity(0.5),
-                border: Border.all(
-                  color: Color(0xffDDDDDD).withOpacity(0.76),
-                  width: 0.7,
-                ),
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Search Bar
-                  Container(
-                    height: 74,
-                    padding: EdgeInsets.all(15),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap:
-                          _isSearchExpanded &&
-                              !_showHistory &&
-                              !_showSuggestions
-                          ? null
-                          : _handleSearchBarTap,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xff7464E4).withOpacity(0.1),
-                              Color(0xffB5A78B).withOpacity(0.1),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/search.svg',
-                                    width: 24,
-                                    height: 24,
-                                    color: Color(0xff4F4F4F),
-                                  ),
-                                  SizedBox(width: 5),
-                                  if (_isSearchFocused)
-                                    Expanded(
-                                      child: TextField(
-                                        controller: _searchController,
-                                        focusNode: _searchFocusNode,
-                                        style: GoogleFonts.lexend(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff4F4F4F),
-                                        ),
-                                        decoration: InputDecoration(
-                                          hintText: 'Search your vibe',
-                                          hintStyle: GoogleFonts.lexend(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xff4F4F4F),
-                                          ),
-                                          border: InputBorder.none,
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.zero,
-                                        ),
-                                      ),
-                                    )
-                                  else
-                                    Expanded(
-                                      child: Text(
-                                        'Search your vibe',
-                                        style: GoogleFonts.lexend(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(0xff4F4F4F),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            SvgPicture.asset('assets/icons/mic.svg'),
-                          ],
-                        ),
-                      ),
+      body: GestureDetector(
+        // NEW: Detect taps outside the search container
+        onTap: () {
+          // Only reset if search is expanded (showing suggestions, history, or helper)
+          if (_isSearchExpanded || _showSuggestions || _showHistory) {
+            _resetSearchState();
+          }
+        },
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Fixed Search Container (always visible at top)
+              GestureDetector(
+                // NEW: Prevent tap events from propagating to parent
+                onTap: () {},
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.easeInOut,
+                  height: _containerHeight,
+                  decoration: BoxDecoration(
+                    color: _isSearchExpanded
+                        ? Color(0xffF1F1F1).withOpacity(0.5)
+                        : Color(0xffF1F1F1).withOpacity(0.5),
+                    border: Border.all(
+                      color: Color(0xffDDDDDD).withOpacity(0.76),
+                      width: 0.7,
                     ),
                   ),
-                  // Expanded Search Content
-                  if (_isSearchExpanded || _showSuggestions || _showHistory)
-                    Expanded(
-                      child: ClipRect(
-                        child: AnimatedSwitcher(
-                          duration: Duration(milliseconds: 400),
-                          switchInCurve: Curves.easeInOut,
-                          switchOutCurve: Curves.easeInOut,
-                          child: _showHistory
-                              ? _buildHistoryView()
-                              : _showSuggestions
-                              ? _buildSuggestionsView()
-                              : _buildSearchHelperView(),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            // Scrollable Content (starts below fixed search container)
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    // Only show "Categorises for you" section when search is complete and results are present
-                    if (!_isSearching &&
-                        _searchResponse != null &&
-                        _hasResults(_searchResponse!))
+                  clipBehavior: Clip.hardEdge,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Search Bar
                       Container(
-                        margin: EdgeInsets.only(top: 12),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xffF1F1F1).withOpacity(0.5),
-                          border: Border.all(
-                            color: Color(0xffDDDDDD).withOpacity(0.76),
-                            width: 0.7,
+                        height: 74,
+                        padding: EdgeInsets.all(15),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap:
+                              _isSearchExpanded &&
+                                  !_showHistory &&
+                                  !_showSuggestions
+                              ? null
+                              : _handleSearchBarTap,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xff7464E4).withOpacity(0.1),
+                                  Color(0xffB5A78B).withOpacity(0.1),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 15,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/search.svg',
+                                        width: 24,
+                                        height: 24,
+                                        color: Color(0xff4F4F4F),
+                                      ),
+                                      SizedBox(width: 5),
+                                      if (_isSearchFocused)
+                                        Expanded(
+                                          child: TextField(
+                                            controller: _searchController,
+                                            focusNode: _searchFocusNode,
+                                            style: GoogleFonts.lexend(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff4F4F4F),
+                                            ),
+                                            decoration: InputDecoration(
+                                              hintText: 'Search your vibe',
+                                              hintStyle: GoogleFonts.lexend(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xff4F4F4F),
+                                              ),
+                                              border: InputBorder.none,
+                                              isDense: true,
+                                              contentPadding: EdgeInsets.zero,
+                                            ),
+                                          ),
+                                        )
+                                      else
+                                        Expanded(
+                                          child: Text(
+                                            'Search your vibe',
+                                            style: GoogleFonts.lexend(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff4F4F4F),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                SvgPicture.asset('assets/icons/mic.svg'),
+                              ],
+                            ),
                           ),
                         ),
-                        padding: EdgeInsets.all(15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Categorises for you',
-                              style: GoogleFonts.lexend(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff070707),
-                              ),
+                      ),
+                      // Expanded Search Content
+                      if (_isSearchExpanded || _showSuggestions || _showHistory)
+                        Expanded(
+                          child: ClipRect(
+                            child: AnimatedSwitcher(
+                              duration: Duration(milliseconds: 400),
+                              switchInCurve: Curves.easeInOut,
+                              switchOutCurve: Curves.easeInOut,
+                              child: _showHistory
+                                  ? _buildHistoryView()
+                                  : _showSuggestions
+                                  ? _buildSuggestionsView()
+                                  : _buildSearchHelperView(),
                             ),
-                            SizedBox(height: 15),
-                            SearchBookingTabs(
-                              selectedTab: _selectedTab,
-                              onTabSelected: (tab) {
-                                setState(() {
-                                  _selectedTab = tab;
-                                });
-                              },
-                              eventCount: _getTabCount('Events'),
-                              venueCount: _getTabCount('Venue'),
-                              packageCount: _getTabCount('Packages'),
-                              artistCount: _getTabCount('Artist'),
-                            ),
-                            SizedBox(height: 10),
-                            _buildSearchResultsContent(),
-                          ],
+                          ),
                         ),
-                      ),
-                    SizedBox(height: 12),
-                    BlogSection(
-                      blogs: List.generate(
-                        3,
-                        (index) => {
-                          'imageUrl': 'assets/images/blog.png',
-                          'title': 'Title',
-                          'description':
-                              'Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.',
-                          'date': 'Jan 4, 2022',
-                          'views': 3344,
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 150),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              // Scrollable Content (starts below fixed search container)
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      // Only show "Categorises for you" section when search is complete and results are present
+                      if (!_isSearching &&
+                          _searchResponse != null &&
+                          _hasResults(_searchResponse!))
+                        Container(
+                          margin: EdgeInsets.only(top: 12),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xffF1F1F1).withOpacity(0.5),
+                            border: Border.all(
+                              color: Color(0xffDDDDDD).withOpacity(0.76),
+                              width: 0.7,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Categorises for you',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff070707),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              SearchBookingTabs(
+                                selectedTab: _selectedTab,
+                                onTabSelected: (tab) {
+                                  setState(() {
+                                    _selectedTab = tab;
+                                  });
+                                },
+                                eventCount: _getTabCount('Events'),
+                                venueCount: _getTabCount('Venue'),
+                                packageCount: _getTabCount('Packages'),
+                                artistCount: _getTabCount('Artist'),
+                              ),
+                              SizedBox(height: 10),
+                              _buildSearchResultsContent(),
+                            ],
+                          ),
+                        ),
+                      SizedBox(height: 12),
+                      BlogSection(
+                        blogs: List.generate(
+                          3,
+                          (index) => {
+                            'imageUrl': 'assets/images/blog.png',
+                            'title': 'Title',
+                            'description':
+                                'Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.',
+                            'date': 'Jan 4, 2022',
+                            'views': 3344,
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 150),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1617,17 +1643,18 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Row(
                     children: [
                       Icon(Icons.history, size: 20, color: Color(0xff4F4F4F)),
-                      SizedBox(width: 10),
+                      SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           _searchHistory[index],
                           style: GoogleFonts.lexend(
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Color(0xff070707),
                           ),
                         ),
                       ),
+                      Icon(Icons.clear, size: 15),
                     ],
                   ),
                 );
@@ -1699,6 +1726,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           ),
                         ),
+                        Icon(Icons.clear, size: 15),
                       ],
                     ),
                   ),
@@ -1775,6 +1803,650 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 }
+
+// class _SearchScreenState extends State<SearchScreen> {
+//   bool _isSearchExpanded = false;
+//   bool _showHistory = false;
+//   bool _showSuggestions = false;
+//   bool _isSearchFocused = false;
+//   final TextEditingController _searchController = TextEditingController();
+//   final FocusNode _searchFocusNode = FocusNode();
+
+//   // Search API related
+//   final SearchService _searchService = SearchService();
+//   SearchResponse? _searchResponse;
+//   bool _isSearching = false;
+//   Timer? _debounceTimer;
+//   String _selectedTab = 'Events';
+
+//   // Scroll controller for main content
+//   final ScrollController _scrollController = ScrollController();
+
+//   // Hardcoded coordinates
+//   static const String _latitude = '28.6294016';
+//   static const String _longitude = '77.135872';
+
+//   final List<String> _searchHistory = [
+//     'Nike Air Max - Lightweight running shoes',
+//     'Adidas Ultraboost - Best for daily training',
+//     'Puma RS-X - Casual streetwear sneakers',
+//     'Woodland Boots - Durable for trekking',
+//     'Bata Formal Shoes - Office & business wear',
+//   ];
+
+//   final List<String> _suggestions = [
+//     'Flying Dutch Man',
+//     'Flying Room',
+//     'Sky Fly',
+//   ];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _searchController.addListener(_onSearchChanged);
+//   }
+
+//   @override
+//   void dispose() {
+//     _debounceTimer?.cancel();
+//     _searchController.removeListener(_onSearchChanged);
+//     _scrollController.dispose();
+//     _searchController.dispose();
+//     _searchFocusNode.dispose();
+//     super.dispose();
+//   }
+
+//   void _onSearchChanged() {
+//     final query = _searchController.text.trim();
+
+//     // Cancel previous timer
+//     _debounceTimer?.cancel();
+
+//     if (query.isEmpty) {
+//       setState(() {
+//         _searchResponse = null;
+//         _isSearching = false;
+//         // Show suggestions while typing if focused
+//         if (_isSearchFocused) {
+//           _showSuggestions = true;
+//           _isSearchExpanded = true;
+//         }
+//       });
+//       return;
+//     }
+
+//     // Show suggestions while typing (before search completes)
+//     if (_isSearchFocused && !_isSearchExpanded) {
+//       setState(() {
+//         _showSuggestions = true;
+//         _isSearchExpanded = true;
+//       });
+//     }
+
+//     // Debounce search API call
+//     _debounceTimer = Timer(Duration(milliseconds: 500), () {
+//       _performSearch(query);
+//     });
+//   }
+
+//   Future<void> _performSearch(String keyword) async {
+//     if (keyword.isEmpty) return;
+
+//     setState(() {
+//       _isSearching = true;
+//     });
+
+//     try {
+//       final response = await _searchService.globalSearch(
+//         keyword: keyword,
+//         latitude: _latitude,
+//         longitude: _longitude,
+//       );
+
+//       setState(() {
+//         _searchResponse = response;
+//         _isSearching = false;
+//         // Hide suggestions when search completes
+//         _showSuggestions = false;
+//         // If no results, show search helper
+//         if (!response.status || !_hasResults(response)) {
+//           _isSearchExpanded = true;
+//         } else {
+//           // If results present, collapse expanded view (results shown in scrollable content)
+//           _isSearchExpanded = false;
+//         }
+//       });
+//     } catch (e) {
+//       print('Search error: $e');
+//       setState(() {
+//         _isSearching = false;
+//         _searchResponse = null;
+//       });
+//     }
+//   }
+
+//   bool _hasResults(SearchResponse response) {
+//     return response.data.clubs.isNotEmpty ||
+//         response.data.packages.isNotEmpty ||
+//         response.data.events.isNotEmpty;
+//   }
+
+//   int _getTabCount(String tab) {
+//     if (_searchResponse == null) return 0;
+//     switch (tab) {
+//       case 'Events':
+//         return _searchResponse!.data.events.length;
+//       case 'Venue':
+//         return _searchResponse!.data.clubs.length;
+//       case 'Packages':
+//         return _searchResponse!.data.packages.length;
+//       case 'Artist':
+//         return 0; // No artist data in API response
+//       default:
+//         return 0;
+//     }
+//   }
+
+//   void _handleSearchBarTap() {
+//     // When user clicks on search bar, focus and show suggestions
+//     if (!_isSearchFocused) {
+//       setState(() {
+//         _isSearchFocused = true;
+//         _showSuggestions = true;
+//         _isSearchExpanded = true;
+//         _showHistory = false;
+//       });
+//       Future.delayed(Duration(milliseconds: 100), () {
+//         _searchFocusNode.requestFocus();
+//       });
+//     }
+//   }
+
+//   double get _containerHeight {
+//     if (!_isSearchExpanded) return 76.0;
+//     if (_showHistory) return 336.0;
+//     if (_showSuggestions) return 236.0;
+//     return 224.0; // Search helper height
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.transparent,
+//       body: SafeArea(
+//         child: Column(
+//           children: [
+//             // Fixed Search Container (always visible at top)
+//             AnimatedContainer(
+//               duration: Duration(milliseconds: 400),
+//               curve: Curves.easeInOut,
+//               height: _containerHeight,
+//               decoration: BoxDecoration(
+//                 color: _isSearchExpanded
+//                     ? Color(0xffF1F1F1).withOpacity(0.5)
+//                     : Color(0xffF1F1F1).withOpacity(0.5),
+//                 border: Border.all(
+//                   color: Color(0xffDDDDDD).withOpacity(0.76),
+//                   width: 0.7,
+//                 ),
+//               ),
+//               clipBehavior: Clip.hardEdge,
+//               child: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   // Search Bar
+//                   Container(
+//                     height: 74,
+//                     padding: EdgeInsets.all(15),
+//                     child: GestureDetector(
+//                       behavior: HitTestBehavior.opaque,
+//                       onTap:
+//                           _isSearchExpanded &&
+//                               !_showHistory &&
+//                               !_showSuggestions
+//                           ? null
+//                           : _handleSearchBarTap,
+//                       child: Container(
+//                         decoration: BoxDecoration(
+//                           gradient: LinearGradient(
+//                             colors: [
+//                               Color(0xff7464E4).withOpacity(0.1),
+//                               Color(0xffB5A78B).withOpacity(0.1),
+//                             ],
+//                           ),
+//                           borderRadius: BorderRadius.circular(4),
+//                         ),
+//                         padding: EdgeInsets.symmetric(
+//                           vertical: 10,
+//                           horizontal: 15,
+//                         ),
+//                         child: Row(
+//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                           children: [
+//                             Expanded(
+//                               child: Row(
+//                                 children: [
+//                                   SvgPicture.asset(
+//                                     'assets/icons/search.svg',
+//                                     width: 24,
+//                                     height: 24,
+//                                     color: Color(0xff4F4F4F),
+//                                   ),
+//                                   SizedBox(width: 5),
+//                                   if (_isSearchFocused)
+//                                     Expanded(
+//                                       child: TextField(
+//                                         controller: _searchController,
+//                                         focusNode: _searchFocusNode,
+//                                         style: GoogleFonts.lexend(
+//                                           fontSize: 14,
+//                                           fontWeight: FontWeight.w500,
+//                                           color: Color(0xff4F4F4F),
+//                                         ),
+//                                         decoration: InputDecoration(
+//                                           hintText: 'Search your vibe',
+//                                           hintStyle: GoogleFonts.lexend(
+//                                             fontSize: 14,
+//                                             fontWeight: FontWeight.w500,
+//                                             color: Color(0xff4F4F4F),
+//                                           ),
+//                                           border: InputBorder.none,
+//                                           isDense: true,
+//                                           contentPadding: EdgeInsets.zero,
+//                                         ),
+//                                       ),
+//                                     )
+//                                   else
+//                                     Expanded(
+//                                       child: Text(
+//                                         'Search your vibe',
+//                                         style: GoogleFonts.lexend(
+//                                           fontSize: 14,
+//                                           fontWeight: FontWeight.w500,
+//                                           color: Color(0xff4F4F4F),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                 ],
+//                               ),
+//                             ),
+//                             SvgPicture.asset('assets/icons/mic.svg'),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   // Expanded Search Content
+//                   if (_isSearchExpanded || _showSuggestions || _showHistory)
+//                     Expanded(
+//                       child: ClipRect(
+//                         child: AnimatedSwitcher(
+//                           duration: Duration(milliseconds: 400),
+//                           switchInCurve: Curves.easeInOut,
+//                           switchOutCurve: Curves.easeInOut,
+//                           child: _showHistory
+//                               ? _buildHistoryView()
+//                               : _showSuggestions
+//                               ? _buildSuggestionsView()
+//                               : _buildSearchHelperView(),
+//                         ),
+//                       ),
+//                     ),
+//                 ],
+//               ),
+//             ),
+//             // Scrollable Content (starts below fixed search container)
+//             Expanded(
+//               child: SingleChildScrollView(
+//                 controller: _scrollController,
+//                 physics: AlwaysScrollableScrollPhysics(),
+//                 child: Column(
+//                   children: [
+//                     // Only show "Categorises for you" section when search is complete and results are present
+//                     if (!_isSearching &&
+//                         _searchResponse != null &&
+//                         _hasResults(_searchResponse!))
+//                       Container(
+//                         margin: EdgeInsets.only(top: 12),
+//                         width: double.infinity,
+//                         decoration: BoxDecoration(
+//                           color: Color(0xffF1F1F1).withOpacity(0.5),
+//                           border: Border.all(
+//                             color: Color(0xffDDDDDD).withOpacity(0.76),
+//                             width: 0.7,
+//                           ),
+//                         ),
+//                         padding: EdgeInsets.all(15),
+//                         child: Column(
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               'Categorises for you',
+//                               style: GoogleFonts.lexend(
+//                                 fontSize: 18,
+//                                 fontWeight: FontWeight.w500,
+//                                 color: Color(0xff070707),
+//                               ),
+//                             ),
+//                             SizedBox(height: 15),
+//                             SearchBookingTabs(
+//                               selectedTab: _selectedTab,
+//                               onTabSelected: (tab) {
+//                                 setState(() {
+//                                   _selectedTab = tab;
+//                                 });
+//                               },
+//                               eventCount: _getTabCount('Events'),
+//                               venueCount: _getTabCount('Venue'),
+//                               packageCount: _getTabCount('Packages'),
+//                               artistCount: _getTabCount('Artist'),
+//                             ),
+//                             SizedBox(height: 10),
+//                             _buildSearchResultsContent(),
+//                           ],
+//                         ),
+//                       ),
+//                     SizedBox(height: 12),
+//                     BlogSection(
+//                       blogs: List.generate(
+//                         3,
+//                         (index) => {
+//                           'imageUrl': 'assets/images/blog.png',
+//                           'title': 'Title',
+//                           'description':
+//                               'Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.',
+//                           'date': 'Jan 4, 2022',
+//                           'views': 3344,
+//                         },
+//                       ),
+//                     ),
+//                     SizedBox(height: 150),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildSearchHelperView() {
+//     return Container(
+//       key: ValueKey('helper'),
+//       padding: EdgeInsets.only(left: 15, bottom: 12, right: 15, top: 0),
+//       child: SingleChildScrollView(
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               'Search Helper',
+//               style: GoogleFonts.lexend(
+//                 fontSize: 18,
+//                 fontWeight: FontWeight.w600,
+//                 color: Color(0xff070707),
+//               ),
+//             ),
+//             SizedBox(height: 6),
+//             Text(
+//               'Explore new possibilities',
+//               style: GoogleFonts.lexend(
+//                 fontSize: 13,
+//                 fontWeight: FontWeight.w500,
+//                 color: Color(0xff070707),
+//               ),
+//             ),
+//             SizedBox(height: 8),
+//             Text(
+//               'We couldn\'t find any results for your search. Try using different keywords or adjusting filters.',
+//               style: GoogleFonts.lexend(
+//                 fontSize: 11,
+//                 fontWeight: FontWeight.w400,
+//                 color: Color(0xff4F4F4F),
+//                 height: 1.3,
+//               ),
+//             ),
+//             SizedBox(height: 12),
+//             GestureDetector(
+//               onTap: () {
+//                 setState(() {
+//                   _showHistory = true;
+//                   _showSuggestions = false;
+//                   _isSearchExpanded = true;
+//                 });
+//               },
+//               child: Container(
+//                 padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+//                 decoration: BoxDecoration(
+//                   color: Color(0xff7464E4).withOpacity(0.15),
+//                 ),
+//                 child: Row(
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     Icon(Icons.arrow_back, color: Color(0xff7464E4), size: 16),
+//                     SizedBox(width: 6),
+//                     Text(
+//                       'Go Back',
+//                       style: GoogleFonts.lexend(
+//                         fontSize: 13,
+//                         fontWeight: FontWeight.w500,
+//                         color: Color(0xff7464E4),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildHistoryView() {
+//     return Container(
+//       key: ValueKey('history'),
+//       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+//       child: SingleChildScrollView(
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Text(
+//                   'History',
+//                   style: GoogleFonts.lexend(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.w500,
+//                     color: Color(0xff070707),
+//                   ),
+//                 ),
+//                 GestureDetector(
+//                   onTap: () {},
+//                   child: Text(
+//                     'Clear',
+//                     style: GoogleFonts.lexend(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w500,
+//                       color: Color(0xffFF5555),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             SizedBox(height: 12),
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: NeverScrollableScrollPhysics(),
+//               itemCount: _searchHistory.length,
+//               itemBuilder: (context, index) {
+//                 return Padding(
+//                   padding: EdgeInsets.only(bottom: 10),
+//                   child: Row(
+//                     children: [
+//                       Icon(Icons.history, size: 20, color: Color(0xff4F4F4F)),
+//                       SizedBox(width: 10),
+//                       Expanded(
+//                         child: Text(
+//                           _searchHistory[index],
+//                           style: GoogleFonts.lexend(
+//                             fontSize: 12,
+//                             fontWeight: FontWeight.w400,
+//                             color: Color(0xff070707),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildSuggestionsView() {
+//     return Container(
+//       key: ValueKey('suggestions'),
+//       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+//       child: SingleChildScrollView(
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Text(
+//                   'Suggestions',
+//                   style: GoogleFonts.lexend(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.w600,
+//                     color: Color(0xff070707),
+//                   ),
+//                 ),
+//                 GestureDetector(
+//                   onTap: () {},
+//                   child: Text(
+//                     'Clear',
+//                     style: GoogleFonts.lexend(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w500,
+//                       color: Color(0xffFF5555),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             SizedBox(height: 12),
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: NeverScrollableScrollPhysics(),
+//               itemCount: _suggestions.length,
+//               itemBuilder: (context, index) {
+//                 return GestureDetector(
+//                   onTap: () {
+//                     _searchController.text = _suggestions[index];
+//                     _performSearch(_suggestions[index]);
+//                   },
+//                   child: Padding(
+//                     padding: EdgeInsets.only(bottom: 10),
+//                     child: Row(
+//                       children: [
+//                         Icon(Icons.search, size: 20, color: Color(0xff4F4F4F)),
+//                         SizedBox(width: 10),
+//                         Expanded(
+//                           child: Text(
+//                             _suggestions[index],
+//                             style: GoogleFonts.lexend(
+//                               fontSize: 14,
+//                               fontWeight: FontWeight.w400,
+//                               color: Color(0xff070707),
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildSearchResultsContent() {
+//     if (_searchResponse == null || !_hasResults(_searchResponse!)) {
+//       return SizedBox.shrink();
+//     }
+
+//     switch (_selectedTab) {
+//       case 'Events':
+//         if (_searchResponse!.data.events.isEmpty) {
+//           return SizedBox.shrink();
+//         }
+//         return Column(
+//           children: _searchResponse!.data.events.map((event) {
+//             return EventCard(
+//               imageUrl: 'assets/images/category1.png', // Placeholder for now
+//               title: event.name,
+//               location: '${event.clubName}, ${event.cityName}',
+//               eventType: event.category,
+//               date: event.eventDate,
+//               tagColor: Color(0xff8B7DD8),
+//               onTap: () {},
+//             );
+//           }).toList(),
+//         );
+//       case 'Venue':
+//         if (_searchResponse!.data.clubs.isEmpty) {
+//           return SizedBox.shrink();
+//         }
+//         return Column(
+//           children: _searchResponse!.data.clubs.map((club) {
+//             return EventCard(
+//               imageUrl: 'assets/images/category1.png', // Placeholder for now
+//               title: club.name,
+//               location: '${club.areaName}, ${club.cityName}',
+//               eventType: club.category,
+//               date: '${club.distance} km away',
+//               tagColor: Color(0xff8B7DD8),
+//               onTap: () {},
+//             );
+//           }).toList(),
+//         );
+//       case 'Packages':
+//         if (_searchResponse!.data.packages.isEmpty) {
+//           return SizedBox.shrink();
+//         }
+//         return Column(
+//           children: _searchResponse!.data.packages.map((pkg) {
+//             return EventCard(
+//               imageUrl: 'assets/images/category1.png', // Placeholder for now
+//               title: pkg.title,
+//               location: '${pkg.clubName}, ${pkg.cityName}',
+//               eventType: 'Package',
+//               date: '${pkg.distance} km away',
+//               tagColor: Color(0xff8B7DD8),
+//               onTap: () {},
+//             );
+//           }).toList(),
+//         );
+//       case 'Artist':
+//         return SizedBox.shrink();
+//       default:
+//         return SizedBox.shrink();
+//     }
+//   }
+// }
 
 // EventCard, SearchBookingTabs, BlogCard, and BlogSection remain the same
 class EventCard extends StatelessWidget {

@@ -37,7 +37,7 @@ class AppHeader extends StatelessWidget {
             height: 45,
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
             decoration: BoxDecoration(
-              // color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
             ),
             // child: Image.asset(
@@ -157,7 +157,7 @@ class AppHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 5),
+        const SizedBox(height: 11),
         Container(
           // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
@@ -186,7 +186,7 @@ class AppHeader extends StatelessWidget {
         ),
         const Text(
           'Asant Kunj Comes Under ..',
-          style: TextStyle(fontSize: 10, color: Colors.grey),
+          style: TextStyle(fontSize: 11.5, color: Colors.grey),
         ),
       ],
     );

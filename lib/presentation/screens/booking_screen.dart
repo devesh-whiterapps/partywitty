@@ -145,10 +145,10 @@ class _BookingScreenState extends State<BookingScreen> {
                   toolbarHeight: 57,
                   flexibleSpace: ClipRect(
                     child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                       child: Container(
                         decoration: BoxDecoration(
-                          //color: Colors.white.withOpacity(0.01),
+                          color: Color(0xffF1F4E0).withOpacity(0.90),
                         ),
                         child: const AppHeader(),
                       ),
@@ -162,11 +162,11 @@ class _BookingScreenState extends State<BookingScreen> {
                   delegate: _StickyHeaderDelegate(
                     child: ClipRect(
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                         child: Container(
-                          //   color: Colors.white.withOpacity(0.01),
+                          //color: Colors.white.withOpacity(0.01),
                           decoration: BoxDecoration(
-                            //   color: Colors.white.withOpacity(0.5),
+                            color: Color(0xffF1F4E0).withOpacity(0.90),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,

@@ -328,776 +328,1960 @@ class _MenuScreenState extends State<MenuScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
-          child: Column(
+          child: Stack(
             children: [
-              // AppBar(
-              //   backgroundColor: Colors.transparent,
-              //   elevation: 0,
-              //   leading: IconButton(
-              //     icon: Image.asset(
-              //       'assets/icons/arrow_back.png',
-              //       width: 16,
-              //       height: 13,
-              //     ),
-              //     onPressed: () => Navigator.of(context).pop(),
-              //   ),
-              //   titleSpacing: -10,
-              //   // title: Text(
-              //   //   'Transaction History',
-              //   //   // style: GoogleFonts.lexend(
-              //   //   //   color: Color(0xff070707),
-              //   //   //   fontSize: 18,
-              //   //   //   fontWeight: FontWeight.w500,
-              //   //   // ),
-              //   // ),
-              //   // centerTitle: false,
-              //   // actions: [
-              //   //   Padding(
-              //   //     padding: const EdgeInsets.only(right: 16.0),
-              //   //     child: Container(
-              //   //       width: 38,
-              //   //       height: 38,
-              //   //       padding: const EdgeInsets.symmetric(
-              //   //         horizontal: 10,
-              //   //         vertical: 7,
-              //   //       ),
-              //   //       decoration: BoxDecoration(
-              //   //         border: Border.all(
-              //   //           color: Color(0xffECECE9),
-              //   //           width: 0.5,
-              //   //         ),
-              //   //         borderRadius: BorderRadius.circular(4),
-              //   //         color: Color(0xffFFFFFF).withOpacity(0.5),
-              //   //       ),
-              //   //       child: SvgPicture.asset(
-              //   //         'assets/icons/search.svg',
-              //   //         width: 24,
-              //   //         height: 24,
-              //   //         color: Color(0xff4F4F4F),
-              //   //       ),
-              //   //     ),
-              //   //   ),
-              //   // ],
-              // ),
-              Container(
-                width: double.infinity,
-                // height: 218,
-                decoration: BoxDecoration(
-                  //  color: Colors.white,
-                  //  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // child: IconButton(
-                      //   icon: Image.asset(
-                      //     'assets/icons/arrow_back.png',
-                      //     width: 16,
-                      //     height: 13,
-                      //   ),
-                      //   onPressed: () => Navigator.of(context).pop(),
-                      // ),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (widget.onBack != null) {
-                            widget.onBack!();
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BookingScreen(),
-                              ),
-                            );
-                          }
-                        },
-                        child: Image.asset(
-                          'assets/icons/arrow_back.png',
-                          width: 16,
-                          height: 13,
+              // Main content that's always visible
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (widget.onBack != null) {
+                                widget.onBack!();
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookingScreen(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Image.asset(
+                              'assets/icons/arrow_back.png',
+                              width: 16,
+                              height: 13,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-
-                    Container(
-                      // height: 175,
-                      width: 380,
-                      padding: const EdgeInsets.only(top: 15),
-                      decoration: BoxDecoration(
-                        //  color: Colors.white,
-                        // borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xff7464E4).withOpacity(0.1),
-                            Color(0xffB5A78B).withOpacity(0.08),
-                            // Color(0xffffffff).withOpacity(0.1),
-                            // Color(0xffffffff),
-
-                            //  Color(0xff7464E4).withValues(alpha: 0.2),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        border: Border.all(
-                          color: Color(0xffEDEDED),
-                          width: 0.5,
-                        ),
-                      ),
-                      child: Stack(
-                        children: [
-                          Column(
+                        SizedBox(height: 10),
+                        Container(
+                          width: 380,
+                          padding: const EdgeInsets.only(top: 15),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xff7464E4).withOpacity(0.1),
+                                Color(0xffB5A78B).withOpacity(0.08),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            border: Border.all(
+                              color: Color(0xffEDEDED),
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Stack(
                             children: [
-                              Row(
+                              Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      right: 10,
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 80,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(
-                                              155,
-                                            ),
-                                          ),
-                                          // child: SvgPicture.asset(
-                                          //   'assets/images/image1.svg',
-                                          //   width: 80,
-                                          //   height: 80,
-                                          // ),
-                                          child: Image.asset(
-                                            'assets/images/image1.png',
-                                            width: 80,
-                                            height: 80,
-                                          ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
                                         ),
-                                        SizedBox(width: 8),
-                                        Column(
+                                        child: Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              'John Doe',
-                                              style: GoogleFonts.lexend(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff1C1B1D),
-                                              ),
-                                            ),
-                                            SizedBox(height: 8),
-                                            Text(
-                                              '91-958 297 4280',
-                                              style: GoogleFonts.lexend(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff4F4F4F),
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
                                             Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 4,
-                                                  ),
+                                              width: 80,
+                                              height: 80,
                                               decoration: BoxDecoration(
-                                                color: Color(
-                                                  0xff000000,
-                                                ).withValues(alpha: 0.89),
+                                                color: Colors.white,
                                                 borderRadius:
-                                                    BorderRadius.circular(100),
+                                                    BorderRadius.circular(155),
                                               ),
-                                              child: Text(
-                                                'Join Crown membership',
-                                                style: GoogleFonts.lexend(
-                                                  fontSize: 12,
-                                                  color: Color(0xffB7986C),
-                                                  fontWeight: FontWeight.w400,
+                                              child: Image.asset(
+                                                'assets/images/image1.png',
+                                                width: 80,
+                                                height: 80,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'John Doe',
+                                                  style: GoogleFonts.lexend(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xff1C1B1D),
+                                                  ),
                                                 ),
-                                              ),
+                                                SizedBox(height: 8),
+                                                Text(
+                                                  '91-958 297 4280',
+                                                  style: GoogleFonts.lexend(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xff4F4F4F),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 4,
+                                                      ),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(
+                                                      0xff000000,
+                                                    ).withValues(alpha: 0.89),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          100,
+                                                        ),
+                                                  ),
+                                                  child: Text(
+                                                    'Join Crown membership',
+                                                    style: GoogleFonts.lexend(
+                                                      fontSize: 12,
+                                                      color: Color(0xffB7986C),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
+                                  Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFF5D50B6),
+                                          Color(0xFF2943C3),
+                                        ],
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Indus Global',
+                                                style: GoogleFonts.lexend(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xffFFFFFF),
+                                                ),
+                                              ),
+                                              Text(
+                                                'UI UX Designer',
+                                                style: GoogleFonts.lexend(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xffFFFFFF),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _showAccountList =
+                                                  !_showAccountList;
+                                            });
+                                          },
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  'Switch Account',
+                                                  style: GoogleFonts.lexend(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xffFFFFFF),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 5),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  size: 9,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8),
-                              Container(
-                                //   height: 59,
-                                width: double.infinity,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 6,
+                              Positioned(
+                                right: 10,
+                                top: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showProfileBottomOverlay(context);
+                                  },
+                                  child: Container(
+                                    width: 28,
+                                    height: 28,
+                                    padding: EdgeInsets.all(5),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/edit.svg',
+                                      width: 15,
+                                      height: 15,
+                                    ),
+                                  ),
                                 ),
-                                decoration: BoxDecoration(
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Main menu - always visible
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 2,
+                              height: 18,
+                              decoration: BoxDecoration(
+                                color: Color(0xff4F4F4F),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Text(
+                              'MAIN MENU',
+                              style: GoogleFonts.lexend(
+                                fontSize: 12,
+                                color: Color(0xff4F4F4F),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/turn.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'My Plan',
+                        ),
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/chat.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'Chat Room',
+                        ),
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/notification.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'Notification',
+                        ),
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/like.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'Save & Like',
+                        ),
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/champ.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'Rewards',
+                        ),
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/location_plus.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'Select Location',
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 2,
+                              height: 18,
+                              decoration: BoxDecoration(
+                                color: Color(0xff4F4F4F),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            SizedBox(width: 14),
+                            Text(
+                              'SUPPORTIVE PAGE    ',
+                              style: GoogleFonts.lexend(
+                                fontSize: 12,
+                                color: Color(0xff4F4F4F),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  // child: SvgPicture.asset(
+                                  //   'assets/icons/turn.svg',
+                                  //   height: 20,
+                                  //   width: 20,
+                                  // ),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/dark_mode.svg',
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                // Text(
+                                //   // 'My Plan',
+                                //   text,
+                                //   style: GoogleFonts.lexend(
+                                //     fontSize: 16,
+                                //     color: Color(0xff4F4F4F),
+                                //     fontWeight: FontWeight.w500,
+                                //   ),
+                                // ),
+                                GradientText(
+                                  text: 'Dark Mode',
                                   gradient: LinearGradient(
                                     colors: [
-                                      // Color(0xff7464E4),
-                                      // Color(0xff3354F4),
-                                      Color(0xFF5D50B6), // Same as booking tab
+                                      Color(0xFF5D50B6),
                                       Color(0xFF2943C3),
                                     ],
                                   ),
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 16,
+                                    // color: Color(0xff4F4F4F),
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      // height: 36,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                              ],
+                            ),
+                            // Switch(
+                            //   value: _isSwitched,
+                            //   onChanged: (value) {
+                            //     setState(() {
+                            //       _isSwitched = value;
+                            //     });
+                            //   },
+                            //   activeColor: Colors.blue, // Custom colors
+                            //   activeTrackColor: Colors.blue.shade200,
+                            //   // inactiveThumbImage: AssetImage(
+                            //   //   'assets/icons/switch.png',
+                            //   // ),
+                            //   inactiveThumbColor: Color(0xff4F4F4F),
+                            //   inactiveTrackColor: Color(0xffA09E9E),
+                            // ),
+                            CustomToggleSwitch(
+                              value: _isSwitched,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isSwitched = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 14),
+                        menuwidgets(
+                          SvgPicture.asset(
+                            'assets/icons/power.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                          'Logout',
+                        ),
+                      ],
+                    ),
+                  ),
+                  //  Spacer(),
+                  Spacer(),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 1),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Image.asset('assets/images/hamburger.png'),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'v2.1.4',
+                          style: GoogleFonts.lexend(
+                            fontSize: 16,
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                ],
+              ),
+              // Account list overlay - positioned above main menu
+              if (_showAccountList)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top:
+                      183, // Adjust this value to position it right after the profile card
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(
+                        0xffFFFFFF,
+                      ).withOpacity(0.95), // Semi-transparent background
+                      border: Border.all(color: Color(0xffDCDCDC)),
+                    ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: accounts.length,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 9,
+                        horizontal: 10,
+                      ),
+                      itemBuilder: (context, index) {
+                        final account = accounts[index];
+                        final isSelected = _selectedAccountIndex == index;
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _showAccountList = !_showAccountList;
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25),
+                                    child: Image.asset(
+                                      account['image'],
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return Icon(Icons.person, size: 25);
+                                          },
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         children: [
                                           Text(
-                                            'Indus Global',
+                                            account['name'],
                                             style: GoogleFonts.lexend(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400,
-                                              color: Color(0xffFFFFFF),
+                                              color: Color(0xff1C1B1D),
                                             ),
                                           ),
-                                          Text(
-                                            'UI UX Designer',
-                                            style: GoogleFonts.lexend(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0xffFFFFFF),
+                                          SizedBox(width: 6),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 3,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xFF5D50B6),
+                                                  Color(0xFF2943C3),
+                                                ],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              account['role'],
+                                              style: GoogleFonts.lexend(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _showAccountList = !_showAccountList;
-                                          _showOptions = !_showOptions;
-                                        });
-                                      },
-                                      child: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'Switch Account',
-                                              style: GoogleFonts.lexend(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xffFFFFFF),
-                                              ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              size: 9,
-
-                                              color: Colors.white,
-                                            ),
-                                          ],
+                                      SizedBox(height: 3),
+                                      Text(
+                                        account['phone'],
+                                        style: GoogleFonts.lexend(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xff4F4F4F),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          Positioned(
-                            right: 10,
-                            top: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                showProfileBottomOverlay(context);
-                              },
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                                padding: EdgeInsets.all(5),
-                                child: SvgPicture.asset(
-                                  'assets/icons/edit.svg',
-                                  width: 15,
-                                  height: 15,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Account List Dropdown
-                    if (_showAccountList)
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xffffffff).withOpacity(0.5),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Color(0xffDCDCDC),
-                          //     blurRadius: 10,
-                          //     offset: Offset(0, 5),
-                          //   ),
-                          // ],
-                          border: Border.all(color: Color(0xffDCDCDC)),
-                        ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: accounts.length,
-                          padding: EdgeInsets.symmetric(vertical: 9),
-                          itemBuilder: (context, index) {
-                            final account = accounts[index];
-                            final isSelected = _selectedAccountIndex == index;
-
-                            return Container(
-                              // margin: EdgeInsets.symmetric(
-                              //   horizontal: 12,
-                              //   vertical: 2,
-                              // ),
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                //color: Colors.white,
-                                // border: Border.all(
-                                //   color: Color(0xffE0E0E0),
-                                //   width: 1,
-                                // ),
-                                // borderRadius: BorderRadius.circular(
-                                //   8,
-                                // ),
-                              ),
-                              child: Row(
-                                children: [
-                                  // Profile image
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      //   color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(25),
-                                      child: Image.asset(
-                                        account['image'],
-                                        fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                              return Icon(
-                                                Icons.person,
-                                                size: 25,
-                                              );
-                                            },
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  // Account details
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              account['name'],
-                                              style: GoogleFonts.lexend(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xff1C1B1D),
-                                              ),
-                                            ),
-                                            SizedBox(width: 6),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                                vertical: 3,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                // color: _getRoleColor(
-                                                //   account['role'],
-                                                // ),
-                                                gradient: LinearGradient(
-                                                  colors: [
-                                                    Color(
-                                                      0xFF5D50B6,
-                                                    ), // Same as booking tab
-                                                    Color(0xFF2943C3),
-                                                  ],
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Text(
-                                                account['role'],
-                                                style: GoogleFonts.lexend(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                      SizedBox(height: 3),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 4,
                                         ),
-                                        SizedBox(height: 3),
-                                        Text(
-                                          account['phone'],
+                                        decoration: BoxDecoration(
+                                          color: Color(
+                                            0xffDDDDDD,
+                                          ).withOpacity(0.8),
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          account['company'],
                                           style: GoogleFonts.lexend(
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             color: Color(0xff4F4F4F),
                                           ),
                                         ),
-                                        SizedBox(height: 3),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 4,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: Color(
-                                              0xffDDDDDD,
-                                            ).withOpacity(0.8),
-                                            borderRadius: BorderRadius.circular(
-                                              100,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            account['company'],
-                                            style: GoogleFonts.lexend(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xff4F4F4F),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (isSelected)
+                                  Container(
+                                    width: 26,
+                                    height: 26,
+                                    padding: EdgeInsets.all(3),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFF5D50B6),
+                                          Color.fromARGB(231, 47, 74, 207),
+                                        ],
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 20,
                                     ),
                                   ),
-                                  // Selection indicator
-                                  if (isSelected)
-                                    Container(
-                                      width: 26,
-                                      height: 26,
-                                      padding: EdgeInsets.all(3),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF5D50B6),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color(
-                                              0xFF5D50B6,
-                                            ), // Same as booking tab
-                                            Color.fromARGB(231, 47, 74, 207),
-                                            // Color(
-                                            //   0xff000000,
-                                            // ).withOpacity(0.2),
-                                          ],
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.check,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-              if (_showOptions)
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // VerticalDivider(
-                          //   thickness: 2,
-                          //   radius: BorderRadius.circular(12),
-                          //   color: Color(0xff4F4F4F),
-                          // ),
-                          Container(
-                            width: 2,
-                            height: 18,
-                            decoration: BoxDecoration(
-                              color: Color(0xff4F4F4F),
-                              borderRadius: BorderRadius.circular(12),
+                              ],
                             ),
                           ),
-                          SizedBox(width: 12),
-                          Text(
-                            'MAIN MENU',
-                            style: GoogleFonts.lexend(
-                              fontSize: 12,
-                              color: Color(0xff4F4F4F),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 14),
-
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         Container(
-                      //           height: 20,
-                      //           width: 20,
-                      //           child: SvgPicture.asset(
-                      //             'assets/icons/turn.svg',
-                      //             height: 20,
-                      //             width: 20,
-                      //           ),
-                      //         ),
-                      //         SizedBox(width: 10),
-                      //         Text(
-                      //           'My Plan',
-                      //           style: GoogleFonts.lexend(
-                      //             fontSize: 16,
-                      //             color: Color(0xff4F4F4F),
-                      //             fontWeight: FontWeight.w500,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //     Icon(
-                      //       Icons.arrow_forward_ios,
-                      //       size: 10,
-
-                      //       color: Color(0xff7464E4),
-                      //     ),
-                      //   ],
-                      // ),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/turn.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'My Plan',
-                      ),
-                      SizedBox(height: 14),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/chat.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'Chat Room',
-                      ),
-                      SizedBox(height: 14),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/notification.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'Notification',
-                      ),
-                      SizedBox(height: 14),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/like.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'Save & Like',
-                      ),
-                      SizedBox(height: 14),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/champ.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'Rewards',
-                      ),
-                      SizedBox(height: 14),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/location_plus.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'Select Location',
-                      ),
-                      SizedBox(height: 15),
-
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // VerticalDivider(
-                          //   thickness: 2,
-                          //   radius: BorderRadius.circular(12),
-                          //   color: Color(0xff4F4F4F),
-                          // ),
-                          Container(
-                            width: 2,
-                            height: 18,
-                            decoration: BoxDecoration(
-                              color: Color(0xff4F4F4F),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          SizedBox(width: 14),
-                          Text(
-                            'SUPPORTIVE PAGE    ',
-                            style: GoogleFonts.lexend(
-                              fontSize: 12,
-                              color: Color(0xff4F4F4F),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      // menuwidgets(
-                      //   SvgPicture.asset(
-                      //     'assets/icons/turn.svg',
-                      //     height: 20,
-                      //     width: 20,
-                      //   ),
-                      //   'Dark Mode',
-                      // ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                height: 20,
-                                width: 20,
-                                // child: SvgPicture.asset(
-                                //   'assets/icons/turn.svg',
-                                //   height: 20,
-                                //   width: 20,
-                                // ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/dark_mode.svg',
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              // Text(
-                              //   // 'My Plan',
-                              //   text,
-                              //   style: GoogleFonts.lexend(
-                              //     fontSize: 16,
-                              //     color: Color(0xff4F4F4F),
-                              //     fontWeight: FontWeight.w500,
-                              //   ),
-                              // ),
-                              GradientText(
-                                text: 'Dark Mode',
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFF5D50B6),
-                                    Color(0xFF2943C3),
-                                  ],
-                                ),
-                                style: GoogleFonts.lexend(
-                                  fontSize: 16,
-                                  // color: Color(0xff4F4F4F),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Switch(
-                          //   value: _isSwitched,
-                          //   onChanged: (value) {
-                          //     setState(() {
-                          //       _isSwitched = value;
-                          //     });
-                          //   },
-                          //   activeColor: Colors.blue, // Custom colors
-                          //   activeTrackColor: Colors.blue.shade200,
-                          //   // inactiveThumbImage: AssetImage(
-                          //   //   'assets/icons/switch.png',
-                          //   // ),
-                          //   inactiveThumbColor: Color(0xff4F4F4F),
-                          //   inactiveTrackColor: Color(0xffA09E9E),
-                          // ),
-                          CustomToggleSwitch(
-                            value: _isSwitched,
-                            onChanged: (value) {
-                              setState(() {
-                                _isSwitched = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 14),
-                      menuwidgets(
-                        SvgPicture.asset(
-                          'assets/icons/power.svg',
-                          height: 20,
-                          width: 20,
-                        ),
-                        'Logout',
-                      ),
-
-                      //   Spacer(),
-                    ],
+                        );
+                      },
+                    ),
                   ),
                 ),
-              Spacer(),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 1),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Image.asset('assets/images/hamburger.png'),
-                    ),
-                    // SvgPicture.asset('assets/images/hamburger.svg'),
-                    SizedBox(width: 10),
-                    Text(
-                      'v2.1.4',
-                      style: GoogleFonts.lexend(
-                        fontSize: 16,
-                        color: Color(0xff000000),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15),
             ],
           ),
         ),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     backgroundColor: Color(0xffFFFFFF).withValues(alpha: 0.6),
+  //     body: SafeArea(
+  //       child: Padding(
+  //         padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+  //         child: Column(
+  //           children: [
+  //             // AppBar(
+  //             //   backgroundColor: Colors.transparent,
+  //             //   elevation: 0,
+  //             //   leading: IconButton(
+  //             //     icon: Image.asset(
+  //             //       'assets/icons/arrow_back.png',
+  //             //       width: 16,
+  //             //       height: 13,
+  //             //     ),
+  //             //     onPressed: () => Navigator.of(context).pop(),
+  //             //   ),
+  //             //   titleSpacing: -10,
+  //             //   // title: Text(
+  //             //   //   'Transaction History',
+  //             //   //   // style: GoogleFonts.lexend(
+  //             //   //   //   color: Color(0xff070707),
+  //             //   //   //   fontSize: 18,
+  //             //   //   //   fontWeight: FontWeight.w500,
+  //             //   //   // ),
+  //             //   // ),
+  //             //   // centerTitle: false,
+  //             //   // actions: [
+  //             //   //   Padding(
+  //             //   //     padding: const EdgeInsets.only(right: 16.0),
+  //             //   //     child: Container(
+  //             //   //       width: 38,
+  //             //   //       height: 38,
+  //             //   //       padding: const EdgeInsets.symmetric(
+  //             //   //         horizontal: 10,
+  //             //   //         vertical: 7,
+  //             //   //       ),
+  //             //   //       decoration: BoxDecoration(
+  //             //   //         border: Border.all(
+  //             //   //           color: Color(0xffECECE9),
+  //             //   //           width: 0.5,
+  //             //   //         ),
+  //             //   //         borderRadius: BorderRadius.circular(4),
+  //             //   //         color: Color(0xffFFFFFF).withOpacity(0.5),
+  //             //   //       ),
+  //             //   //       child: SvgPicture.asset(
+  //             //   //         'assets/icons/search.svg',
+  //             //   //         width: 24,
+  //             //   //         height: 24,
+  //             //   //         color: Color(0xff4F4F4F),
+  //             //   //       ),
+  //             //   //     ),
+  //             //   //   ),
+  //             //   // ],
+  //             // ),
+  //             Container(
+  //               width: double.infinity,
+  //               // height: 218,
+  //               decoration: BoxDecoration(
+  //                 //  color: Colors.white,
+  //                 //  borderRadius: BorderRadius.circular(10),
+  //               ),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Container(
+  //                     // child: IconButton(
+  //                     //   icon: Image.asset(
+  //                     //     'assets/icons/arrow_back.png',
+  //                     //     width: 16,
+  //                     //     height: 13,
+  //                     //   ),
+  //                     //   onPressed: () => Navigator.of(context).pop(),
+  //                     // ),
+  //                     child: GestureDetector(
+  //                       onTap: () {
+  //                         if (widget.onBack != null) {
+  //                           widget.onBack!();
+  //                         } else {
+  //                           Navigator.push(
+  //                             context,
+  //                             MaterialPageRoute(
+  //                               builder: (context) => BookingScreen(),
+  //                             ),
+  //                           );
+  //                         }
+  //                       },
+  //                       child: Image.asset(
+  //                         'assets/icons/arrow_back.png',
+  //                         width: 16,
+  //                         height: 13,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   SizedBox(height: 10),
+
+  //                   Container(
+  //                     // height: 175,
+  //                     width: 380,
+  //                     padding: const EdgeInsets.only(top: 15),
+  //                     decoration: BoxDecoration(
+  //                       //  color: Colors.white,
+  //                       // borderRadius: BorderRadius.circular(10),
+  //                       gradient: LinearGradient(
+  //                         colors: [
+  //                           Color(0xff7464E4).withOpacity(0.1),
+  //                           Color(0xffB5A78B).withOpacity(0.08),
+  //                           // Color(0xffffffff).withOpacity(0.1),
+  //                           // Color(0xffffffff),
+
+  //                           //  Color(0xff7464E4).withValues(alpha: 0.2),
+  //                         ],
+  //                         begin: Alignment.topLeft,
+  //                         end: Alignment.centerRight,
+  //                       ),
+  //                       border: Border.all(
+  //                         color: Color(0xffEDEDED),
+  //                         width: 0.5,
+  //                       ),
+  //                     ),
+  //                     child: Stack(
+  //                       children: [
+  //                         Column(
+  //                           children: [
+  //                             Row(
+  //                               children: [
+  //                                 Padding(
+  //                                   padding: const EdgeInsets.only(
+  //                                     left: 10,
+  //                                     right: 10,
+  //                                   ),
+  //                                   child: Row(
+  //                                     crossAxisAlignment:
+  //                                         CrossAxisAlignment.start,
+  //                                     children: [
+  //                                       Container(
+  //                                         width: 80,
+  //                                         height: 80,
+  //                                         decoration: BoxDecoration(
+  //                                           color: Colors.white,
+  //                                           borderRadius: BorderRadius.circular(
+  //                                             155,
+  //                                           ),
+  //                                         ),
+  //                                         // child: SvgPicture.asset(
+  //                                         //   'assets/images/image1.svg',
+  //                                         //   width: 80,
+  //                                         //   height: 80,
+  //                                         // ),
+  //                                         child: Image.asset(
+  //                                           'assets/images/image1.png',
+  //                                           width: 80,
+  //                                           height: 80,
+  //                                         ),
+  //                                       ),
+  //                                       SizedBox(width: 8),
+  //                                       Column(
+  //                                         crossAxisAlignment:
+  //                                             CrossAxisAlignment.start,
+  //                                         children: [
+  //                                           Text(
+  //                                             'John Doe',
+  //                                             style: GoogleFonts.lexend(
+  //                                               fontSize: 16,
+  //                                               fontWeight: FontWeight.w500,
+  //                                               color: Color(0xff1C1B1D),
+  //                                             ),
+  //                                           ),
+  //                                           SizedBox(height: 8),
+  //                                           Text(
+  //                                             '91-958 297 4280',
+  //                                             style: GoogleFonts.lexend(
+  //                                               fontSize: 13,
+  //                                               fontWeight: FontWeight.w500,
+  //                                               color: Color(0xff4F4F4F),
+  //                                             ),
+  //                                           ),
+  //                                           SizedBox(height: 10),
+  //                                           Container(
+  //                                             padding:
+  //                                                 const EdgeInsets.symmetric(
+  //                                                   horizontal: 10,
+  //                                                   vertical: 4,
+  //                                                 ),
+  //                                             decoration: BoxDecoration(
+  //                                               color: Color(
+  //                                                 0xff000000,
+  //                                               ).withValues(alpha: 0.89),
+  //                                               borderRadius:
+  //                                                   BorderRadius.circular(100),
+  //                                             ),
+  //                                             child: Text(
+  //                                               'Join Crown membership',
+  //                                               style: GoogleFonts.lexend(
+  //                                                 fontSize: 12,
+  //                                                 color: Color(0xffB7986C),
+  //                                                 fontWeight: FontWeight.w400,
+  //                                               ),
+  //                                             ),
+  //                                           ),
+  //                                         ],
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                             SizedBox(height: 8),
+  //                             Container(
+  //                               //   height: 59,
+  //                               width: double.infinity,
+  //                               padding: EdgeInsets.symmetric(
+  //                                 horizontal: 10,
+  //                                 vertical: 6,
+  //                               ),
+  //                               decoration: BoxDecoration(
+  //                                 gradient: LinearGradient(
+  //                                   colors: [
+  //                                     // Color(0xff7464E4),
+  //                                     // Color(0xff3354F4),
+  //                                     Color(0xFF5D50B6), // Same as booking tab
+  //                                     Color(0xFF2943C3),
+  //                                   ],
+  //                                 ),
+  //                               ),
+  //                               child: Row(
+  //                                 mainAxisAlignment:
+  //                                     MainAxisAlignment.spaceBetween,
+  //                                 children: [
+  //                                   Container(
+  //                                     // height: 36,
+  //                                     child: Column(
+  //                                       crossAxisAlignment:
+  //                                           CrossAxisAlignment.start,
+  //                                       children: [
+  //                                         Text(
+  //                                           'Indus Global',
+  //                                           style: GoogleFonts.lexend(
+  //                                             fontSize: 16,
+  //                                             fontWeight: FontWeight.w400,
+  //                                             color: Color(0xffFFFFFF),
+  //                                           ),
+  //                                         ),
+  //                                         Text(
+  //                                           'UI UX Designer',
+  //                                           style: GoogleFonts.lexend(
+  //                                             fontSize: 12,
+  //                                             fontWeight: FontWeight.w400,
+  //                                             color: Color(0xffFFFFFF),
+  //                                           ),
+  //                                         ),
+  //                                       ],
+  //                                     ),
+  //                                   ),
+  //                                   GestureDetector(
+  //                                     onTap: () {
+  //                                       setState(() {
+  //                                         _showAccountList = !_showAccountList;
+  //                                         _showOptions = !_showOptions;
+  //                                       });
+  //                                     },
+  //                                     child: Container(
+  //                                       child: Row(
+  //                                         children: [
+  //                                           Text(
+  //                                             'Switch Account',
+  //                                             style: GoogleFonts.lexend(
+  //                                               fontSize: 14,
+  //                                               fontWeight: FontWeight.w500,
+  //                                               color: Color(0xffFFFFFF),
+  //                                             ),
+  //                                           ),
+  //                                           SizedBox(width: 5),
+  //                                           Icon(
+  //                                             Icons.arrow_forward_ios,
+  //                                             size: 9,
+
+  //                                             color: Colors.white,
+  //                                           ),
+  //                                         ],
+  //                                       ),
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+
+  //                         Positioned(
+  //                           right: 10,
+  //                           top: 0,
+  //                           child: GestureDetector(
+  //                             onTap: () {
+  //                               showProfileBottomOverlay(context);
+  //                             },
+  //                             child: Container(
+  //                               width: 28,
+  //                               height: 28,
+  //                               padding: EdgeInsets.all(5),
+  //                               child: SvgPicture.asset(
+  //                                 'assets/icons/edit.svg',
+  //                                 width: 15,
+  //                                 height: 15,
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+
+  //                   // Account List Dropdown
+  //                   if (_showAccountList)
+  //                     Container(
+  //                       width: double.infinity,
+  //                       decoration: BoxDecoration(
+  //                         // color: Color(0xffffffff).withOpacity(0.3),
+  //                         // boxShadow: [
+  //                         //   BoxShadow(
+  //                         //     color: Color(0xffDCDCDC),
+  //                         //     blurRadius: 10,
+  //                         //     offset: Offset(0, 5),
+  //                         //   ),
+  //                         // ],
+  //                         border: Border.all(color: Color(0xffDCDCDC)),
+  //                       ),
+  //                       child: ListView.builder(
+  //                         shrinkWrap: true,
+  //                         physics: NeverScrollableScrollPhysics(),
+  //                         itemCount: accounts.length,
+  //                         padding: EdgeInsets.symmetric(vertical: 9),
+  //                         itemBuilder: (context, index) {
+  //                           final account = accounts[index];
+  //                           final isSelected = _selectedAccountIndex == index;
+
+  //                           return Container(
+  //                             // margin: EdgeInsets.symmetric(
+  //                             //   horizontal: 12,
+  //                             //   vertical: 2,
+  //                             // ),
+  //                             padding: EdgeInsets.all(10),
+  //                             decoration: BoxDecoration(
+  //                               //color: Colors.white,
+  //                               // border: Border.all(
+  //                               //   color: Color(0xffE0E0E0),
+  //                               //   width: 1,
+  //                               // ),
+  //                               // borderRadius: BorderRadius.circular(
+  //                               //   8,
+  //                               // ),
+  //                             ),
+  //                             child: Row(
+  //                               children: [
+  //                                 // Profile image
+  //                                 Container(
+  //                                   width: 50,
+  //                                   height: 50,
+  //                                   decoration: BoxDecoration(
+  //                                     //   color: Colors.grey[200],
+  //                                     borderRadius: BorderRadius.circular(25),
+  //                                   ),
+  //                                   child: ClipRRect(
+  //                                     borderRadius: BorderRadius.circular(25),
+  //                                     child: Image.asset(
+  //                                       account['image'],
+  //                                       fit: BoxFit.cover,
+  //                                       errorBuilder:
+  //                                           (context, error, stackTrace) {
+  //                                             return Icon(
+  //                                               Icons.person,
+  //                                               size: 25,
+  //                                             );
+  //                                           },
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                                 SizedBox(width: 10),
+  //                                 // Account details
+  //                                 Expanded(
+  //                                   child: Column(
+  //                                     crossAxisAlignment:
+  //                                         CrossAxisAlignment.start,
+  //                                     children: [
+  //                                       Row(
+  //                                         children: [
+  //                                           Text(
+  //                                             account['name'],
+  //                                             style: GoogleFonts.lexend(
+  //                                               fontSize: 16,
+  //                                               fontWeight: FontWeight.w400,
+  //                                               color: Color(0xff1C1B1D),
+  //                                             ),
+  //                                           ),
+  //                                           SizedBox(width: 6),
+  //                                           Container(
+  //                                             padding: EdgeInsets.symmetric(
+  //                                               horizontal: 10,
+  //                                               vertical: 3,
+  //                                             ),
+  //                                             decoration: BoxDecoration(
+  //                                               // color: _getRoleColor(
+  //                                               //   account['role'],
+  //                                               // ),
+  //                                               gradient: LinearGradient(
+  //                                                 colors: [
+  //                                                   Color(
+  //                                                     0xFF5D50B6,
+  //                                                   ), // Same as booking tab
+  //                                                   Color(0xFF2943C3),
+  //                                                 ],
+  //                                               ),
+  //                                               borderRadius:
+  //                                                   BorderRadius.circular(10),
+  //                                             ),
+  //                                             child: Text(
+  //                                               account['role'],
+  //                                               style: GoogleFonts.lexend(
+  //                                                 fontSize: 10,
+  //                                                 fontWeight: FontWeight.w400,
+  //                                                 color: Colors.white,
+  //                                               ),
+  //                                             ),
+  //                                           ),
+  //                                         ],
+  //                                       ),
+  //                                       SizedBox(height: 3),
+  //                                       Text(
+  //                                         account['phone'],
+  //                                         style: GoogleFonts.lexend(
+  //                                           fontSize: 14,
+  //                                           fontWeight: FontWeight.w500,
+  //                                           color: Color(0xff4F4F4F),
+  //                                         ),
+  //                                       ),
+  //                                       SizedBox(height: 3),
+  //                                       Container(
+  //                                         padding: EdgeInsets.symmetric(
+  //                                           horizontal: 10,
+  //                                           vertical: 4,
+  //                                         ),
+  //                                         decoration: BoxDecoration(
+  //                                           color: Color(
+  //                                             0xffDDDDDD,
+  //                                           ).withOpacity(0.8),
+  //                                           borderRadius: BorderRadius.circular(
+  //                                             100,
+  //                                           ),
+  //                                         ),
+  //                                         child: Text(
+  //                                           account['company'],
+  //                                           style: GoogleFonts.lexend(
+  //                                             fontSize: 12,
+  //                                             fontWeight: FontWeight.w500,
+  //                                             color: Color(0xff4F4F4F),
+  //                                           ),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                                 // Selection indicator
+  //                                 if (isSelected)
+  //                                   Container(
+  //                                     width: 26,
+  //                                     height: 26,
+  //                                     padding: EdgeInsets.all(3),
+  //                                     decoration: BoxDecoration(
+  //                                       color: Color(0xFF5D50B6),
+  //                                       gradient: LinearGradient(
+  //                                         colors: [
+  //                                           Color(
+  //                                             0xFF5D50B6,
+  //                                           ), // Same as booking tab
+  //                                           Color.fromARGB(231, 47, 74, 207),
+  //                                           // Color(
+  //                                           //   0xff000000,
+  //                                           // ).withOpacity(0.2),
+  //                                         ],
+  //                                       ),
+  //                                       shape: BoxShape.circle,
+  //                                     ),
+  //                                     child: Icon(
+  //                                       Icons.check,
+  //                                       color: Colors.white,
+  //                                       size: 20,
+  //                                     ),
+  //                                   ),
+  //                               ],
+  //                             ),
+  //                           );
+  //                         },
+  //                       ),
+  //                     ),
+  //                 ],
+  //               ),
+  //             ),
+
+  //             if (_showOptions)
+  //               Container(
+  //                 padding: EdgeInsets.symmetric(vertical: 15),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   children: [
+  //                     Row(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: [
+  //                         // VerticalDivider(
+  //                         //   thickness: 2,
+  //                         //   radius: BorderRadius.circular(12),
+  //                         //   color: Color(0xff4F4F4F),
+  //                         // ),
+  //                         Container(
+  //                           width: 2,
+  //                           height: 18,
+  //                           decoration: BoxDecoration(
+  //                             color: Color(0xff4F4F4F),
+  //                             borderRadius: BorderRadius.circular(12),
+  //                           ),
+  //                         ),
+  //                         SizedBox(width: 12),
+  //                         Text(
+  //                           'MAIN MENU',
+  //                           style: GoogleFonts.lexend(
+  //                             fontSize: 12,
+  //                             color: Color(0xff4F4F4F),
+  //                             fontWeight: FontWeight.w500,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 14),
+
+  //                     // Row(
+  //                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     //   children: [
+  //                     //     Row(
+  //                     //       children: [
+  //                     //         Container(
+  //                     //           height: 20,
+  //                     //           width: 20,
+  //                     //           child: SvgPicture.asset(
+  //                     //             'assets/icons/turn.svg',
+  //                     //             height: 20,
+  //                     //             width: 20,
+  //                     //           ),
+  //                     //         ),
+  //                     //         SizedBox(width: 10),
+  //                     //         Text(
+  //                     //           'My Plan',
+  //                     //           style: GoogleFonts.lexend(
+  //                     //             fontSize: 16,
+  //                     //             color: Color(0xff4F4F4F),
+  //                     //             fontWeight: FontWeight.w500,
+  //                     //           ),
+  //                     //         ),
+  //                     //       ],
+  //                     //     ),
+  //                     //     Icon(
+  //                     //       Icons.arrow_forward_ios,
+  //                     //       size: 10,
+
+  //                     //       color: Color(0xff7464E4),
+  //                     //     ),
+  //                     //   ],
+  //                     // ),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/turn.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'My Plan',
+  //                     ),
+  //                     SizedBox(height: 14),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/chat.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'Chat Room',
+  //                     ),
+  //                     SizedBox(height: 14),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/notification.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'Notification',
+  //                     ),
+  //                     SizedBox(height: 14),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/like.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'Save & Like',
+  //                     ),
+  //                     SizedBox(height: 14),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/champ.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'Rewards',
+  //                     ),
+  //                     SizedBox(height: 14),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/location_plus.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'Select Location',
+  //                     ),
+  //                     SizedBox(height: 15),
+
+  //                     Row(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: [
+  //                         // VerticalDivider(
+  //                         //   thickness: 2,
+  //                         //   radius: BorderRadius.circular(12),
+  //                         //   color: Color(0xff4F4F4F),
+  //                         // ),
+  //                         Container(
+  //                           width: 2,
+  //                           height: 18,
+  //                           decoration: BoxDecoration(
+  //                             color: Color(0xff4F4F4F),
+  //                             borderRadius: BorderRadius.circular(12),
+  //                           ),
+  //                         ),
+  //                         SizedBox(width: 14),
+  //                         Text(
+  //                           'SUPPORTIVE PAGE    ',
+  //                           style: GoogleFonts.lexend(
+  //                             fontSize: 12,
+  //                             color: Color(0xff4F4F4F),
+  //                             fontWeight: FontWeight.w500,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 15),
+  //                     // menuwidgets(
+  //                     //   SvgPicture.asset(
+  //                     //     'assets/icons/turn.svg',
+  //                     //     height: 20,
+  //                     //     width: 20,
+  //                     //   ),
+  //                     //   'Dark Mode',
+  //                     // ),
+  //                     Row(
+  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                       children: [
+  //                         Row(
+  //                           children: [
+  //                             Container(
+  //                               height: 20,
+  //                               width: 20,
+  //                               // child: SvgPicture.asset(
+  //                               //   'assets/icons/turn.svg',
+  //                               //   height: 20,
+  //                               //   width: 20,
+  //                               // ),
+  //                               child: SvgPicture.asset(
+  //                                 'assets/icons/dark_mode.svg',
+  //                               ),
+  //                             ),
+  //                             SizedBox(width: 10),
+  //                             // Text(
+  //                             //   // 'My Plan',
+  //                             //   text,
+  //                             //   style: GoogleFonts.lexend(
+  //                             //     fontSize: 16,
+  //                             //     color: Color(0xff4F4F4F),
+  //                             //     fontWeight: FontWeight.w500,
+  //                             //   ),
+  //                             // ),
+  //                             GradientText(
+  //                               text: 'Dark Mode',
+  //                               gradient: LinearGradient(
+  //                                 colors: [
+  //                                   Color(0xFF5D50B6),
+  //                                   Color(0xFF2943C3),
+  //                                 ],
+  //                               ),
+  //                               style: GoogleFonts.lexend(
+  //                                 fontSize: 16,
+  //                                 // color: Color(0xff4F4F4F),
+  //                                 fontWeight: FontWeight.w500,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         // Switch(
+  //                         //   value: _isSwitched,
+  //                         //   onChanged: (value) {
+  //                         //     setState(() {
+  //                         //       _isSwitched = value;
+  //                         //     });
+  //                         //   },
+  //                         //   activeColor: Colors.blue, // Custom colors
+  //                         //   activeTrackColor: Colors.blue.shade200,
+  //                         //   // inactiveThumbImage: AssetImage(
+  //                         //   //   'assets/icons/switch.png',
+  //                         //   // ),
+  //                         //   inactiveThumbColor: Color(0xff4F4F4F),
+  //                         //   inactiveTrackColor: Color(0xffA09E9E),
+  //                         // ),
+  //                         CustomToggleSwitch(
+  //                           value: _isSwitched,
+  //                           onChanged: (value) {
+  //                             setState(() {
+  //                               _isSwitched = value;
+  //                             });
+  //                           },
+  //                         ),
+  //                       ],
+  //                     ),
+
+  //                     SizedBox(height: 14),
+  //                     menuwidgets(
+  //                       SvgPicture.asset(
+  //                         'assets/icons/power.svg',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                       'Logout',
+  //                     ),
+
+  //                     //   Spacer(),
+  //                   ],
+  //                 ),
+  //               ),
+  //             Spacer(),
+  //             Container(
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   Container(
+  //                     padding: EdgeInsets.symmetric(horizontal: 1),
+  //                     decoration: BoxDecoration(
+  //                       color: Colors.black,
+  //                       borderRadius: BorderRadius.circular(4),
+  //                     ),
+  //                     child: Image.asset('assets/images/hamburger.png'),
+  //                   ),
+  //                   // SvgPicture.asset('assets/images/hamburger.svg'),
+  //                   SizedBox(width: 10),
+  //                   Text(
+  //                     'v2.1.4',
+  //                     style: GoogleFonts.lexend(
+  //                       fontSize: 16,
+  //                       color: Color(0xff000000),
+  //                       fontWeight: FontWeight.w600,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             SizedBox(height: 15),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     backgroundColor: Color(0xffFFFFFF).withValues(alpha: 0.6),
+  //     body: SafeArea(
+  //       child: Stack(
+  //         children: [
+  //           // Main content
+  //           Padding(
+  //             padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+  //             child: Column(
+  //               children: [
+  //                 Container(
+  //                   width: double.infinity,
+  //                   decoration: BoxDecoration(),
+  //                   child: Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Container(
+  //                         child: GestureDetector(
+  //                           onTap: () {
+  //                             if (widget.onBack != null) {
+  //                               widget.onBack!();
+  //                             } else {
+  //                               Navigator.push(
+  //                                 context,
+  //                                 MaterialPageRoute(
+  //                                   builder: (context) => BookingScreen(),
+  //                                 ),
+  //                               );
+  //                             }
+  //                           },
+  //                           child: Image.asset(
+  //                             'assets/icons/arrow_back.png',
+  //                             width: 16,
+  //                             height: 13,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       SizedBox(height: 10),
+  //                       Container(
+  //                         width: 380,
+  //                         padding: const EdgeInsets.only(top: 15),
+  //                         decoration: BoxDecoration(
+  //                           gradient: LinearGradient(
+  //                             colors: [
+  //                               Color(0xff7464E4).withOpacity(0.1),
+  //                               Color(0xffB5A78B).withOpacity(0.08),
+  //                             ],
+  //                             begin: Alignment.topLeft,
+  //                             end: Alignment.centerRight,
+  //                           ),
+  //                           border: Border.all(
+  //                             color: Color(0xffEDEDED),
+  //                             width: 0.5,
+  //                           ),
+  //                         ),
+  //                         child: Stack(
+  //                           children: [
+  //                             Column(
+  //                               children: [
+  //                                 Row(
+  //                                   children: [
+  //                                     Padding(
+  //                                       padding: const EdgeInsets.only(
+  //                                         left: 10,
+  //                                         right: 10,
+  //                                       ),
+  //                                       child: Row(
+  //                                         crossAxisAlignment:
+  //                                             CrossAxisAlignment.start,
+  //                                         children: [
+  //                                           Container(
+  //                                             width: 80,
+  //                                             height: 80,
+  //                                             decoration: BoxDecoration(
+  //                                               color: Colors.white,
+  //                                               borderRadius:
+  //                                                   BorderRadius.circular(155),
+  //                                             ),
+  //                                             child: Image.asset(
+  //                                               'assets/images/image1.png',
+  //                                               width: 80,
+  //                                               height: 80,
+  //                                             ),
+  //                                           ),
+  //                                           SizedBox(width: 8),
+  //                                           Column(
+  //                                             crossAxisAlignment:
+  //                                                 CrossAxisAlignment.start,
+  //                                             children: [
+  //                                               Text(
+  //                                                 'John Doe',
+  //                                                 style: GoogleFonts.lexend(
+  //                                                   fontSize: 16,
+  //                                                   fontWeight: FontWeight.w500,
+  //                                                   color: Color(0xff1C1B1D),
+  //                                                 ),
+  //                                               ),
+  //                                               SizedBox(height: 8),
+  //                                               Text(
+  //                                                 '91-958 297 4280',
+  //                                                 style: GoogleFonts.lexend(
+  //                                                   fontSize: 13,
+  //                                                   fontWeight: FontWeight.w500,
+  //                                                   color: Color(0xff4F4F4F),
+  //                                                 ),
+  //                                               ),
+  //                                               SizedBox(height: 10),
+  //                                               Container(
+  //                                                 padding:
+  //                                                     const EdgeInsets.symmetric(
+  //                                                       horizontal: 10,
+  //                                                       vertical: 4,
+  //                                                     ),
+  //                                                 decoration: BoxDecoration(
+  //                                                   color: Color(
+  //                                                     0xff000000,
+  //                                                   ).withValues(alpha: 0.89),
+  //                                                   borderRadius:
+  //                                                       BorderRadius.circular(
+  //                                                         100,
+  //                                                       ),
+  //                                                 ),
+  //                                                 child: Text(
+  //                                                   'Join Crown membership',
+  //                                                   style: GoogleFonts.lexend(
+  //                                                     fontSize: 12,
+  //                                                     color: Color(0xffB7986C),
+  //                                                     fontWeight:
+  //                                                         FontWeight.w400,
+  //                                                   ),
+  //                                                 ),
+  //                                               ),
+  //                                             ],
+  //                                           ),
+  //                                         ],
+  //                                       ),
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                                 SizedBox(height: 8),
+  //                                 Container(
+  //                                   width: double.infinity,
+  //                                   padding: EdgeInsets.symmetric(
+  //                                     horizontal: 10,
+  //                                     vertical: 6,
+  //                                   ),
+  //                                   decoration: BoxDecoration(
+  //                                     gradient: LinearGradient(
+  //                                       colors: [
+  //                                         Color(0xFF5D50B6),
+  //                                         Color(0xFF2943C3),
+  //                                       ],
+  //                                     ),
+  //                                   ),
+  //                                   child: Row(
+  //                                     mainAxisAlignment:
+  //                                         MainAxisAlignment.spaceBetween,
+  //                                     children: [
+  //                                       Container(
+  //                                         child: Column(
+  //                                           crossAxisAlignment:
+  //                                               CrossAxisAlignment.start,
+  //                                           children: [
+  //                                             Text(
+  //                                               'Indus Global',
+  //                                               style: GoogleFonts.lexend(
+  //                                                 fontSize: 16,
+  //                                                 fontWeight: FontWeight.w400,
+  //                                                 color: Color(0xffFFFFFF),
+  //                                               ),
+  //                                             ),
+  //                                             Text(
+  //                                               'UI UX Designer',
+  //                                               style: GoogleFonts.lexend(
+  //                                                 fontSize: 12,
+  //                                                 fontWeight: FontWeight.w400,
+  //                                                 color: Color(0xffFFFFFF),
+  //                                               ),
+  //                                             ),
+  //                                           ],
+  //                                         ),
+  //                                       ),
+  //                                       GestureDetector(
+  //                                         onTap: () {
+  //                                           setState(() {
+  //                                             _showAccountList =
+  //                                                 !_showAccountList;
+  //                                           });
+  //                                         },
+  //                                         child: Container(
+  //                                           child: Row(
+  //                                             children: [
+  //                                               Text(
+  //                                                 'Switch Account',
+  //                                                 style: GoogleFonts.lexend(
+  //                                                   fontSize: 14,
+  //                                                   fontWeight: FontWeight.w500,
+  //                                                   color: Color(0xffFFFFFF),
+  //                                                 ),
+  //                                               ),
+  //                                               SizedBox(width: 5),
+  //                                               Icon(
+  //                                                 Icons.arrow_forward_ios,
+  //                                                 size: 9,
+  //                                                 color: Colors.white,
+  //                                               ),
+  //                                             ],
+  //                                           ),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                             Positioned(
+  //                               right: 10,
+  //                               top: 0,
+  //                               child: GestureDetector(
+  //                                 onTap: () {
+  //                                   showProfileBottomOverlay(context);
+  //                                 },
+  //                                 child: Container(
+  //                                   width: 28,
+  //                                   height: 28,
+  //                                   padding: EdgeInsets.all(5),
+  //                                   child: SvgPicture.asset(
+  //                                     'assets/icons/edit.svg',
+  //                                     width: 15,
+  //                                     height: 15,
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 if (_showOptions)
+  //                   Container(
+  //                     padding: EdgeInsets.symmetric(vertical: 15),
+  //                     child: Column(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       mainAxisAlignment: MainAxisAlignment.start,
+  //                       children: [
+  //                         Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Container(
+  //                               width: 2,
+  //                               height: 18,
+  //                               decoration: BoxDecoration(
+  //                                 color: Color(0xff4F4F4F),
+  //                                 borderRadius: BorderRadius.circular(12),
+  //                               ),
+  //                             ),
+  //                             SizedBox(width: 12),
+  //                             Text(
+  //                               'MAIN MENU',
+  //                               style: GoogleFonts.lexend(
+  //                                 fontSize: 12,
+  //                                 color: Color(0xff4F4F4F),
+  //                                 fontWeight: FontWeight.w500,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/turn.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'My Plan',
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/chat.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'Chat Room',
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/notification.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'Notification',
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/like.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'Save & Like',
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/champ.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'Rewards',
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/location_plus.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'Select Location',
+  //                         ),
+  //                         SizedBox(height: 15),
+  //                         Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Container(
+  //                               width: 2,
+  //                               height: 18,
+  //                               decoration: BoxDecoration(
+  //                                 color: Color(0xff4F4F4F),
+  //                                 borderRadius: BorderRadius.circular(12),
+  //                               ),
+  //                             ),
+  //                             SizedBox(width: 14),
+  //                             Text(
+  //                               'SUPPORTIVE PAGE    ',
+  //                               style: GoogleFonts.lexend(
+  //                                 fontSize: 12,
+  //                                 color: Color(0xff4F4F4F),
+  //                                 fontWeight: FontWeight.w500,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(height: 14),
+  //                         menuwidgets(
+  //                           SvgPicture.asset(
+  //                             'assets/icons/power.svg',
+  //                             height: 20,
+  //                             width: 20,
+  //                           ),
+  //                           'Logout',
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 Spacer(),
+  //                 Container(
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.center,
+  //                     children: [
+  //                       Container(
+  //                         padding: EdgeInsets.symmetric(horizontal: 1),
+  //                         decoration: BoxDecoration(
+  //                           color: Colors.black,
+  //                           borderRadius: BorderRadius.circular(4),
+  //                         ),
+  //                         child: Image.asset('assets/images/hamburger.png'),
+  //                       ),
+  //                       SizedBox(width: 10),
+  //                       Text(
+  //                         'v2.1.4',
+  //                         style: GoogleFonts.lexend(
+  //                           fontSize: 16,
+  //                           color: Color(0xff000000),
+  //                           fontWeight: FontWeight.w600,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 SizedBox(height: 15),
+  //               ],
+  //             ),
+  //           ),
+
+  //           // Account List Overlay - positioned exactly below the profile card
+  //           if (_showAccountList)
+  //             Positioned(
+  //               left: 30,
+  //               right: 30,
+  //               top:
+  //                   139, // Adjust this value based on your back button + profile card height
+  //               child: GestureDetector(
+  //                 onTap: () {}, // Prevents closing when tapping on the list
+  //                 child: Container(
+  //                   width: double.infinity,
+  //                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withOpacity(0.95),
+  //                     border: Border.all(color: Color(0xffDCDCDC)),
+  //                   ),
+  //                   child: ListView.builder(
+  //                     shrinkWrap: true,
+  //                     physics: NeverScrollableScrollPhysics(),
+  //                     itemCount: accounts.length,
+  //                     itemBuilder: (context, index) {
+  //                       final account = accounts[index];
+  //                       final isSelected = _selectedAccountIndex == index;
+
+  //                       return GestureDetector(
+  //                         onTap: () {
+  //                           setState(() {
+  //                             _selectedAccountIndex = index;
+  //                             _showAccountList = false;
+  //                           });
+  //                         },
+  //                         child: Container(
+  //                           padding: EdgeInsets.symmetric(vertical: 10),
+  //                           child: Row(
+  //                             children: [
+  //                               Container(
+  //                                 width: 50,
+  //                                 height: 50,
+  //                                 decoration: BoxDecoration(
+  //                                   borderRadius: BorderRadius.circular(25),
+  //                                 ),
+  //                                 child: ClipRRect(
+  //                                   borderRadius: BorderRadius.circular(25),
+  //                                   child: Image.asset(
+  //                                     account['image'],
+  //                                     fit: BoxFit.cover,
+  //                                     errorBuilder:
+  //                                         (context, error, stackTrace) {
+  //                                           return Icon(Icons.person, size: 25);
+  //                                         },
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                               SizedBox(width: 10),
+  //                               Expanded(
+  //                                 child: Column(
+  //                                   crossAxisAlignment:
+  //                                       CrossAxisAlignment.start,
+  //                                   children: [
+  //                                     Row(
+  //                                       children: [
+  //                                         Text(
+  //                                           account['name'],
+  //                                           style: GoogleFonts.lexend(
+  //                                             fontSize: 16,
+  //                                             fontWeight: FontWeight.w400,
+  //                                             color: Color(0xff1C1B1D),
+  //                                           ),
+  //                                         ),
+  //                                         SizedBox(width: 6),
+  //                                         Container(
+  //                                           padding: EdgeInsets.symmetric(
+  //                                             horizontal: 10,
+  //                                             vertical: 3,
+  //                                           ),
+  //                                           decoration: BoxDecoration(
+  //                                             gradient: LinearGradient(
+  //                                               colors: [
+  //                                                 Color(0xFF5D50B6),
+  //                                                 Color(0xFF2943C3),
+  //                                               ],
+  //                                             ),
+  //                                             borderRadius:
+  //                                                 BorderRadius.circular(10),
+  //                                           ),
+  //                                           child: Text(
+  //                                             account['role'],
+  //                                             style: GoogleFonts.lexend(
+  //                                               fontSize: 10,
+  //                                               fontWeight: FontWeight.w400,
+  //                                               color: Colors.white,
+  //                                             ),
+  //                                           ),
+  //                                         ),
+  //                                       ],
+  //                                     ),
+  //                                     SizedBox(height: 3),
+  //                                     Text(
+  //                                       account['phone'],
+  //                                       style: GoogleFonts.lexend(
+  //                                         fontSize: 14,
+  //                                         fontWeight: FontWeight.w500,
+  //                                         color: Color(0xff4F4F4F),
+  //                                       ),
+  //                                     ),
+  //                                     SizedBox(height: 3),
+  //                                     Container(
+  //                                       padding: EdgeInsets.symmetric(
+  //                                         horizontal: 10,
+  //                                         vertical: 4,
+  //                                       ),
+  //                                       decoration: BoxDecoration(
+  //                                         color: Color(
+  //                                           0xffDDDDDD,
+  //                                         ).withOpacity(0.8),
+  //                                         borderRadius: BorderRadius.circular(
+  //                                           100,
+  //                                         ),
+  //                                       ),
+  //                                       child: Text(
+  //                                         account['company'],
+  //                                         style: GoogleFonts.lexend(
+  //                                           fontSize: 12,
+  //                                           fontWeight: FontWeight.w500,
+  //                                           color: Color(0xff4F4F4F),
+  //                                         ),
+  //                                       ),
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                               ),
+  //                               if (isSelected)
+  //                                 Container(
+  //                                   width: 26,
+  //                                   height: 26,
+  //                                   padding: EdgeInsets.all(3),
+  //                                   decoration: BoxDecoration(
+  //                                     gradient: LinearGradient(
+  //                                       colors: [
+  //                                         Color(0xFF5D50B6),
+  //                                         Color.fromARGB(231, 47, 74, 207),
+  //                                       ],
+  //                                     ),
+  //                                     shape: BoxShape.circle,
+  //                                   ),
+  //                                   child: Icon(
+  //                                     Icons.check,
+  //                                     color: Colors.white,
+  //                                     size: 20,
+  //                                   ),
+  //                                 ),
+  //                             ],
+  //                           ),
+  //                         ),
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget menuwidgets(Widget icon, String text) {
     return Row(
