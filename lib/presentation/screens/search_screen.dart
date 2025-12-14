@@ -1501,19 +1501,19 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                       SizedBox(height: 12),
-                      BlogSection(
-                        blogs: List.generate(
-                          3,
-                          (index) => {
-                            'imageUrl': 'assets/images/blog.png',
-                            'title': 'Title',
-                            'description':
-                                'Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.',
-                            'date': 'Jan 4, 2022',
-                            'views': 3344,
-                          },
-                        ),
-                      ),
+                      // BlogSection(
+                      //   blogs: List.generate(
+                      //     3,
+                      //     (index) => {
+                      //       'imageUrl': 'assets/images/blog.png',
+                      //       'title': 'Title',
+                      //       'description':
+                      //           'Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development.',
+                      //       'date': 'Jan 4, 2022',
+                      //       'views': 3344,
+                      //     },
+                      //   ),
+                      // ),
                       SizedBox(height: 150),
                     ],
                   ),

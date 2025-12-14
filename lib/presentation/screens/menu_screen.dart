@@ -62,7 +62,6 @@ class _MenuScreenState extends State<MenuScreen> {
     },
   ];
 
-  // ignore: unused_element
   void _showAccountSwitcher() {
     showModalBottomSheet(
       context: context,
@@ -409,6 +408,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                             ),
                                             SizedBox(width: 8),
                                             Column(
+                                              // mainAxisAlignment:
+                                              //     MainAxisAlignment.spaceEvenly,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
@@ -420,7 +421,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                     color: Color(0xff1C1B1D),
                                                   ),
                                                 ),
-                                                SizedBox(height: 8),
+                                                SizedBox(height: 3),
                                                 Text(
                                                   '91-958 297 4280',
                                                   style: GoogleFonts.lexend(
@@ -429,7 +430,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                     color: Color(0xff4F4F4F),
                                                   ),
                                                 ),
-                                                SizedBox(height: 10),
+                                                SizedBox(height: 5),
                                                 Container(
                                                   padding:
                                                       const EdgeInsets.symmetric(
@@ -564,192 +565,176 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
                   // Main menu - always visible
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
+                  IgnorePointer(
+                    ignoring: _showAccountList,
+                    child: _blurWrapper(
+                      blur: _showAccountList,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 2,
-                              height: 18,
-                              decoration: BoxDecoration(
-                                color: Color(0xff4F4F4F),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                            Text(
-                              'MAIN MENU',
-                              style: GoogleFonts.lexend(
-                                fontSize: 12,
-                                color: Color(0xff4F4F4F),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/turn.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'My Plan',
-                        ),
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/chat.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'Chat Room',
-                        ),
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/notification.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'Notification',
-                        ),
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/like.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'Save & Like',
-                        ),
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/champ.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'Rewards',
-                        ),
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/location_plus.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'Select Location',
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 2,
-                              height: 18,
-                              decoration: BoxDecoration(
-                                color: Color(0xff4F4F4F),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            SizedBox(width: 14),
-                            Text(
-                              'SUPPORTIVE PAGE    ',
-                              style: GoogleFonts.lexend(
-                                fontSize: 12,
-                                color: Color(0xff4F4F4F),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 20,
-                                  width: 20,
-                                  // child: SvgPicture.asset(
-                                  //   'assets/icons/turn.svg',
-                                  //   height: 20,
-                                  //   width: 20,
-                                  // ),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/dark_mode.svg',
+                                  width: 2,
+                                  height: 18,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff4F4F4F),
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                SizedBox(width: 10),
-                                // Text(
-                                //   // 'My Plan',
-                                //   text,
-                                //   style: GoogleFonts.lexend(
-                                //     fontSize: 16,
-                                //     color: Color(0xff4F4F4F),
-                                //     fontWeight: FontWeight.w500,
-                                //   ),
-                                // ),
-                                GradientText(
-                                  text: 'Dark Mode',
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color(0xFF5D50B6),
-                                      Color(0xFF2943C3),
-                                    ],
-                                  ),
+                                SizedBox(width: 12),
+                                Text(
+                                  'MAIN MENU',
                                   style: GoogleFonts.lexend(
-                                    fontSize: 16,
-                                    // color: Color(0xff4F4F4F),
+                                    fontSize: 12,
+                                    color: Color(0xff4F4F4F),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
                             ),
-                            // Switch(
-                            //   value: _isSwitched,
-                            //   onChanged: (value) {
-                            //     setState(() {
-                            //       _isSwitched = value;
-                            //     });
-                            //   },
-                            //   activeColor: Colors.blue, // Custom colors
-                            //   activeTrackColor: Colors.blue.shade200,
-                            //   // inactiveThumbImage: AssetImage(
-                            //   //   'assets/icons/switch.png',
-                            //   // ),
-                            //   inactiveThumbColor: Color(0xff4F4F4F),
-                            //   inactiveTrackColor: Color(0xffA09E9E),
-                            // ),
-                            CustomToggleSwitch(
-                              value: _isSwitched,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isSwitched = value;
-                                });
-                              },
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/turn.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'My Plan',
+                            ),
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/chat.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'Chat Room',
+                            ),
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/notification.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'Notification',
+                            ),
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/like.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'Save & Like',
+                            ),
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/champ.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'Rewards',
+                            ),
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/location_plus.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'Select Location',
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 2,
+                                  height: 18,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff4F4F4F),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                SizedBox(width: 14),
+                                Text(
+                                  'SUPPORTIVE PAGE    ',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 12,
+                                    color: Color(0xff4F4F4F),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      // child: SvgPicture.asset(
+                                      //   'assets/icons/turn.svg',
+                                      //   height: 20,
+                                      //   width: 20,
+                                      // ),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/dark_mode.svg',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+
+                                    GradientText(
+                                      text: 'Dark Mode',
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFF5D50B6),
+                                          Color(0xFF2943C3),
+                                        ],
+                                      ),
+                                      style: GoogleFonts.lexend(
+                                        fontSize: 16,
+                                        // color: Color(0xff4F4F4F),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                CustomToggleSwitch(
+                                  value: _isSwitched,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isSwitched = value;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 14),
+                            menuwidgets(
+                              SvgPicture.asset(
+                                'assets/icons/power.svg',
+                                height: 20,
+                                width: 20,
+                              ),
+                              'Logout',
                             ),
                           ],
                         ),
-
-                        SizedBox(height: 14),
-                        menuwidgets(
-                          SvgPicture.asset(
-                            'assets/icons/power.svg',
-                            height: 20,
-                            width: 20,
-                          ),
-                          'Logout',
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   //  Spacer(),
@@ -781,19 +766,32 @@ class _MenuScreenState extends State<MenuScreen> {
                   SizedBox(height: 15),
                 ],
               ),
+
               // Account list overlay - positioned above main menu
+              if (_showAccountList)
+                Positioned.fill(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      setState(() {
+                        _showAccountList = false;
+                      });
+                    },
+                  ),
+                ),
+
               if (_showAccountList)
                 Positioned(
                   left: 0,
                   right: 0,
                   top:
-                      183, // Adjust this value to position it right after the profile card
+                      177, // Adjust this value to position it right after the profile card
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Color(
                         0xffFFFFFF,
-                      ).withOpacity(0.95), // Semi-transparent background
+                      ).withOpacity(0.8), // Semi-transparent background
                       border: Border.all(color: Color(0xffDCDCDC)),
                     ),
                     child: ListView.builder(
@@ -946,6 +944,20 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _blurWrapper({required bool blur, required Widget child}) {
+    if (!blur) return child;
+
+    return Stack(
+      children: [
+        ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+          child: child,
+        ),
+        //Container(color: Colors.black.withOpacity(0.02)),
+      ],
     );
   }
 
