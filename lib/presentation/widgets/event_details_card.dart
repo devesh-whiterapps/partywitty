@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../screens/event_details_screen.dart';
+import '../screens/carnival_detail_screen.dart';
 
 
 class EventDetailsCard extends StatelessWidget {
@@ -275,12 +276,7 @@ class EventDetailsCard extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => EventDetailsScreen(
-                      event: event,
-                      artist: artist,
-                      advancePaid: event.advancePaid,
-                      balanceAmount: event.balanceAmount,
-                    ),
+                    builder: (context) => const CarnivalDetailScreen(),
                   ),
                 );
               },
