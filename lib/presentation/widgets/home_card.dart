@@ -8,6 +8,7 @@ import '../../domain/models/artist_model.dart';
 import '../../domain/models/user_activity_model.dart';
 import '../screens/event_details_screen.dart';
 import '../screens/payment_screen.dart';
+import '../screens/general_pass_options_screen.dart';
 import 'inclusions_dialog.dart';
 
 class HomeCard extends StatelessWidget {
@@ -306,15 +307,23 @@ class HomeCard extends StatelessWidget {
             // Inclusions
             _buildInclusions(context),
           ],
-          // General Pass section
+          // Event Pass Card
           const SizedBox(height: 12),
-          _buildGeneralPassSection(),
-          // Promotional offer
-          const SizedBox(height: 8),
-          _buildPromotionalOffer(),
-          // Pricing cards section
-          const SizedBox(height: 12),
-          _buildPricingCardsSection(context),
+          EventPassCard(
+            passTitle: 'General Pass (Domestic Liquor & Food) || Single',
+            bookingAmount: '₹3000',
+            mrpPrice: 'MRP-₹20000',
+            totalPrice: '₹18000/Person',
+            date: '26 Dec 25',
+            time: '10:00 PM Onwards',
+            onInclusionsTap: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                builder: (context) => TicketInclusionModal(),
+              );
+            },
+          ),
           //
           if (showPaymentDetails) ...[
             const SizedBox(height: 16),
@@ -545,41 +554,55 @@ class HomeCard extends StatelessWidget {
   }
 
   Widget _buildGeneralPassSection() {
-    return Row(
-      children: [
-        Flexible(
-          child: Text(
-            'General Pass (Imported Liquor',
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GeneralPassOptionsScreen(
+              eventName: event?.title ?? 'Event',
+              eventDate: event?.date ?? '',
+              eventTime: event?.time ?? '',
+            ),
+          ),
+        );
+      },
+      child: Row(
+        children: [
+          Flexible(
+            child: Text(
+              'General Pass (Imported Liquor',
+              style: GoogleFonts.lexend(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Color(0xff070707),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Container(
+            width: 4,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Color(0xff070707),
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            '+3 More',
             style: GoogleFonts.lexend(
               fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Color(0xff070707),
+              fontWeight: FontWeight.w500,
+              color: Color(0xff7464E4),
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
-        ),
-        const SizedBox(width: 4),
-        Container(
-          width: 4,
-          height: 4,
-          decoration: BoxDecoration(
-            color: Color(0xff070707),
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(
-          '+3 More',
-          style: GoogleFonts.lexend(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Color(0xff7464E4),
-          ),
-        ),
-        const SizedBox(width: 4),
-        Icon(Icons.arrow_forward, size: 16, color: Color(0xff7464E4)),
-      ],
+          const SizedBox(width: 4),
+          Icon(Icons.arrow_forward, size: 16, color: Color(0xff7464E4)),
+        ],
+      ),
     );
   }
 
@@ -600,9 +623,9 @@ class HomeCard extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _buildGeneralPassCard( context),
+          _buildGeneralPassCard(context),
           const SizedBox(width: 12),
-          _buildMinimumSpendCard( context),
+          _buildMinimumSpendCard(context),
           const SizedBox(width: 12),
         ],
       ),
@@ -752,7 +775,7 @@ class HomeCard extends StatelessWidget {
 
   Widget _buildMinimumSpendCard(BuildContext context) {
     return Container(
-    width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.8,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -1026,6 +1049,204 @@ class HomeCard extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: Colors.white,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Event Pass Card Widget with background image
+class EventPassCard extends StatelessWidget {
+  final String passTitle;
+  final String bookingAmount;
+  final String mrpPrice;
+  final String totalPrice;
+  final String date;
+  final String time;
+  final VoidCallback? onTap;
+  final VoidCallback? onInclusionsTap;
+
+  const EventPassCard({
+    super.key,
+    this.passTitle = 'General Pass (Domestic Liquor & Food) || Single',
+    this.bookingAmount = '₹3000',
+    this.mrpPrice = 'MRP-₹20000',
+    this.totalPrice = '₹18000/Person',
+    this.date = '26 Dec 25',
+    this.time = '10:00 PM Onwards',
+    this.onTap,
+    this.onInclusionsTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 189,
+        width: double.infinity,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(14)),
+        child: Stack(
+          children: [
+            // Background image
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: Image.asset(
+                  'assets/images/Event Pass.png',
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            // Content overlay
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Left side content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Pass title
+                          Text(
+                            passTitle,
+                            style: GoogleFonts.lexend(
+                              fontSize: 11.814,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 12),
+                          // Booking Amount label
+                          Text(
+                            'Booking Amount',
+                            style: GoogleFonts.lexend(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xff070707),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          // Price
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: bookingAmount,
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 20.153,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff3CBD53),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '/Person',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xff3CBD53),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          // Barcode
+                          SizedBox(
+                            height: 21,
+                            child: Row(
+                              children: List.generate(
+                                45,
+                                (i) => Container(
+                                  width: i % 3 == 0 ? 3 : 2,
+                                  height: i % 4 == 0
+                                      ? 21
+                                      : (i % 3 == 0 ? 15 : 18),
+                                  margin: const EdgeInsets.only(right: 1.5),
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    // Right side content
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // MRP
+                        Text(
+                          mrpPrice,
+                          style: GoogleFonts.lexend(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xffFF5C5C),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        // Total price
+                        Text(
+                          totalPrice,
+                          style: GoogleFonts.lexend(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xff070707),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        // Inclusions link
+                        GestureDetector(
+                          onTap: onInclusionsTap,
+                          child: Text(
+                            'Inclusions',
+                            style: GoogleFonts.lexend(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        // Date and time (rotated)
+                        SizedBox(
+                          height: 80,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RotatedBox(
+                                quarterTurns: 1,
+                                child: Text(
+                                  '$date  •  $time',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 8.339,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

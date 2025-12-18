@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../screens/general_pass_options_screen.dart';
 
 /// Gradient offer text with animation
 class CardOfferText extends StatefulWidget {
@@ -29,7 +30,8 @@ class _CardOfferTextState extends State<CardOfferText>
   @override
   void initState() {
     super.initState();
-    _displayOffers = widget.offers ??
+    _displayOffers =
+        widget.offers ??
         [
           'Get Flat 25% Off On Food & Bever.',
           'Get Flat 40% Off On Beverages.',
@@ -44,13 +46,17 @@ class _CardOfferTextState extends State<CardOfferText>
 
     _fadeAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.0)
-            .chain(CurveTween(curve: Curves.easeInOut)),
+        tween: Tween<double>(
+          begin: 1.0,
+          end: 0.0,
+        ).chain(CurveTween(curve: Curves.easeInOut)),
         weight: 50,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.0, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeInOut)),
+        tween: Tween<double>(
+          begin: 0.0,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.easeInOut)),
         weight: 50,
       ),
     ]).animate(_controller);
@@ -89,9 +95,9 @@ class _CardOfferTextState extends State<CardOfferText>
         return Opacity(
           opacity: _displayOffers.length > 1 ? _fadeAnimation.value : 1.0,
           child: ShaderMask(
-            shaderCallback: (bounds) =>
-                LinearGradient(colors: widget.gradientColors)
-                    .createShader(bounds),
+            shaderCallback: (bounds) => LinearGradient(
+              colors: widget.gradientColors,
+            ).createShader(bounds),
             child: Text(
               _displayOffers[_currentIndex],
               style: GoogleFonts.lexend(
@@ -112,12 +118,18 @@ class CardGeneralPassSection extends StatelessWidget {
   final String passName;
   final int moreCount;
   final VoidCallback? onMoreTap;
+  final String? eventName;
+  final String? eventDate;
+  final String? eventTime;
 
   const CardGeneralPassSection({
     super.key,
     this.passName = 'General Pass (Imported Liquor)',
     this.moreCount = 3,
     this.onMoreTap,
+    this.eventName,
+    this.eventDate,
+    this.eventTime,
   });
 
   @override
@@ -143,7 +155,18 @@ class CardGeneralPassSection extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: onMoreTap,
+          onTap: () {
+            if (onMoreTap != null) {
+              onMoreTap!();
+            } else {
+              _showGeneralPassOptionsModal(
+                context,
+                eventName ?? 'Event',
+                eventDate ?? '',
+                eventTime ?? '',
+              );
+            }
+          },
           child: ShaderMask(
             shaderCallback: (bounds) => const LinearGradient(
               colors: [Color(0xff7464E4), Color(0xff1A00D2)],
@@ -169,6 +192,20 @@ class CardGeneralPassSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _showGeneralPassOptionsModal(
+    BuildContext context,
+    String eventName,
+    String eventDate,
+    String eventTime,
+  ) {
+    showGeneralPassOptionsModal(
+      context,
+      eventName: eventName,
+      eventDate: eventDate,
+      eventTime: eventTime,
     );
   }
 }
