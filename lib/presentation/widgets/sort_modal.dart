@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class SortModal extends StatefulWidget {
   const SortModal({super.key});
@@ -20,13 +21,7 @@ class _SortModalState extends State<SortModal> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: Color(0xffF5F5F5),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
+      decoration: BoxDecoration(color: Colors.white.withOpacity(0.85)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

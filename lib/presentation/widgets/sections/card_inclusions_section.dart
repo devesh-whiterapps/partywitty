@@ -63,8 +63,7 @@ class CardInclusionsSection extends StatelessWidget {
                     context: context,
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
-                    builder: (context) =>
-                        _buildTicketInclusionBottomSheet(context),
+                    builder: (context) => _TicketInclusionBottomSheet(),
                   );
                 },
                 child: Text(
@@ -85,150 +84,201 @@ class CardInclusionsSection extends StatelessWidget {
   }
 }
 
-/// Helper function to build Ticket Inclusion bottom sheet
-Widget _buildTicketInclusionBottomSheet(BuildContext context) {
-  return ClipRRect(
-    borderRadius: const BorderRadius.only(
-      topLeft: Radius.circular(20),
-      topRight: Radius.circular(20),
-    ),
-    child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.7),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+/// Ticket Inclusion Bottom Sheet with managed state
+class _TicketInclusionBottomSheet extends StatefulWidget {
+  const _TicketInclusionBottomSheet();
+
+  @override
+  State<_TicketInclusionBottomSheet> createState() =>
+      _TicketInclusionBottomSheetState();
+}
+
+class _TicketInclusionBottomSheetState
+    extends State<_TicketInclusionBottomSheet> {
+  String? expandedSection;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.7),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Drag handle
-                Center(
-                  child: Container(
-                    width: 50,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff4F4F4F),
-                      borderRadius: BorderRadius.circular(10),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 30),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Drag handle
+                  Center(
+                    child: Container(
+                      width: 50,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff4F4F4F),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                // Title
-                Text(
-                  'Ticket Inclusion',
-                  style: GoogleFonts.lexend(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xff000000),
+                  const SizedBox(height: 30),
+                  // Title
+                  Text(
+                    'Ticket Inclusion',
+                    style: GoogleFonts.lexend(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xff000000),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                // Expandable sections
-                _InclusionSection(
-                  title: 'Breads',
-                  isWhiteBackground: true,
-                  items: const [
-                    'Paneer Tikka',
-                    'Veg Spring Rolls',
-                    'Chicken Tikka',
-                    'Crispy Corn',
-                    'Fish Fingers',
-                  ],
-                ),
-                const SizedBox(height: 12),
-                _InclusionSection(
-                  title: 'Main Course:',
-                  isWhiteBackground: true,
-                  items: const [
-                    'Butter Chicken',
-                    'Paneer Butter Masala',
-                    'Dal Makhani',
-                    'Veg Biryani / Chicken Biryani',
-                    'Naan / Roti',
-                  ],
-                ),
-                const SizedBox(height: 12),
-                _InclusionSection(
-                  title: 'Desserts:',
-                  isWhiteBackground: true,
-                  items: const [
-                    'Gulab Jamun',
-                    'Brownie with Ice Cream',
-                    'Rasmalai',
-                    'Pastries',
-                  ],
-                ),
-                const SizedBox(height: 12),
-                _InclusionSection(
-                  title: 'Drinks:',
-                  isWhiteBackground: true,
-                  items: const [
-                    'Mocktails',
-                    'Soft Drinks',
-                    'Fresh Juices',
-                    'Coffee / Tea',
-                  ],
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  // Expandable sections
+                  _InclusionSection(
+                    id: 'breads',
+                    title: 'Breads',
+                    isWhiteBackground: true,
+                    items: const [
+                      'Paneer Tikka',
+                      'Veg Spring Rolls',
+                      'Chicken Tikka',
+                      'Crispy Corn',
+                      'Fish Fingers',
+                    ],
+                    isExpanded: expandedSection == 'breads',
+                    onTap: () {
+                      setState(() {
+                        if (expandedSection == 'breads') {
+                          expandedSection = null;
+                        } else {
+                          expandedSection = 'breads';
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _InclusionSection(
+                    id: 'main_course',
+                    title: 'Main Course:',
+                    isWhiteBackground: true,
+                    items: const [
+                      'Butter Chicken',
+                      'Paneer Butter Masala',
+                      'Dal Makhani',
+                      'Veg Biryani / Chicken Biryani',
+                      'Naan / Roti',
+                    ],
+                    isExpanded: expandedSection == 'main_course',
+                    onTap: () {
+                      setState(() {
+                        if (expandedSection == 'main_course') {
+                          expandedSection = null;
+                        } else {
+                          expandedSection = 'main_course';
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _InclusionSection(
+                    id: 'desserts',
+                    title: 'Desserts:',
+                    isWhiteBackground: true,
+                    items: const [
+                      'Gulab Jamun',
+                      'Brownie with Ice Cream',
+                      'Rasmalai',
+                      'Pastries',
+                    ],
+                    isExpanded: expandedSection == 'desserts',
+                    onTap: () {
+                      setState(() {
+                        if (expandedSection == 'desserts') {
+                          expandedSection = null;
+                        } else {
+                          expandedSection = 'desserts';
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _InclusionSection(
+                    id: 'drinks',
+                    title: 'Drinks:',
+                    isWhiteBackground: true,
+                    items: const [
+                      'Mocktails',
+                      'Soft Drinks',
+                      'Fresh Juices',
+                      'Coffee / Tea',
+                    ],
+                    isExpanded: expandedSection == 'drinks',
+                    onTap: () {
+                      setState(() {
+                        if (expandedSection == 'drinks') {
+                          expandedSection = null;
+                        } else {
+                          expandedSection = 'drinks';
+                        }
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
-/// Expandable inclusion section widget
-class _InclusionSection extends StatefulWidget {
+/// Expandable inclusion section widget (now stateless)
+class _InclusionSection extends StatelessWidget {
+  final String id;
   final String title;
   final List<String> items;
   final bool isWhiteBackground;
+  final bool isExpanded;
+  final VoidCallback onTap;
 
   const _InclusionSection({
+    required this.id,
     required this.title,
     required this.items,
+    required this.isExpanded,
+    required this.onTap,
     this.isWhiteBackground = false,
   });
-
-  @override
-  State<_InclusionSection> createState() => _InclusionSectionState();
-}
-
-class _InclusionSectionState extends State<_InclusionSection> {
-  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.isWhiteBackground
-            ? Colors.white
-            : const Color(0xFFF9F9F9CC),
+        color: isWhiteBackground ? Colors.white : const Color(0xFFF9F9F9CC),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
           InkWell(
-            onTap: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
-            },
+            onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.title,
+                    title,
                     style: GoogleFonts.lexend(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -250,7 +300,7 @@ class _InclusionSectionState extends State<_InclusionSection> {
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.items.map((item) {
+                children: items.map((item) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Row(

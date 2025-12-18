@@ -25,14 +25,14 @@ class FeaturesBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: const Color(0xFFFFFFFF).withOpacity(0.77),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(4),
           topRight: Radius.circular(4),
         ),
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
           child: Column(
@@ -137,14 +137,14 @@ class LiveEventsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.77),
+        color: const Color(0xFFFFFFFF).withOpacity(0.77),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(4),
           topRight: Radius.circular(4),
         ),
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
           child: Column(
