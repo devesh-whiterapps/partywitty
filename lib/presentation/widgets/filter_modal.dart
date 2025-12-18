@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FilterModal extends StatefulWidget {
   const FilterModal({super.key});
@@ -11,7 +12,7 @@ class _FilterModalState extends State<FilterModal> {
   // Selected filters state
   Set<String> selectedQuickFilters = {};
   Set<String> selectedRecommended = {};
-  double distanceValue = 24.5;
+  RangeValues distanceRange = RangeValues(0, 24.5);
   Set<int> selectedStars = {};
   Set<String> selectedEventTypes = {};
 
@@ -83,7 +84,7 @@ class _FilterModalState extends State<FilterModal> {
           // Scrollable content
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,11 +108,19 @@ class _FilterModalState extends State<FilterModal> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildRecommendedCard('Lounge', Icons.deck, 'lounge'),
-                      _buildRecommendedCard('Clubs', Icons.people, 'clubs'),
+                      _buildRecommendedCard(
+                        'Jazz',
+                        'assets/icons/Hotel.svg',
+                        'jazz',
+                      ),
+                      _buildRecommendedCard(
+                        'Clubs',
+                        'assets/icons/club.png',
+                        'clubs',
+                      ),
                       _buildRecommendedCard(
                         'Resorts',
-                        Icons.apartment,
+                        'assets/icons/Hotel.svg',
                         'resorts',
                       ),
                     ],
@@ -172,7 +181,7 @@ class _FilterModalState extends State<FilterModal> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        // Slider
+                        // Range Slider with two pointers
                         SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             activeTrackColor: Color(0xff7464E4),
@@ -183,14 +192,17 @@ class _FilterModalState extends State<FilterModal> {
                               enabledThumbRadius: 10,
                             ),
                             trackHeight: 4,
+                            rangeThumbShape: RoundRangeSliderThumbShape(
+                              enabledThumbRadius: 10,
+                            ),
                           ),
-                          child: Slider(
-                            value: distanceValue,
+                          child: RangeSlider(
+                            values: distanceRange,
                             min: 0,
                             max: 50,
-                            onChanged: (value) {
+                            onChanged: (RangeValues values) {
                               setState(() {
-                                distanceValue = value;
+                                distanceRange = values;
                               });
                             },
                           ),
@@ -210,7 +222,7 @@ class _FilterModalState extends State<FilterModal> {
                                   ),
                                 ),
                                 Text(
-                                  '${distanceValue.toStringAsFixed(1)} KM',
+                                  '${distanceRange.start.toStringAsFixed(1)} KM',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -230,7 +242,7 @@ class _FilterModalState extends State<FilterModal> {
                                   ),
                                 ),
                                 Text(
-                                  '50 KM',
+                                  '${distanceRange.end.toStringAsFixed(1)} KM',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -334,8 +346,10 @@ class _FilterModalState extends State<FilterModal> {
     );
   }
 
-  Widget _buildRecommendedCard(String label, IconData icon, String key) {
+  Widget _buildRecommendedCard(String label, String assetPath, String key) {
     final isSelected = selectedRecommended.contains(key);
+    final isSvg = assetPath.endsWith('.svg');
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -359,11 +373,9 @@ class _FilterModalState extends State<FilterModal> {
         ),
         child: Column(
           children: [
-            Icon(
-              icon,
-              size: 40,
-              color: isSelected ? Color(0xff7464E4) : Color(0xff666666),
-            ),
+            isSvg
+                ? SvgPicture.asset(assetPath, width: 40, height: 40)
+                : Image.asset(assetPath, width: 40, height: 40),
             const SizedBox(height: 8),
             Text(
               label,
