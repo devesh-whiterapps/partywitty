@@ -97,11 +97,10 @@ class _MenuSectionState extends State<MenuSection> {
 
   Widget _buildExpandableSection(String title, String subtitle) {
     final isExpanded = expandedSections[title] ?? false;
-    final isAlcohol = title == 'Alcohol';
 
     return Container(
       width: 410,
-      height: isExpanded && !isAlcohol ? 450 : null,
+      height: isExpanded ? 450 : null,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: const Color(0xFFEDEDED),
@@ -112,13 +111,11 @@ class _MenuSectionState extends State<MenuSection> {
         children: [
           // Header - width: 380, height: 20
           GestureDetector(
-            onTap: isAlcohol
-                ? null
-                : () {
-                    setState(() {
-                      expandedSections[title] = !isExpanded;
-                    });
-                  },
+            onTap: () {
+              setState(() {
+                expandedSections[title] = !isExpanded;
+              });
+            },
             child: Container(
               width: 380,
               padding: const EdgeInsets.symmetric(
@@ -153,33 +150,28 @@ class _MenuSectionState extends State<MenuSection> {
                       ),
                     ],
                   ),
-                  // Arrow - width: 16, height: 16, rotated 180 deg when expanded
-                  // Hide arrow for Alcohol section
-                  if (!isAlcohol)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      child: Transform.rotate(
-                        angle: isExpanded
-                            ? 3.14159
-                            : 0, // 180 degrees = π radians
-                        child: const Icon(
-                          Icons.keyboard_arrow_down,
-                          size: 16,
-                          color: Colors.black54,
-                        ),
+                  // Arrow - rotated 180 deg when expanded
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    child: Transform.rotate(
+                      angle: isExpanded ? 3.14159 : 0,
+                      child: const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 16,
+                        color: Colors.black54,
                       ),
                     ),
+                  ),
                 ],
               ),
             ),
           ),
 
-          // Content - adjusted width to match card width
-          // Don't show content for Alcohol section
-          if (isExpanded && !isAlcohol) ...[
+          // Content - shown when expanded
+          if (isExpanded) ...[
             const SizedBox(height: 10),
             SizedBox(
               width: 324, // Match card width
