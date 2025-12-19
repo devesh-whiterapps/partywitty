@@ -111,7 +111,7 @@ class EventDetailsSection extends StatelessWidget {
                   Text(
                     artist.name,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Color(0xff070707),
                     ),
@@ -122,7 +122,7 @@ class EventDetailsSection extends StatelessWidget {
               ),
               Text(
                 artist.role,
-                style: TextStyle(fontSize: 12, color: Color(0xff4f4f4f)),
+                style: TextStyle(fontSize: 11, color: Color(0xff4f4f4f)),
               ),
             ],
           ),
@@ -148,7 +148,7 @@ class EventDetailsSection extends StatelessWidget {
         Text(
           eventDetails.venue,
           style: GoogleFonts.lexend(
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
             color: Color(0xff070707),
           ),
@@ -159,7 +159,7 @@ class EventDetailsSection extends StatelessWidget {
         Text(
           '${eventDetails.rating}',
           style: GoogleFonts.lexend(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Color(0xff070707),
           ),
@@ -168,7 +168,7 @@ class EventDetailsSection extends StatelessWidget {
         Text(
           'Review ',
           style: GoogleFonts.lexend(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
             decoration: TextDecoration.underline,
             color: Color(0xff070707),
@@ -177,7 +177,7 @@ class EventDetailsSection extends StatelessWidget {
         Text(
           '(${eventDetails.reviewCount.toString().padLeft(2, '0')})',
           style: GoogleFonts.lexend(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Color(0xff070707),
           ),
@@ -197,7 +197,7 @@ class EventDetailsSection extends StatelessWidget {
           child: Text(
             eventDetails.location,
             style: GoogleFonts.lexend(
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: FontWeight.w400,
               color: Color(0xff4F4F4F),
             ),
@@ -225,7 +225,7 @@ class EventDetailsSection extends StatelessWidget {
               Text(
                 '${eventDetails.distance.toStringAsFixed(1)} Kms',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                   color: Color(0xff7464E4),
                   fontWeight: FontWeight.w500,
                 ),
@@ -245,7 +245,7 @@ class EventDetailsSection extends StatelessWidget {
         Text(
           eventDetails.eventCategory,
           style: GoogleFonts.lexend(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w400,
             color: Color(0xff4F4F4F),
           ),
@@ -261,7 +261,7 @@ class EventDetailsSection extends StatelessWidget {
         Text(
           'Inclusion:',
           style: GoogleFonts.lexend(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
             color: Color(0xff070707),
           ),
@@ -277,7 +277,7 @@ class EventDetailsSection extends StatelessWidget {
                   (item) => Text(
                     "• ${item}",
                     style: GoogleFonts.lexend(
-                      fontSize: 13,
+                      fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: Color(0xff4F4F4F),
                     ),
@@ -287,7 +287,7 @@ class EventDetailsSection extends StatelessWidget {
               '10+ More',
               style: GoogleFonts.lexend(
                 decoration: TextDecoration.underline,
-                fontSize: 13,
+                fontSize: 11,
                 color: Color(0xff7464E4),
                 fontWeight: FontWeight.w500,
               ),
