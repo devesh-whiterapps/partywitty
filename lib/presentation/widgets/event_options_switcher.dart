@@ -74,7 +74,7 @@ class _EventOptionsSwitcherState extends State<EventOptionsSwitcher> {
       height: 220,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 0),
         itemCount: 2,
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.only(right: 15),
@@ -104,7 +104,7 @@ class _EventOptionsSwitcherState extends State<EventOptionsSwitcher> {
         child: ListView(
           controller: _tableScrollController,
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           children: const [
             TableBookingCard(
               title: 'Table For 4',

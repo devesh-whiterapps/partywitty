@@ -15,6 +15,7 @@ import '../widgets/event_booking_toggle.dart';
 import '../widgets/event_options_switcher.dart';
 import '../widgets/unified_event_card.dart';
 import '../widgets/sections/card_buttons_section.dart';
+import '../widgets/gradient_background.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 
@@ -70,14 +71,12 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          // Gradient Background with Ellipses
-          _buildGradientBackground(),
-
-          // Main Content
-          Padding(
+      backgroundColor: Colors.transparent,
+      body: GradientBackground(
+        child: Stack(
+          children: [
+            // Main Content
+            Padding(
             padding: EdgeInsets.only(
               top: _headerReservedSpace,
               bottom:
@@ -97,23 +96,26 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                       ),
                       const SizedBox(height: 15),
-                      // White Background Card - Full Width
-                      Container(
-                        width: double.infinity,
-                        // height: 608.3157958984375, // Height will be determined by child
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.06),
-                              blurRadius: 12,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
+                      // White Background Card
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Container(
+                          width: double.infinity,
+                          // height: 608.3157958984375, // Height will be determined by child
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.06),
+                                blurRadius: 12,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: _buildVenueBidCard(), // Place the card here
                         ),
-                        child: _buildVenueBidCard(), // Place the card here
                       ),
                       // Main Content Container
                       Padding(
@@ -266,11 +268,8 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           ),
         ],
       ),
+    )
     );
-  }
-
-  Widget _buildGradientBackground() {
-    return Positioned.fill(child: Container(color: Colors.white));
   }
 
   Widget _buildVenueBidCard() {

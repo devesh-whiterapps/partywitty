@@ -46,6 +46,7 @@ class TeaserSection extends StatelessWidget {
           height: 507,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 0),
             itemCount: 3,
             itemBuilder: (context, index) {
               return Padding(
@@ -82,78 +83,11 @@ class TeaserSection extends StatelessWidget {
             ),
           ),
 
-          // Overlay Gradient
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.8),
-                ],
-              ),
-            ),
-          ),
 
-          // Category Tag (Bottom-Left)
-          Positioned(
-            bottom: 10,
-            left: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: const BoxDecoration(
-                color: Color(0xFF3CBD53),
-                borderRadius: BorderRadius.horizontal(right: Radius.circular(50)),
-              ),
-              child: Text(
-                'Ambience',
-                style: GoogleFonts.urbanist(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
 
-          // Volume Button (Top-Right)
-          Positioned(
-            top: 10,
-            right: 10,
-            child: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDCDBF4),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Icon(
-                Icons.volume_up,
-                size: 16,
-                color: Colors.black87,
-              ),
-            ),
-          ),
 
-          // Play Button (Center)
-          Center(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.black),
-              ),
-              child: const Icon(
-                Icons.play_arrow,
-                size: 24,
-                color: Colors.black87,
-              ),
-            ),
-          ),
+
+
         ],
       ),
     );
