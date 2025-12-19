@@ -5,6 +5,7 @@ import 'package:partywitty/presentation/screens/payment_screen.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../screens/event_details_screen.dart';
+import '../screens/carnival_detail_screen.dart';
 
 class EventDetailsSection extends StatelessWidget {
   final EventModel eventDetails;
@@ -382,12 +383,7 @@ class EventDetailsSection extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => EventDetailsScreen(
-                      event: eventDetails,
-                      artist: artist,
-                      advancePaid: eventDetails.advancePaid,
-                      balanceAmount: eventDetails.balanceAmount,
-                    ),
+                    builder: (context) => const CarnivalDetailScreen(),
                   ),
                 );
               },
