@@ -203,7 +203,7 @@ class TableBookingCard extends StatelessWidget {
               width: 282,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/table_bg.png'),
+                  image: AssetImage('assets/images/table_bg.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),

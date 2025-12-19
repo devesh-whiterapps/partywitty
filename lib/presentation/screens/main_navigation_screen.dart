@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/gradient_background.dart';
-import 'home_screen.dart';
 import 'search_screen.dart';
 import 'setup_screen.dart';
 import 'booking_screen.dart';
@@ -127,7 +126,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   void initState() {
     super.initState();
     _screens = [
-      const HomeScreen(),
       const SearchScreen(),
       const SetupScreen(),
       const BookingScreen(),
