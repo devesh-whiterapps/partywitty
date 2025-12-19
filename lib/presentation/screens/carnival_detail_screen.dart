@@ -162,8 +162,30 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
                               const SizedBox(height: 20),
 
-                              // Menu Section
-                              const MenuSection(),
+                              // Menu Section - background extends beyond padding, content stays aligned
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  // Background layer - extends full width
+                                  Positioned(
+                                    left: -15,
+                                    right: -15,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(0),
+                                      ),
+                                    ),
+                                  ),
+                                  // Content layer - keeps normal padding
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 15),
+                                    child: MenuSection(),
+                                  ),
+                                ],
+                              ),
 
                               const SizedBox(height: 20),
 

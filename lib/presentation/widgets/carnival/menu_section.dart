@@ -57,13 +57,14 @@ class _MenuSectionState extends State<MenuSection> {
 
   Widget _buildVegNonVegToggle() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      width: 100, // Fixed width for wider button
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0xFF3CBD53), // Bright green background
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(25),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             'Veg',
@@ -73,14 +74,21 @@ class _MenuSectionState extends State<MenuSection> {
               color: Colors.white,
             ),
           ),
-          const SizedBox(width: 8),
-          // Veg indicator icon from assets
-          Image.asset(
-            color: Colors.white,
-            'assets/icons/veg_indicator.png',
-            width: 20,
-            height: 20,
-            fit: BoxFit.contain,
+          // Veg indicator icon in white circle
+          Container(
+            width: 26,
+            height: 26,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            padding: const EdgeInsets.all(4),
+            child: Image.asset(
+              'assets/icons/veg_indicator.png',
+              width: 18,
+              height: 18,
+              fit: BoxFit.contain,
+            ),
           ),
         ],
       ),
@@ -104,14 +112,18 @@ class _MenuSectionState extends State<MenuSection> {
         children: [
           // Header - width: 380, height: 20
           GestureDetector(
-            onTap: isAlcohol ? null : () {
-              setState(() {
-                expandedSections[title] = !isExpanded;
-              });
-            },
+            onTap: isAlcohol
+                ? null
+                : () {
+                    setState(() {
+                      expandedSections[title] = !isExpanded;
+                    });
+                  },
             child: Container(
               width: 380,
-              padding: const EdgeInsets.symmetric(vertical: 8), // Add vertical padding for better clickability
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+              ), // Add vertical padding for better clickability
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -145,9 +157,14 @@ class _MenuSectionState extends State<MenuSection> {
                   // Hide arrow for Alcohol section
                   if (!isAlcohol)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       child: Transform.rotate(
-                        angle: isExpanded ? 3.14159 : 0, // 180 degrees = π radians
+                        angle: isExpanded
+                            ? 3.14159
+                            : 0, // 180 degrees = π radians
                         child: const Icon(
                           Icons.keyboard_arrow_down,
                           size: 16,
@@ -189,99 +206,91 @@ class _MenuSectionState extends State<MenuSection> {
 
   Widget _buildMenuItem(String name, String description) {
     return Container(
-      width: 324, // Reduced by 56 to fix overflow (380 - 56 = 324)
-      height: 80, // Reduced by 10 to fix overflow (90 - 10 = 80)
+      width: 324,
+      height: 80,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0x80FFFFFF), // #FFFFFF80
+        color: const Color(0xFFFFFFFF), // Pure white only
         borderRadius: BorderRadius.circular(4),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-          child: Row(
-            children: [
-              // Image - width: 70, height: 70, border-radius: 4px
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/corn_chart.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+      child: Row(
+        children: [
+          // Image
+          Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              image: const DecorationImage(
+                image: AssetImage('assets/images/corn_chart.jpg'),
+                fit: BoxFit.cover,
               ),
-              const SizedBox(width: 10),
+            ),
+          ),
+          const SizedBox(width: 10),
 
-              // Details - adjusted width to fit (324 - 10 padding - 70 image - 10 gap - 10 padding = 224)
-              Expanded(
-                child: SizedBox(
-                  height: 60, // Adjusted height (80 - 10 padding top - 10 padding bottom = 60)
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // Details
+          Expanded(
+            child: SizedBox(
+              height: 60,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Row with veg indicator and name
+                  Row(
                     children: [
-                      // Row with veg indicator and name
-                      Row(
-                        children: [
-                          // Veg indicator image - width: 13.333333015441895, height: 13.333333015441895, border-radius: 1.33px
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(1.33),
-                            child: Image.asset(
-                              'assets/icons/veg_indicator.png',
-                              width: 13.333333015441895,
-                              height: 13.333333015441895,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          // Corn Chaat - flexible width
-                          Flexible(
-                            child: Text(
-                              name,
-                              style: GoogleFonts.lexend(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF070707),
-                                height: 1.5, // line-height: 24px
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Description
-                      Text(
-                        description,
-                        style: GoogleFonts.lexend(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF4F4F4F),
-                          height: 1.0,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(1.33),
+                        child: Image.asset(
+                          'assets/icons/veg_indicator.png',
+                          width: 14,
+                          height: 14,
+                          fit: BoxFit.cover,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      // View More
-                      Text(
-                        'View More',
-                        style: GoogleFonts.lexend(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF070707),
-                          height: 1.0,
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          name,
+                          style: GoogleFonts.lexend(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF070707),
+                            height: 1.5,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                ),
+                  // Description
+                  Text(
+                    description,
+                    style: GoogleFonts.lexend(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF4F4F4F),
+                      height: 1.0,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  // View More
+                  Text(
+                    'View More',
+                    style: GoogleFonts.lexend(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF070707),
+                      height: 1.0,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
