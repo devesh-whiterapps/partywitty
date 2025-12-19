@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/sections/card_ticket_section.dart';
+import '../widgets/sections/card_table_booking_section.dart';
 
 /// Function to show General Pass Options as a popup modal
 void showGeneralPassOptionsModal(
@@ -112,17 +113,13 @@ class _GeneralPassOptionsModalState extends State<GeneralPassOptionsModal> {
               child: Row(
                 children: [
                   // Calendar Icon
-                  Container(
+                  SvgPicture.asset(
+                    'assets/icons/inventory.svg',
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: const Icon(
-                      Icons.check,
-                      size: 18,
-                      color: Color(0xFF4F4F4F),
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF4F4F4F),
+                      BlendMode.srcIn,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -176,35 +173,11 @@ class _GeneralPassOptionsModalState extends State<GeneralPassOptionsModal> {
               ),
             ),
             const SizedBox(height: 20),
-            // Pass Cards List
+            // Content based on selected tab
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                itemCount: passOptions.length,
-                itemBuilder: (context, index) {
-                  final pass = passOptions[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: CardTicketSection(
-                      passTitle: pass['title'],
-                      bookingAmount: pass['bookingAmount'],
-                      pricePerPerson: '/Person',
-                      mrpPrice: pass['mrpPrice'],
-                      totalPrice: pass['totalPrice'],
-                      dateTime: pass['dateTime'],
-                      onTap: () {
-                        // Handle ticket selection
-                        Navigator.pop(context);
-                        _showTicketConfirmation(context, pass);
-                      },
-                      onInclusionsTap: () {
-                        // Show inclusions modal
-                        _showInclusionsModal(context, pass);
-                      },
-                    ),
-                  );
-                },
-              ),
+              child: _selectedTabIndex == 0
+                  ? _buildUnlimitedFBContent()
+                  : _buildTableBookingContent(),
             ),
           ],
         ),
@@ -245,6 +218,40 @@ class _GeneralPassOptionsModalState extends State<GeneralPassOptionsModal> {
         ),
       ),
     );
+  }
+
+  Widget _buildUnlimitedFBContent() {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      itemCount: passOptions.length,
+      itemBuilder: (context, index) {
+        final pass = passOptions[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: CardTicketSection(
+            passTitle: pass['title'],
+            bookingAmount: pass['bookingAmount'],
+            pricePerPerson: '/Person',
+            mrpPrice: pass['mrpPrice'],
+            totalPrice: pass['totalPrice'],
+            dateTime: pass['dateTime'],
+            onTap: () {
+              // Handle ticket selection
+              Navigator.pop(context);
+              _showTicketConfirmation(context, pass);
+            },
+            onInclusionsTap: () {
+              // Show inclusions modal
+              _showInclusionsModal(context, pass);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildTableBookingContent() {
+    return const CardTableBookingListSection(tableCount: 2, height: 360);
   }
 
   void _showTicketConfirmation(
