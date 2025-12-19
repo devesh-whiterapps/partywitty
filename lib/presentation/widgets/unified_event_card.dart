@@ -43,12 +43,11 @@ class UnifiedEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 12.0),
+      margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
       padding: const EdgeInsets.only(right: 8.0, left: 8.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(4),
-
 
         // boxShadow: [
         //   BoxShadow(
