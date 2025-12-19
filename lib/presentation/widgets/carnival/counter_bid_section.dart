@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,22 +30,24 @@ class CounterBidSection extends StatelessWidget {
         children: [
           // Counter Bid Banner
           Container(
-            padding: const EdgeInsets.all(12),
+            width: double.infinity,
+            height: 34,
+            padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10, left: 15),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
             ),
-            child: Center(
-              child: Text(
-                'Make your counter bid and grab the best deal for your party!',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lexend(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87,
-                ),
+            child: _MarqueeText(
+              text: 'Make your counter bid and grab the best deal for your party!',
+              style: GoogleFonts.lexend(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF070707),
+                height: 1.0,
               ),
             ),
           ),
@@ -114,22 +117,23 @@ class CounterBidSection extends StatelessWidget {
 
                 // Savings Banner
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  height: 34,
+                  padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10, left: 15),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
                     ),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  child: Center(
-                    child: Text(
-                      'Great Choice! ₹$savings would be Saved Instantly on This Booking!',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lexend(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black87,
-                      ),
+                  child: _MarqueeText(
+                    text: 'Great Choice! ₹$savings would be Saved Instantly on This Booking!',
+                    style: GoogleFonts.lexend(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF070707),
+                      height: 1.0,
                     ),
                   ),
                 ),
@@ -138,6 +142,100 @@ class CounterBidSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _MarqueeText extends StatefulWidget {
+  final String text;
+  final TextStyle style;
+
+  const _MarqueeText({
+    required this.text,
+    required this.style,
+  });
+
+  @override
+  State<_MarqueeText> createState() => _MarqueeTextState();
+}
+
+class _MarqueeTextState extends State<_MarqueeText> {
+  final ScrollController _scrollController = ScrollController();
+  Timer? _scrollTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startScrolling();
+    });
+  }
+
+  void _startScrolling() {
+    _scrollTimer?.cancel();
+    _scrollTimer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
+      if (_scrollController.hasClients && _scrollController.position.maxScrollExtent > 0) {
+        final currentPosition = _scrollController.position.pixels;
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        
+        if (currentPosition >= maxScroll) {
+          _scrollController.jumpTo(0);
+        } else {
+          _scrollController.jumpTo(currentPosition + 0.5);
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollTimer?.cancel();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final textPainter = TextPainter(
+          text: TextSpan(text: widget.text, style: widget.style),
+          textDirection: TextDirection.ltr,
+          maxLines: 1,
+        );
+        textPainter.layout(maxWidth: double.infinity);
+        final textWidth = textPainter.size.width;
+        final needsScrolling = textWidth > constraints.maxWidth;
+
+        if (!needsScrolling) {
+          return Center(
+            child: Text(
+              widget.text,
+              textAlign: TextAlign.center,
+              style: widget.style,
+            ),
+          );
+        }
+
+        return SingleChildScrollView(
+          controller: _scrollController,
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          child: Row(
+            children: [
+              Text(
+                widget.text,
+                style: widget.style,
+              ),
+              const SizedBox(width: 50),
+              Text(
+                widget.text,
+                style: widget.style,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

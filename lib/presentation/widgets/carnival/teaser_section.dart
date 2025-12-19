@@ -43,7 +43,7 @@ class TeaserSection extends StatelessWidget {
 
         // Teaser Videos
         SizedBox(
-          height: 220,
+          height: 507,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 3,
@@ -61,19 +61,22 @@ class TeaserSection extends StatelessWidget {
 
   Widget _buildTeaserCard() {
     return Container(
-      width: 180,
+      width: 317,
+      height: 507,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: const Color(0xFFD2D2D2), width: 0.91),
       ),
       child: Stack(
         children: [
           // Video Thumbnail
           Container(
+            width: double.infinity,
+            height: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
               image: const DecorationImage(
-                image: NetworkImage('https://picsum.photos/180/220'),
+                image: AssetImage('assets/images/dummy_videoImg.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -81,6 +84,8 @@ class TeaserSection extends StatelessWidget {
 
           // Overlay Gradient
           Container(
+            width: double.infinity,
+            height: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
               gradient: LinearGradient(
