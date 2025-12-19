@@ -1304,6 +1304,16 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     );
   }
 
+  // Artist cards data
+  final List<Map<String, String>> _artistCards = const [
+    {'image': 'assets/images/sarah_singer.png', 'name': 'Sarah Singer'},
+    {'image': 'assets/images/sarah_singer.png', 'name': 'DJ Ravi'},
+    {'image': 'assets/images/sarah_singer.png', 'name': 'Band Pulse'},
+  ];
+
+  int _artistCurrentIndex = 0;
+  final ScrollController _artistScrollController = ScrollController();
+
   Widget _buildArtistsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1314,13 +1324,45 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 10),
-        Image.asset(
-          'assets/images/sarah_singer.png',
-          width: double.infinity,
-          fit: BoxFit.contain,
+        NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            if (notification is ScrollUpdateNotification) {
+              final cardWidth = MediaQuery.of(context).size.width - 30;
+              final newIndex = (_artistScrollController.offset / cardWidth)
+                  .round();
+              if (newIndex != _artistCurrentIndex &&
+                  newIndex >= 0 &&
+                  newIndex < _artistCards.length) {
+                setState(() => _artistCurrentIndex = newIndex);
+              }
+            }
+            return false;
+          },
+          child: SingleChildScrollView(
+            controller: _artistScrollController,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            child: Row(
+              children: List.generate(_artistCards.length, (index) {
+                return Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  margin: EdgeInsets.only(
+                    right: index < _artistCards.length - 1 ? 10 : 0,
+                  ),
+                  child: Image.asset(
+                    _artistCards[index]['image']!,
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  ),
+                );
+              }),
+            ),
+          ),
         ),
         const SizedBox(height: 10),
-        Center(child: _buildIndicators(3, 0)),
+        Center(
+          child: _buildIndicators(_artistCards.length, _artistCurrentIndex),
+        ),
       ],
     );
   }
