@@ -246,7 +246,7 @@ class _GeneralPassOptionsModalState extends State<GeneralPassOptionsModal> {
   }
 
   Widget _buildTableBookingContent() {
-    return _TableBookingHorizontalList();
+    return const TableBookingHorizontalList();
   }
 
   void _showTicketConfirmation(
@@ -387,20 +387,22 @@ class _GeneralPassOptionsModalState extends State<GeneralPassOptionsModal> {
 }
 
 /// Horizontal scrolling table booking cards with indicators
-class _TableBookingHorizontalList extends StatefulWidget {
+class TableBookingHorizontalList extends StatefulWidget {
+  const TableBookingHorizontalList({super.key});
+
   @override
-  State<_TableBookingHorizontalList> createState() =>
+  State<TableBookingHorizontalList> createState() =>
       _TableBookingHorizontalListState();
 }
 
 class _TableBookingHorizontalListState
-    extends State<_TableBookingHorizontalList> {
+    extends State<TableBookingHorizontalList> {
   int _currentIndex = 0;
   final ScrollController _scrollController = ScrollController();
 
   final List<Map<String, dynamic>> tableOptions = [
     {
-      'tableName': 'Table For 4',
+      'tableName': 'Table For 3',
       'zone': 'Standard Zone',
       'minSpend': '₹15,000',
       'perPerson': '₹2400/Person',

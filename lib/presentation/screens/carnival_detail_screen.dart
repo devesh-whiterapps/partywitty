@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/carnival/event_pass_card.dart';
+import '../widgets/sections/card_ticket_section.dart';
 import '../widgets/carnival/partywitty_pay_section.dart';
 import '../widgets/carnival/menu_section.dart';
 import '../widgets/carnival/gallery_section.dart';
@@ -77,179 +77,184 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           children: [
             // Main Content
             Padding(
-            padding: EdgeInsets.only(
-              top: _headerReservedSpace,
-              bottom:
-                  80, // Space for bottom button and navigation bar (44px button + 10px top padding + 10px bottom padding + 16px extra for nav bar)
-            ),
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20), // Two lines from top
-                      // Horizontal divider line above F-Bar
-                      Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: const Color(0xFFE6E6E6),
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                      ),
-                      const SizedBox(height: 15),
-                      // White Background Card
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Container(
+              padding: EdgeInsets.only(
+                top: _headerReservedSpace,
+                bottom:
+                    80, // Space for bottom button and navigation bar (44px button + 10px top padding + 10px bottom padding + 16px extra for nav bar)
+              ),
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20), // Two lines from top
+                        // Horizontal divider line above F-Bar
+                        Container(
                           width: double.infinity,
-                          // height: 608.3157958984375, // Height will be determined by child
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
+                          height: 1,
+                          color: const Color(0xFFE6E6E6),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                        ),
+                        const SizedBox(height: 15),
+                        // Card with blur effect background
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.06),
-                                blurRadius: 12,
-                                offset: const Offset(0, 6),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.8),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: _buildVenueBidCard(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Main Content Container
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 15),
+
+                              // Event Banner (after F-Bar card)
+                              _buildEventBanner(),
+
+                              const SizedBox(height: 15),
+
+                              // Event Info Card
+                              const EventInfoCard(),
+
+                              const SizedBox(height: 15),
+
+                              // Ticket Options
+                              // _buildTicketOptions(),
+
+                              // const SizedBox(height: 20),
+
+                              // // Partywitty Pay Section
+                              // const PartywittyPaySection(),
+
+                              // const SizedBox(height: 20),
+
+                              // // Event Banner 2
+                              // _buildEventBannerSection(),
+
+                              // const SizedBox(height: 20),
+
+                              // // Event Details Card
+                              // _buildEventDetailsCard(),
+
+                              // const SizedBox(height: 20),
+
+                              // Ticket Options with Passes
+                              const EventOptionsSwitcher(),
+
+                              const SizedBox(height: 20),
+
+                              // Menu Section
+                              const MenuSection(),
+
+                              const SizedBox(height: 20),
+
+                              // Gallery Section
+                              const GallerySection(),
+
+                              const SizedBox(height: 20),
+
+                              // Teaser Section
+                              const TeaserSection(),
+
+                              // Offer Cards Section
+                              _buildOfferCardsSection(),
+
+                              // Partywitty Pay (repeated)
+                              // const PartywittyPaySection(),
+
+                              // Artists Section
+                              _buildArtistsSection(),
+
+                              const SizedBox(height: 20),
+
+                              // You May Also Like Section
+                              _buildYouMayAlsoLike(),
+
+                              const SizedBox(
+                                height: 20,
+                              ), // Extra space before bottom button
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Sticky Header
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                bottom: false,
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                      ),
+                      padding: const EdgeInsets.only(
+                        top: 11,
+                        left: 7,
+                        right: 23,
+                        bottom: 11,
+                      ),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => Navigator.pop(context),
+                        child: SizedBox(
+                          width: 71,
+                          height: 23,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 45,
+                                height: 23,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  'assets/icons/arrow_back.png',
+                                  width: 16,
+                                  height: 12,
+                                  color: const Color(0xFF070707),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                'Back',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF070707),
+                                  height: 1,
+                                ),
                               ),
                             ],
                           ),
-                          child: _buildVenueBidCard(), // Place the card here
-                        ),
-                      ),
-                      // Main Content Container
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 15),
-
-                            // Event Banner (after F-Bar card)
-                            _buildEventBanner(),
-
-                            const SizedBox(height: 15),
-
-                            // Event Info Card
-                            const EventInfoCard(),
-
-                            const SizedBox(height: 15),
-
-                            // Ticket Options
-                            // _buildTicketOptions(),
-
-                            // const SizedBox(height: 20),
-
-                            // // Partywitty Pay Section
-                            // const PartywittyPaySection(),
-
-                            // const SizedBox(height: 20),
-
-                            // // Event Banner 2
-                            // _buildEventBannerSection(),
-
-                            // const SizedBox(height: 20),
-
-                            // // Event Details Card
-                            // _buildEventDetailsCard(),
-
-                            // const SizedBox(height: 20),
-
-                            // Ticket Options with Passes
-                            const EventOptionsSwitcher(),
-
-                            const SizedBox(height: 20),
-
-                            // Menu Section
-                            const MenuSection(),
-
-                            const SizedBox(height: 20),
-
-                            // Gallery Section
-                            const GallerySection(),
-
-                            const SizedBox(height: 20),
-
-                            // Teaser Section
-                            const TeaserSection(),
-
-                            // Offer Cards Section
-                            _buildOfferCardsSection(),
-
-                            // Partywitty Pay (repeated)
-                            // const PartywittyPaySection(),
-
-                            // Artists Section
-                            _buildArtistsSection(),
-
-                            const SizedBox(height: 20),
-
-                            // You May Also Like Section
-                            _buildYouMayAlsoLike(),
-
-                            const SizedBox(height: 20), // Extra space before bottom button
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Sticky Header
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              bottom: false,
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    padding: const EdgeInsets.only(
-                      top: 11,
-                      left: 7,
-                      right: 23,
-                      bottom: 11,
-                    ),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () => Navigator.pop(context),
-                      child: SizedBox(
-                        width: 71,
-                        height: 23,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 45,
-                              height: 23,
-                              alignment: Alignment.center,
-                              child: Image.asset(
-                                'assets/icons/arrow_back.png',
-                                width: 16,
-                                height: 12,
-                                color: const Color(0xFF070707),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Back',
-                              style: GoogleFonts.lexend(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF070707),
-                                height: 1,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
@@ -257,18 +262,17 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                 ),
               ),
             ),
-          ),
 
-          // Sticky Bottom Button
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(top: false, child: _buildStickyBottomButton()),
-          ),
-        ],
+            // Sticky Bottom Button
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SafeArea(top: false, child: _buildStickyBottomButton()),
+            ),
+          ],
+        ),
       ),
-    )
     );
   }
 
@@ -420,7 +424,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             borderRadius: BorderRadius.circular(0),
           ),
           alignment: Alignment.center,
-            child: SizedBox(
+          child: SizedBox(
             width: double.infinity,
             child: Text(
               'Make your counter bid and grab the best deal for your party!',
@@ -484,10 +488,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFFFFFFFF), // #FFFFFF
                 borderRadius: BorderRadius.circular(2),
-                border: Border.all(
-                  color: const Color(0xFFE6E6E6),
-                  width: 1,
-                ),
+                border: Border.all(color: const Color(0xFFE6E6E6), width: 1),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
@@ -821,40 +822,39 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     final isVeg = label == 'Pure Veg';
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5), // Light grey background
+        color: const Color.fromARGB(244, 255, 255, 255).withOpacity(1),
         borderRadius: BorderRadius.circular(4),
+        border: Border.all(
+          color: const Color.fromARGB(242, 255, 255, 255),
+          width: 1,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Icon - no border container, just the icon
+          // Icon
           isVeg
               ? Image.asset(
                   'assets/icons/veg_indicator.png',
-                  width: 20,
-                  height: 20,
+                  width: 18,
+                  height: 18,
                   fit: BoxFit.contain,
                 )
               : icon != null
-              ? Icon(
-                  icon,
-                  size: 20,
-                  color: const Color(0xFF444444), // Dark grey icon
-                )
-              : const SizedBox(width: 20),
-          const SizedBox(width: 6), // gap between icon and text
+              ? Icon(icon, size: 18, color: const Color(0xFF333333))
+              : const SizedBox(width: 18),
+          const SizedBox(width: 6),
           // Text
           Flexible(
             child: Text(
               label,
               style: GoogleFonts.lexend(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.w400,
-                color: const Color(0xFF444444), // Dark grey text
-                height: 1.43, // line-height: 20px
-                letterSpacing: 0,
+                color: const Color(0xFF333333),
+                height: 1.3,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -1031,26 +1031,8 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           ],
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: 220,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return const Padding(
-                padding: EdgeInsets.only(right: 15),
-                child: EventPassCard(
-                  title: 'General Pass (Domestic Liquor & Food)',
-                  bookingAmount: 3000,
-                  mrp: 20000,
-                  offerPrice: 18000,
-                  date: '26 Dec 25',
-                  time: '10:00 PM Onwards',
-                ),
-              );
-            },
-          ),
-        ),
+        // Ticket cards - same style as event_listing_screen
+        const CardTicketListSection(ticketCount: 2, height: 200),
       ],
     );
   }
@@ -1298,7 +1280,6 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           ),
         ),
         const SizedBox(height: 20),
-
       ],
     );
   }
@@ -1319,9 +1300,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           fit: BoxFit.contain,
         ),
         const SizedBox(height: 10),
-        Center(
-          child: _buildIndicators(3, 0),
-        ),
+        Center(child: _buildIndicators(3, 0)),
       ],
     );
   }
@@ -1342,9 +1321,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             children: List.generate(
               count,
               (index) => Padding(
-                padding: EdgeInsets.only(
-                  right: index < count - 1 ? 5 : 0,
-                ),
+                padding: EdgeInsets.only(right: index < count - 1 ? 5 : 0),
                 child: Image.asset(
                   'assets/images/indicator.png',
                   width: index == currentIndex ? 20 : 5,
@@ -1405,7 +1382,10 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             'You May Also Like This',
-            style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
+            style: GoogleFonts.lexend(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         const SizedBox(height: 5),
@@ -1451,7 +1431,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             borderRadius: BorderRadius.circular(2),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                child: Container(
+              child: Container(
                 width: double.infinity,
                 height: 36,
                 padding: const EdgeInsets.only(

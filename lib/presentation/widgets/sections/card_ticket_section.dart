@@ -244,6 +244,7 @@ class CardTicketListSection extends StatelessWidget {
       height: height,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
         itemCount: ticketCount,
         itemBuilder: (context, index) {
           return Padding(

@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'sections/card_ticket_section.dart';
+import '../../presentation/screens/general_pass_options_screen.dart';
 
 class EventOptionsSwitcher extends StatefulWidget {
   const EventOptionsSwitcher({super.key});
@@ -12,12 +14,12 @@ class EventOptionsSwitcher extends StatefulWidget {
 
 class _EventOptionsSwitcherState extends State<EventOptionsSwitcher> {
   bool _showTableOptions = false;
-  int _currentTableIndex = 0;
-  final ScrollController _tableScrollController = ScrollController();
+  int _currentTicketIndex = 0;
+  final ScrollController _ticketScrollController = ScrollController();
 
   @override
   void dispose() {
-    _tableScrollController.dispose();
+    _ticketScrollController.dispose();
     super.dispose();
   }
 
@@ -32,12 +34,18 @@ class _EventOptionsSwitcherState extends State<EventOptionsSwitcher> {
           children: [
             Text(
               _showTableOptions ? 'Table Options' : 'Ticket Options',
-              style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
+              style: GoogleFonts.lexend(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             TextButton(
-              onPressed: () => setState(() => _showTableOptions = !_showTableOptions),
+              onPressed: () =>
+                  setState(() => _showTableOptions = !_showTableOptions),
               child: Text(
-                _showTableOptions ? 'View Tickets Options' : 'View Table Options',
+                _showTableOptions
+                    ? 'View Tickets Options'
+                    : 'View Table Options',
                 style: GoogleFonts.lexend(
                   fontSize: 14,
                   color: const Color(0xFF7464E4),
@@ -53,94 +61,62 @@ class _EventOptionsSwitcherState extends State<EventOptionsSwitcher> {
         // --- CONTENT SECTION ---
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          child: _showTableOptions ? _buildTableOptionsList() : _buildTicketPassList(),
+          child: _showTableOptions
+              ? _buildTableOptionsList()
+              : _buildTicketPassList(),
         ),
 
         const SizedBox(height: 15),
 
-        // --- INDICATORS (only show for table options) ---
-        if (_showTableOptions)
-          Center(child: _buildIndicators(3, _currentTableIndex))
-        else
-          Center(child: _buildIndicators(2, 0)),
+        // --- INDICATORS (only show for ticket options, table has its own)  ---
+        if (!_showTableOptions)
+          Center(child: _buildIndicators(2, _currentTicketIndex)),
       ],
     );
   }
 
-
   Widget _buildTicketPassList() {
     return SizedBox(
       key: const ValueKey('tickets'),
-      height: 220,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 0),
-        itemCount: 2,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: Image.asset('assets/images/event_pass.png', height: 220, fit: BoxFit.contain),
+      height: 180,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          if (notification is ScrollUpdateNotification) {
+            // CardTicketSection width is MediaQuery.of(context).size.width - 60
+            // Using approximate width + padding
+            final cardWidth = 280.0 + 12.0; // approximate card width + gap
+            final newIndex = (_ticketScrollController.offset / cardWidth)
+                .round();
+            if (newIndex != _currentTicketIndex &&
+                newIndex >= 0 &&
+                newIndex < 2) {
+              setState(() => _currentTicketIndex = newIndex);
+            }
+          }
+          return false;
+        },
+        child: ListView.builder(
+          controller: _ticketScrollController,
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.only(right: index < 1 ? 12 : 0),
+              child: const CardTicketSection(),
+            );
+          },
         ),
       ),
     );
   }
 
   Widget _buildTableOptionsList() {
-    return SizedBox(
-      key: const ValueKey('tables'),
-      height: 351, // Fixed height per spec
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          if (notification is ScrollUpdateNotification) {
-            final cardWidth = 282.0 + 16.0; // card width + gap
-            final newIndex = (_tableScrollController.offset / cardWidth).round();
-            if (newIndex != _currentTableIndex &&
-                newIndex >= 0 &&
-                newIndex < 3) {
-              setState(() => _currentTableIndex = newIndex);
-            }
-          }
-          return false;
-        },
-        child: ListView(
-          controller: _tableScrollController,
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          children: const [
-            TableBookingCard(
-              title: 'Table For 4',
-              zone: 'Standard Zone',
-              price: '15,000',
-              perPerson: '2400',
-              amount: '3000',
-              features: ['Comfortable sofa seating', 'Basic snacks included', 'Standard entry'],
-              hasBestValue: true,
-              bookingColor: Color(0xFF3CBD53),
-            ),
-            SizedBox(width: 16),
-            TableBookingCard(
-              title: 'Table For 8',
-              zone: 'VIP Zone',
-              price: '28,000',
-              perPerson: '3500',
-              amount: '4453',
-              features: ['Premium bottle service', 'Priority entry access', 'Dedicated server'],
-              hasBestValue: false,
-              bookingColor: Color(0xFFA89D28),
-            ),
-            SizedBox(width: 16),
-            TableBookingCard(
-              title: 'Table For 10',
-              zone: 'Elite Zone',
-              price: '40,000',
-              perPerson: '4000',
-              amount: '3000',
-              features: ['Front stage positioning', 'Dedicated steward service', 'Premium cocktails included'],
-              hasBestValue: false,
-              bookingColor: Color(0xFFD4AF37),
-            ),
-          ],
-        ),
-      ),
+    return const SizedBox(
+      key: ValueKey('tables'),
+      height:
+          400, // TableBookingHorizontalList uses Expanded, needs fixed height
+      child: TableBookingHorizontalList(),
     );
   }
 
@@ -160,9 +136,7 @@ class _EventOptionsSwitcherState extends State<EventOptionsSwitcher> {
             children: List.generate(
               count,
               (index) => Padding(
-                padding: EdgeInsets.only(
-                  right: index < count - 1 ? 5 : 0,
-                ),
+                padding: EdgeInsets.only(right: index < count - 1 ? 5 : 0),
                 child: Image.asset(
                   'assets/images/indicator.png',
                   width: index == currentIndex ? 20 : 5,
@@ -213,13 +187,13 @@ class TableBookingCard extends StatelessWidget {
     final seatingTitle = zone.contains('Standard')
         ? 'Standard Seating'
         : zone.contains('VIP')
-            ? 'VIP Seating'
-            : 'Elite Seating';
+        ? 'VIP Seating'
+        : 'Elite Seating';
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(0),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
         child: Container(
           width: 282,
           decoration: BoxDecoration(
@@ -357,11 +331,7 @@ class TableBookingCard extends StatelessWidget {
           ),
         ),
         // Dark overlay
-        Container(
-          height: 90,
-          width: 282,
-          color: Colors.black.withOpacity(0.2),
-        ),
+        Container(height: 90, width: 282, color: Colors.black.withOpacity(0.2)),
         // Best Value badge
         if (hasBestValue)
           Positioned(
@@ -457,13 +427,8 @@ class TableBookingCard extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 13,
-            vertical: 10,
-          ),
-          decoration: BoxDecoration(
-            color: bookingColor.withOpacity(0.1),
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+          decoration: BoxDecoration(color: bookingColor.withOpacity(0.1)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
