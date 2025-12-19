@@ -14,6 +14,7 @@ import '../widgets/carnival/event_info_card.dart';
 import '../widgets/event_booking_toggle.dart';
 import '../widgets/event_options_switcher.dart';
 import '../widgets/unified_event_card.dart';
+import '../widgets/sections/card_buttons_section.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 
@@ -80,7 +81,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             padding: EdgeInsets.only(
               top: _headerReservedSpace,
               bottom:
-                  64, // Space for bottom button (44px button + 10px top padding + 10px bottom padding)
+                  80, // Space for bottom button and navigation bar (44px button + 10px top padding + 10px bottom padding + 16px extra for nav bar)
             ),
             child: CustomScrollView(
               slivers: [
@@ -179,10 +180,12 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                             // Artists Section
                             _buildArtistsSection(),
 
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 15),
 
                             // You May Also Like Section
                             _buildYouMayAlsoLike(),
+
+                            const SizedBox(height: 20), // Extra space before bottom button
                           ],
                         ),
                       ),
@@ -394,7 +397,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
         // Cyan Gradient Banner
         Container(
-          width: 400,
+          width: double.infinity,
           height: 34,
           padding: const EdgeInsets.only(
             top: 10,
@@ -411,8 +414,8 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             borderRadius: BorderRadius.circular(0),
           ),
           alignment: Alignment.center,
-          child: SizedBox(
-            width: 370,
+            child: SizedBox(
+            width: double.infinity,
             child: Text(
               'Make your counter bid and grab the best deal for your party!',
               textAlign: TextAlign.center,
@@ -528,7 +531,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
         // Details Bar
         Container(
-          width: 400,
+          width: double.infinity,
           height: 38,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -577,7 +580,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
         // Feature Chips Section
         SizedBox(
-          width: 400,
+          width: double.infinity,
           child: Wrap(
             spacing: 8,
             runSpacing: 10,
@@ -605,13 +608,13 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
         // Confirmation Texts and Final Price Container
         SizedBox(
-          width: 400,
+          width: double.infinity,
           height: 97,
           child: Column(
             children: [
               // Confirmation Texts Section
               Container(
-                width: 400,
+                width: double.infinity,
                 height: 30,
                 padding: const EdgeInsets.only(
                   top: 8,
@@ -685,7 +688,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
               ),
               // Final Price and Timer Footer
               Container(
-                width: 400,
+                width: double.infinity,
                 height: 67,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 15,
@@ -1232,6 +1235,13 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
   Widget _buildOfferCardsSection() {
     final cards = [
       PromoCardData(
+        title: 'Get Flat 35% Off',
+        subtitle: 'On Food & Beverages',
+        buttonText: 'Book Now',
+        imagePath: 'assets/icons/celebration.svg',
+        backgroundColor: const Color(0xffFFF9C4),
+      ),
+      PromoCardData(
         title: 'Use Tulips To Make Payment',
         subtitle: 'Earn 25 Tulips',
         buttonText: 'Watch & Earn',
@@ -1252,13 +1262,6 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
         imagePath: 'assets/images/card3.svg',
         backgroundColor: const Color(0xffFFF9C4),
       ),
-      PromoCardData(
-        title: 'Earn Up To 200',
-        subtitle: 'Pay Using Partywitty Pay',
-        buttonText: 'Earn Now',
-        imagePath: 'assets/images/25pay.svg',
-        backgroundColor: const Color(0xffFFF9C4),
-      ),
     ];
 
     return Column(
@@ -1267,14 +1270,37 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
         PromoCarousel(cards: cards, borderColor: Colors.black),
         Center(
           child: SizedBox(
-            width: 410,
+            width: double.infinity,
             height: 11,
             child: Image.asset(
               'assets/images/indicators.png',
-              width: 410,
+              width: double.infinity,
               height: 11,
               fit: BoxFit.contain,
             ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        // Person attended image
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Image.asset(
+            'assets/images/person_attended_image.png',
+            width: double.infinity,
+            fit: BoxFit.contain,
+          ),
+        ),
+        const SizedBox(height: 20),
+        // Booking section with Buy Tickets and Book Table
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: CardSlidingBookingSection(
+            onBuyTickets: () {
+              // Handle buy tickets action
+            },
+            onBookTable: () {
+              // Handle book table action
+            },
           ),
         ),
       ],
@@ -1298,98 +1324,100 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
         ),
         const SizedBox(height: 10),
         Center(
-          child: SizedBox(
-            width: 410,
-            height: 11,
-            child: Image.asset(
-              'assets/images/indicators.png',
-              width: 410,
-              height: 11,
-              fit: BoxFit.contain,
-            ),
-          ),
+          child: _buildIndicators(3, 0),
         ),
       ],
     );
   }
 
-  Widget _buildYouMayAlsoLike() {
-    // Sample event data
-    final events = [
-      EventModel(
-        id: '1',
-        title: 'Sitar Magic by Rishabh Rikhiram Sharma',
-        venue: 'F-Bar',
-        location: 'DLP Phase 3, Gurugram',
-        imageUrl: '',
-        date: 'Today',
-        time: '10:00 PM Onwards',
-        type: 'Event',
-        rating: 4.1,
-        reviewCount: 3,
-        eventCategory: 'Stand-up Comedy',
-        inclusions: ['3 Starters', '2 Main Course'],
-        advancePaid: 1800,
-        balanceAmount: 3800,
-        distance: 1.2,
+  Widget _buildIndicators(int count, int currentIndex) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.19),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              count,
+              (index) => Padding(
+                padding: EdgeInsets.only(
+                  right: index < count - 1 ? 5 : 0,
+                ),
+                child: Image.asset(
+                  'assets/images/indicator.png',
+                  width: index == currentIndex ? 20 : 5,
+                  height: 5,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    // Fallback to colored container if image not found
+                    return Container(
+                      width: index == currentIndex ? 20 : 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF7464E4),
+                        borderRadius: BorderRadius.circular(2.5),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
-      EventModel(
-        id: '2',
-        title: 'Desi Techno Tuesdays',
-        venue: 'FLOAT BY DUTY FREE',
-        location: 'DLP Phase 3, Gurugram',
-        imageUrl: '',
-        date: 'Today',
-        time: '10:00 PM Onwards',
-        type: 'Carnival',
-        rating: 4.5,
-        reviewCount: 5,
-        eventCategory: 'Music',
-        inclusions: ['3 Starters', '2 Main Course', 'Drinks'],
-        advancePaid: 2000,
-        balanceAmount: 4000,
-        distance: 1.5,
-      ),
-    ];
+    );
+  }
 
-    final artists = [
-      ArtistModel(
-        id: '1',
-        name: 'Malvika Khanna',
-        imageUrl: '',
-        role: 'Artist',
-      ),
-      ArtistModel(id: '2', name: 'Rohit Sharma', imageUrl: '', role: 'Artist'),
-    ];
+  Widget _buildYouMayAlsoLike() {
+    // Sample event data - only 1 card
+    final event = EventModel(
+      id: '1',
+      title: 'Sitar Magic by Rishabh Rikhiram Sharma',
+      venue: 'F-Bar',
+      location: 'DLP Phase 3, Gurugram',
+      imageUrl: '',
+      date: 'Today',
+      time: '10:00 PM Onwards',
+      type: 'Event',
+      rating: 4.1,
+      reviewCount: 3,
+      eventCategory: 'Stand-up Comedy',
+      inclusions: ['3 Starters', '2 Main Course'],
+      advancePaid: 1800,
+      balanceAmount: 3800,
+      distance: 1.2,
+    );
+
+    final artist = ArtistModel(
+      id: '1',
+      name: 'Malvika Khanna',
+      imageUrl: '',
+      role: 'Artist',
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'You May Also Like This',
-          style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 15),
-        SizedBox(
-          height: 600,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: events.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: SizedBox(
-                  width: 350,
-                  child: UnifiedEventCard(
-                    featuredEvent: events[index],
-                    eventDetails: events[index],
-                    artist: artists[index],
-                    showUserActivity: false,
-                  ),
-                ),
-              );
-            },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Text(
+            'You May Also Like This',
+            style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
           ),
+        ),
+        const SizedBox(height: 25), // Increased spacing between title and card
+        UnifiedEventCard(
+          featuredEvent: event,
+          eventDetails: event,
+          artist: artist,
+          showUserActivity: false,
         ),
       ],
     );
@@ -1403,7 +1431,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           // Handle book tickets action
         },
         child: Container(
-          width: 410,
+          width: double.infinity,
           height: 44,
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
@@ -1414,8 +1442,8 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             borderRadius: BorderRadius.circular(2),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Container(
-                width: 400,
+                child: Container(
+                width: double.infinity,
                 height: 36,
                 padding: const EdgeInsets.only(
                   top: 8,
@@ -1538,7 +1566,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                       FocusScope.of(context).unfocus();
                     },
                     child: Container(
-                      width: 400,
+                      width: double.infinity,
                       height: 49,
                       padding: const EdgeInsets.only(
                         top: 12,
@@ -1598,7 +1626,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                   const SizedBox(height: 10),
                   // Reason Section
                   SizedBox(
-                    width: 400,
+                    width: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1616,7 +1644,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                         const SizedBox(height: 10),
                         // Reason Dropdown
                         Container(
-                          width: 400,
+                          width: double.infinity,
                           height: 50,
                           padding: const EdgeInsets.only(
                             top: 13,

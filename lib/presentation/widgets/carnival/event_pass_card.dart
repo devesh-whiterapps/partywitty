@@ -50,20 +50,6 @@ class EventPassCard extends StatelessWidget {
             ),
           ),
 
-          // Dotted pattern on sides
-          Positioned(
-            left: 0,
-            top: 30,
-            bottom: 30,
-            child: _buildDottedLine(),
-          ),
-          Positioned(
-            right: 0,
-            top: 30,
-            bottom: 30,
-            child: _buildDottedLine(),
-          ),
-
           // Main content
           Padding(
             padding: const EdgeInsets.all(15),

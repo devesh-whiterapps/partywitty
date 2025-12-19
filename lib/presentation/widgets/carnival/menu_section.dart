@@ -76,6 +76,7 @@ class _MenuSectionState extends State<MenuSection> {
           const SizedBox(width: 8),
           // Veg indicator icon from assets
           Image.asset(
+            color: Colors.white,
             'assets/icons/veg_indicator.png',
             width: 20,
             height: 20,
