@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -529,271 +530,298 @@ class TableBookingCard extends StatelessWidget {
     final tableNumber = title.split(' ').last;
 
     return Container(
-      width: double.infinity,
+      width: 282,
+      height: 351,
       decoration: BoxDecoration(
-        color: const Color(0xFFF9F9F2), // Off-white/Cream background
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white, width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: const Color(0x80FFFFFF), // #FFFFFF4D
+        border: Border.all(color: Colors.white, width: 1),
+        borderRadius: BorderRadius.circular(0),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Image Section
-          Stack(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(0),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070',
-                  height: 140,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: 140,
-                      color: const Color(0xFF2C3E50),
-                      child: const Center(
-                        child: Icon(Icons.restaurant, size: 50, color: Colors.white54),
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-              // Best Value Tag
-              if (hasBestValue)
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF4CAF50), // Green
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        topRight: Radius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'Best Value',
-                      style: GoogleFonts.lexend(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-
-              // Title Overlay
-              Positioned(
-                bottom: 12,
-                left: 12,
-                child: Row(
+              // Top Section - Image Background with Overlay (height: 88)
+              SizedBox(
+                height: 88,
+                width: double.infinity,
+                child: Stack(
                   children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.person_add_alt_1_outlined,
-                        color: Color(0xFF4F4F4F),
-                        size: 20,
+                    // Background Image
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/table_bg.png',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: const Color(0xFF2C3E50),
+                            child: const Center(
+                              child: Icon(Icons.restaurant, size: 30, color: Colors.white54),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: GoogleFonts.lexend(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withValues(alpha: 0.5),
-                                blurRadius: 4,
-                              ),
-                            ],
+                    // Dark Overlay
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: const BoxDecoration(
+                        color: Color(0x96000000), // #00000096
+                      ),
+                      child: Row(
+                        children: [
+                          // Icon (48x48)
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.transparent,
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: Image.asset(
+                              'assets/icons/user.svg',
+                              width: 28,
+                              height: 28,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.person_add_alt_1_outlined,
+                                  color: Colors.white,
+                                  size: 28,
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        Text(
-                          zone,
-                          style: GoogleFonts.lexend(
-                            color: Colors.white,
-                            fontSize: 14,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withValues(alpha: 0.5),
-                                blurRadius: 4,
-                              ),
-                            ],
+                          const SizedBox(width: 10),
+                          // Title and Zone
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  title,
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    height: 1.0,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  zone,
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                    height: 1.0,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          // Best Value Tag
+                          if (hasBestValue)
+                            Container(
+                              padding: const EdgeInsets.only(
+                                top: 5,
+                                right: 10,
+                                bottom: 5,
+                                left: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0x1A3CBD53), // #3CBD531A
+                                borderRadius: BorderRadius.circular(0),
+                              ),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                                child: Text(
+                                  'Best Value',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF3CBD53),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
 
-          // Pricing Section
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
+              // Middle Section - Pricing and Features (height: 183)
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 0,
+                    right: 15,
+                    bottom: 0,
+                    left: 15,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Minimum Spend',
-                        style: GoogleFonts.lexend(
-                          fontSize: 13,
-                          color: const Color(0xFF4F4F4F),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '₹$price',
-                        style: GoogleFonts.lexend(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF4F4F4F),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '₹$perPerson/Person',
-                        style: GoogleFonts.lexend(
-                          fontSize: 13,
-                          color: const Color(0xFF4F4F4F),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.grey.shade300),
-                  ),
-                  child: Text(
-                    'Book For $tableNumber',
-                    style: GoogleFonts.lexend(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF4F4F4F),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Features Section
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  zone.contains('Standard') 
-                      ? 'Standard Seating'
-                      : zone.contains('VIP')
-                          ? 'VIP Lounge Zone'
-                          : 'Elite Stage View',
-                  style: GoogleFonts.lexend(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF4F4F4F),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ...features.map((feature) => Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Row(
+                      const SizedBox(height: 19),
+                      // Pricing Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 6, right: 8),
-                            width: 6,
-                            height: 6,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF4F4F4F),
-                              shape: BoxShape.circle,
+                          // Minimum Spend Column
+                          SizedBox(
+                            width: 96,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Minimum Spend',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF4F4F4F),
+                                    height: 1.0,
+                                  ),
+                                ),
+                                const SizedBox(height: 0),
+                                Text(
+                                  '₹$price',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFF4F4F4F),
+                                    height: 1.0,
+                                  ),
+                                ),
+                                const SizedBox(height: 0),
+                                Text(
+                                  '₹$perPerson/Person',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xFF4F4F4F),
+                                    height: 1.0,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child: Text(
-                              feature,
-                              style: GoogleFonts.lexend(
-                                fontSize: 13,
-                                color: const Color(0xFF4F4F4F),
+                          // Book For Button
+                          Container(
+                            width: 85,
+                            height: 31,
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              right: 10,
+                              bottom: 8,
+                              left: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0x80FFFFFF), // #FFFFFF4D
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+                              child: Center(
+                                child: Text(
+                                  'Book for $tableNumber',
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF4F4F4F),
+                                    height: 1.0,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                    )),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Booking Amount Footer
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5E6D3), // Light beige/gold background
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(10),
+                      const SizedBox(height: 19),
+                      // Standard Seating Title
+                      Text(
+                        zone.contains('Standard')
+                            ? 'Standard Seating'
+                            : zone.contains('VIP')
+                                ? 'VIP Seating'
+                                : 'Elite Seating',
+                        style: GoogleFonts.lexend(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF4F4F4F),
+                          height: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      // Features List
+                      ...features.map((feature) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text(
+                              feature,
+                              style: GoogleFonts.lexend(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF4F4F4F),
+                                height: 1.0,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'BOOKING AMOUNT',
-                  style: GoogleFonts.lexend(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFD4A574), // Gold/brown color
+
+              // Bottom Section - Booking Amount (height: 40)
+              Container(
+                width: double.infinity,
+                height: 40,
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  right: 13,
+                  bottom: 10,
+                  left: 13,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0x1A3CBD53), // #3CBD531A
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'BOOKING AMOUNT',
+                        style: GoogleFonts.lexend(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF3CBD53),
+                          height: 1.0,
+                        ),
+                      ),
+                      Text(
+                        '₹$amount',
+                        style: GoogleFonts.lexend(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF3CBD53),
+                          height: 1.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  '₹$amount',
-                  style: GoogleFonts.lexend(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFD4A574), // Gold/brown color
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

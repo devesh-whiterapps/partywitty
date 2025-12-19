@@ -86,7 +86,15 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                 SliverToBoxAdapter(
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20), // Two lines from top
+                      // Horizontal divider line above F-Bar
+                      Container(
+                        width: double.infinity,
+                        height: 1,
+                        color: const Color(0xFFE6E6E6),
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                      ),
+                      const SizedBox(height: 15),
                       // White Background Card - Full Width
                       Container(
                         width: double.infinity,
@@ -120,11 +128,6 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
                             // Event Info Card
                             const EventInfoCard(),
-
-                            const SizedBox(height: 15),
-
-                            // Offer Banner
-                            _buildOfferBanner(),
 
                             const SizedBox(height: 15),
 
@@ -585,11 +588,11 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
               // Feature Chips Section
               SizedBox(
                 width: 400,
-                height: 174,
                 child: Wrap(
-                  spacing: 10,
+                  spacing: 8,
                   runSpacing: 10,
                   alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     _buildFeatureChip(Icons.local_bar, 'Alcoholic'),
                     _buildFeatureChip(null, 'Pure Veg'),
@@ -796,7 +799,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     final isVeg = label == 'Pure Veg';
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
       decoration: BoxDecoration(
         color: const Color(0xFFF5F5F5), // Light grey background
         borderRadius: BorderRadius.circular(4),
@@ -819,19 +822,21 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                       color: const Color(0xFF444444), // Dark grey icon
                     )
                   : const SizedBox(width: 20),
-          const SizedBox(width: 8), // gap between icon and text
+          const SizedBox(width: 6), // gap between icon and text
           // Text
-          Text(
-            label,
-            style: GoogleFonts.lexend(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF444444), // Dark grey text
-              height: 1.43, // line-height: 20px
-              letterSpacing: 0,
+          Flexible(
+            child: Text(
+              label,
+              style: GoogleFonts.lexend(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF444444), // Dark grey text
+                height: 1.43, // line-height: 20px
+                letterSpacing: 0,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -1485,193 +1490,199 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Container(
-              width: 440,
-              height: 258,
               padding: const EdgeInsets.only(
-                top: 30,
+                top: 20,
+                left: 20,
                 right: 20,
                 bottom: 20,
-                left: 20,
+              ),
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom + 1,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xC4FFFFFF), // #FFFFFFC4
+                color: const Color(0xFFE6E6E6), // Light gray background
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   topRight: Radius.circular(4),
                 ),
               ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                ),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 15),
-                      // Drag Handle
-                      Center(
-                        child: Container(
-                          width: 50,
-                          height: 6,
-                          decoration: BoxDecoration(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Drag Handle - centered
+                  Center(
+                    child: Container(
+                      width: 50,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4F4F4F),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Title - left aligned
+                  Text(
+                    'Counter Bid',
+                    style: GoogleFonts.lexend(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      height: 1.0,
+                      letterSpacing: 0,
+                      color: const Color(0xFF070707),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  // Club Offer - left aligned
+                  Text(
+                    'Club Offer  ₹1500',
+                    style: GoogleFonts.lexend(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 1.0,
+                      letterSpacing: 0,
+                      color: const Color(0xFF4F4F4F),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  // Counter Bid Input Field
+                  GestureDetector(
+                    onTap: () {
+                      if (bidController.text.isEmpty) {
+                        bidController.text = '1100';
+                        setModalState(() {});
+                      }
+                      // Dismiss keyboard if it's open
+                      FocusScope.of(context).unfocus();
+                    },
+                    child: Container(
+                      width: 400,
+                      height: 49,
+                      padding: const EdgeInsets.only(
+                        top: 12,
+                        right: 15,
+                        bottom: 12,
+                        left: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white, // Solid white
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            '₹',
+                            style: GoogleFonts.lexend(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xFF4F4F4F),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: TextField(
+                              controller: bidController,
+                              readOnly: true,
+                              showCursor: false,
+                              enableInteractiveSelection: false,
+                              style: GoogleFonts.lexend(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                height: 1.0,
+                                letterSpacing: 0,
+                                color: const Color(0xFF4F4F4F),
+                              ),
+                              decoration: InputDecoration(
+                                hintText: 'Enter Counter Bid',
+                                hintStyle: GoogleFonts.lexend(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.0,
+                                  letterSpacing: 0,
+                                  color: const Color(0xFF4F4F4F).withOpacity(0.5),
+                                ),
+                                border: InputBorder.none,
+                                isDense: true,
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  // Reason Section
+                  SizedBox(
+                    width: 400,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Reason Label
+                        Text(
+                          'Reason',
+                          style: GoogleFonts.lexend(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 1.0,
+                            letterSpacing: 0,
                             color: const Color(0xFF4F4F4F),
-                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 15),
-                      // Title
-                      Text(
-                        'Counter Bid',
-                        style: GoogleFonts.lexend(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: const Color(0xFF070707),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      // Club Offer
-                      Text(
-                        'Club Offer ₹1500',
-                        style: GoogleFonts.lexend(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: const Color(0xFF4F4F4F),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      // Counter Bid Input Field
-                      Container(
-                        width: 400,
-                        height: 49,
-                        padding: const EdgeInsets.only(
-                          top: 12,
-                          right: 15,
-                          bottom: 12,
-                          left: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            bidController.text = '1100';
-                            setModalState(() {});
-                            FocusScope.of(context).unfocus();
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                '₹',
-                                style: GoogleFonts.lexend(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF4F4F4F),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: TextField(
-                                  controller: bidController,
-                                  readOnly: true,
-                                  showCursor: true,
-                                  keyboardType: TextInputType.number,
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.0,
-                                    letterSpacing: 0,
-                                    color: const Color(0xFF4F4F4F),
-                                  ),
-                                  decoration: InputDecoration(
-                                    hintText: 'Enter Counter Bid',
-                                    hintStyle: GoogleFonts.lexend(
+                        const SizedBox(height: 10),
+                        // Reason Dropdown
+                        Container(
+                          width: 400,
+                          height: 50,
+                          padding: const EdgeInsets.only(
+                            top: 13,
+                            right: 15,
+                            bottom: 13,
+                            left: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Solid white
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              _showReasonModal(modalContext, (reason) {
+                                setModalState(() {
+                                  selectedReason = reason;
+                                });
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    selectedReason ?? 'Select Reason',
+                                    style: GoogleFonts.lexend(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
-                                      height: 1.0,
-                                      letterSpacing: 0,
-                                      color: const Color(0xFF4F4F4F).withOpacity(0.5),
+                                      color: selectedReason != null
+                                          ? const Color(0xFF4F4F4F)
+                                          : const Color(0xFF4F4F4F).withOpacity(0.5),
                                     ),
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.zero,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      // Reason Label
-                      Text(
-                        'Reason',
-                        style: GoogleFonts.lexend(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: const Color(0xFF4F4F4F),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      // Reason Dropdown
-                      Container(
-                        width: 400,
-                        height: 50,
-                        padding: const EdgeInsets.only(
-                          top: 13,
-                          right: 15,
-                          bottom: 13,
-                          left: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            _showReasonModal(context, (reason) {
-                              setModalState(() {
-                                selectedReason = reason;
-                              });
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  selectedReason ?? 'Select Reason',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: selectedReason != null
-                                        ? const Color(0xFF4F4F4F)
-                                        : const Color(0xFF4F4F4F).withOpacity(0.5),
-                                  ),
+                                const Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: Color(0xFF4F4F4F),
+                                  size: 20,
                                 ),
-                              ),
-                              const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Color(0xFF4F4F4F),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                ],
               ),
             );
           },
@@ -1745,17 +1756,26 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                     ...reasons.map((reason) => GestureDetector(
                       onTap: () {
                         onReasonSelected(reason);
+                        Navigator.pop(context);
                       },
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 0,
+                        ),
+                        height: 24,
+                        alignment: Alignment.centerLeft,
                         child: Text(
                           reason,
                           style: GoogleFonts.lexend(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: const Color(0xFF070707),
+                            height: 24 / 12, // line-height: 24px
+                            letterSpacing: 0,
+                            color: const Color(0xFF4F4F4F),
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     )),
