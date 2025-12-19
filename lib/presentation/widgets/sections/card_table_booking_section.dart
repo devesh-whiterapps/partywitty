@@ -74,7 +74,7 @@ class CardTableBookingSection extends StatelessWidget {
             },
           ),
         ),
-        // Dark gradient overlay
+        // Dark gradient overlay (reduced opacity)
         Container(
           height: 100,
           decoration: BoxDecoration(
@@ -86,8 +86,8 @@ class CardTableBookingSection extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
+                Colors.black.withOpacity(0.1),
                 Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.7),
               ],
             ),
           ),
@@ -206,28 +206,8 @@ class CardTableBookingSection extends StatelessWidget {
                   ),
                 ],
               ),
-              // Book For X button
-              GestureDetector(
-                onTap: onBookTap,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xff070707)),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    'Book For 4',
-                    style: GoogleFonts.lexend(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff070707),
-                    ),
-                  ),
-                ),
-              ),
+              // Quantity selector (- 01 +)
+              _QuantitySelector(onTap: onBookTap),
             ],
           ),
           const SizedBox(height: 14),
@@ -306,6 +286,101 @@ class CardTableBookingSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Quantity selector widget (- 01 +)
+class _QuantitySelector extends StatefulWidget {
+  final VoidCallback? onTap;
+
+  const _QuantitySelector({this.onTap});
+
+  @override
+  State<_QuantitySelector> createState() => _QuantitySelectorState();
+}
+
+class _QuantitySelectorState extends State<_QuantitySelector> {
+  int _quantity = 1;
+
+  void _increment() {
+    setState(() {
+      _quantity++;
+    });
+    widget.onTap?.call();
+  }
+
+  void _decrement() {
+    if (_quantity > 1) {
+      setState(() {
+        _quantity--;
+      });
+      widget.onTap?.call();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Minus button (circular)
+        GestureDetector(
+          onTap: _decrement,
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '−',
+              style: GoogleFonts.lexend(
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: const Color(0xff4F4F4F),
+              ),
+            ),
+          ),
+        ),
+        // Quantity display
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            _quantity.toString().padLeft(2, '0'),
+            style: GoogleFonts.lexend(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xff070707),
+            ),
+          ),
+        ),
+        // Plus button (circular)
+        GestureDetector(
+          onTap: _increment,
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '+',
+              style: GoogleFonts.lexend(
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: const Color(0xff4F4F4F),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

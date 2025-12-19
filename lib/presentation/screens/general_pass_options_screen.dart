@@ -560,11 +560,11 @@ class _TableBookingHorizontalListState
                       ),
                     ),
                   ),
-                  // Dark overlay
+                  // Dark overlay (reduced opacity)
                   Container(
                     height: 90,
                     width: double.infinity,
-                    color: Colors.black.withOpacity(0.59),
+                    color: Colors.black.withOpacity(0.2),
                   ),
                   // Best Value badge
                   Positioned(
@@ -689,29 +689,8 @@ class _TableBookingHorizontalListState
                               ),
                             ],
                           ),
-                          // Right - Book button
-                          ClipRRect(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.3),
-                                ),
-                                child: Text(
-                                  data['bookFor'],
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF4F4F4F),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          // Right - Quantity selector
+                          _TableQuantitySelector(),
                         ],
                       ),
                       const SizedBox(height: 19),
@@ -843,6 +822,97 @@ class _GeneralPassOptionsScreenState extends State<GeneralPassOptionsScreen> {
     return const Scaffold(
       backgroundColor: Colors.transparent,
       body: SizedBox.shrink(),
+    );
+  }
+}
+
+/// Quantity selector widget for table bookings (- 01 +)
+class _TableQuantitySelector extends StatefulWidget {
+  const _TableQuantitySelector();
+
+  @override
+  State<_TableQuantitySelector> createState() => _TableQuantitySelectorState();
+}
+
+class _TableQuantitySelectorState extends State<_TableQuantitySelector> {
+  int _quantity = 1;
+
+  void _increment() {
+    setState(() {
+      _quantity++;
+    });
+  }
+
+  void _decrement() {
+    if (_quantity > 1) {
+      setState(() {
+        _quantity--;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Minus button (circular)
+        GestureDetector(
+          onTap: _decrement,
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '−',
+              style: GoogleFonts.lexend(
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: const Color(0xff4F4F4F),
+              ),
+            ),
+          ),
+        ),
+        // Quantity display
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            _quantity.toString().padLeft(2, '0'),
+            style: GoogleFonts.lexend(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xff4F4F4F),
+            ),
+          ),
+        ),
+        // Plus button (circular)
+        GestureDetector(
+          onTap: _increment,
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '+',
+              style: GoogleFonts.lexend(
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                color: const Color(0xff4F4F4F),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
