@@ -8,6 +8,7 @@ import '../widgets/sort_modal.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../../domain/models/user_activity_model.dart';
+import 'carnival_detail_screen.dart';
 
 class EventListingScreen extends StatefulWidget {
   const EventListingScreen({super.key});
@@ -287,6 +288,14 @@ class _EventListingScreenState extends State<EventListingScreen> {
                           .packageBidding, // Yellow gradient only for lowest price card
                   onBuyTickets: () {
                     // Handle buy tickets
+                  },
+                  onViewDetails: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CarnivalDetailScreen(),
+                      ),
+                    );
                   },
                 );
               }, childCount: myBidsEvents.length),
