@@ -13,7 +13,7 @@ import '../widgets/carnival/teaser_section.dart';
 import '../widgets/carnival/event_info_card.dart';
 import '../widgets/event_booking_toggle.dart';
 import '../widgets/event_options_switcher.dart';
-import '../widgets/event_details_card.dart';
+import '../widgets/unified_event_card.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 
@@ -29,7 +29,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
   bool _showTableOptions = false;
   bool _isFavorite = false;
   static const double _headerReservedSpace = 72;
-  
+
   // Timer state
   Duration _timerDuration = const Duration(hours: 6, minutes: 40, seconds: 59);
   Timer? _timer;
@@ -79,7 +79,8 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           Padding(
             padding: EdgeInsets.only(
               top: _headerReservedSpace,
-              bottom: 64, // Space for bottom button (44px button + 10px top padding + 10px bottom padding)
+              bottom:
+                  64, // Space for bottom button (44px button + 10px top padding + 10px bottom padding)
             ),
             child: CustomScrollView(
               slivers: [
@@ -122,7 +123,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                             const SizedBox(height: 15),
 
                             // Event Banner (after F-Bar card)
-                             _buildEventBanner(),
+                            _buildEventBanner(),
 
                             const SizedBox(height: 15),
 
@@ -251,166 +252,251 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: SafeArea(
-              top: false,
-              child: _buildStickyBottomButton(),
-            ),
+            child: SafeArea(top: false, child: _buildStickyBottomButton()),
           ),
         ],
-    ),
-  );
-  }
-
-  Widget _buildGradientBackground() {
-    return Positioned.fill(
-      child: Container(
-        color: Colors.white,
       ),
     );
   }
 
+  Widget _buildGradientBackground() {
+    return Positioned.fill(child: Container(color: Colors.white));
+  }
+
   Widget _buildVenueBidCard() {
     return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Header Section
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-              // Header Section
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 35,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E69DE),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    alignment: Alignment.center,
-      child: Image.asset('assets/icons/f_bar_logo.png'),
+            Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E69DE),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
+              alignment: Alignment.center,
+              child: Image.asset('assets/icons/f_bar_logo.png'),
+            ),
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 50,
+              height: 23,
+              child: Text(
+                'F-Bar',
+                style: GoogleFonts.lexend(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  height: 1.0, // line-height: 100%
+                  letterSpacing: 0,
+                  color: const Color(0xFF4F4F4F),
+                ),
+              ),
+            ),
+            const SizedBox(width: 4),
+            Image.asset('assets/icons/star.png', width: 20, height: 20),
+            const SizedBox(width: 4),
+            Text('4.1', style: GoogleFonts.outfit(fontWeight: FontWeight.w700)),
+            const SizedBox(width: 8),
+            Text(
+              'Review (03)',
+              style: GoogleFonts.outfit(
+                color: const Color(0xFF555555),
+                decoration: TextDecoration.underline,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
 
-                  ),
-                  const SizedBox(width: 10),
-                  SizedBox(
-                    width: 50,
-                    height: 23,
-                    child: Text('F-Bar',
-                        style: GoogleFonts.lexend(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            height: 1.0, // line-height: 100%
-                            letterSpacing: 0,
-                            color: const Color(0xFF4F4F4F))),
-                  ),
+        // Info Rows
+        Row(
+          children: [
+            const SizedBox(width: 4),
+            Image.asset(
+              'assets/icons/location_r.png',
+              width: 18,
+              height: 18,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(
+                  Icons.location_on_outlined,
+                  size: 18,
+                  color: Color(0xFF555555),
+                );
+              },
+            ),
+            const SizedBox(width: 8),
+            SizedBox(
+              height: 21,
+              child: Text(
+                'DLP Phase 3, Gurugram',
+                style: GoogleFonts.lexend(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  height: 20.84 / 14, // line-height: 20.84px
+                  color: const Color(0xFF4F4F4F),
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+              decoration: BoxDecoration(
+                color: const Color(0xFF7464E4),
+                borderRadius: BorderRadius.circular(0),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.undo, size: 14, color: Colors.white),
                   const SizedBox(width: 4),
-                  Image.asset(
-                    'assets/icons/star.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(width: 4),
-                  Text('4.1',
-                      style: GoogleFonts.outfit(fontWeight: FontWeight.w700)),
-                  const SizedBox(width: 8),
                   Text(
-                    'Review (03)',
+                    '1.2 Kms',
                     style: GoogleFonts.outfit(
-                      color: const Color(0xFF555555),
-                      decoration: TextDecoration.underline,
-                      fontSize: 14,
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Row(
+          children: [
+            const SizedBox(width: 4),
+            Image.asset('assets/icons/buffet.png', width: 20, height: 20),
+            const SizedBox(width: 8),
+            SizedBox(
+              width: 136,
+              height: 21,
+              child: Text(
+                'IMFL Drinks +FOOD',
+                style: GoogleFonts.lexend(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  height: 20.84 / 14, // line-height: 20.84px
+                  letterSpacing: 0,
+                  color: const Color(0xFF4F4F4F),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
 
-              // Info Rows
-              Row(
-                children: [
-                  const SizedBox(width: 4),
-                  Image.asset(
-                    'assets/icons/location_r.png',
-                    width: 18,
-                    height: 18,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(
-                        Icons.location_on_outlined,
-                        size: 18,
-                        color: Color(0xFF555555),
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    height: 21,
-                    child: Text(
-                      'DLP Phase 3, Gurugram',
-                      style: GoogleFonts.lexend(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        height: 20.84 / 14, // line-height: 20.84px
-                        color: const Color(0xFF4F4F4F),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF7464E4),
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.undo, size: 14, color: Colors.white),
-                        const SizedBox(width: 4),
-                        Text('1.2 Kms',
-                            style: GoogleFonts.outfit(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600)),
-                      ],
-                    ),
-                  ),
-                ],
+        // Cyan Gradient Banner
+        Container(
+          width: 400,
+          height: 34,
+          padding: const EdgeInsets.only(
+            top: 10,
+            right: 15,
+            bottom: 10,
+            left: 15,
+          ),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+            ),
+            borderRadius: BorderRadius.circular(0),
+          ),
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 370,
+            child: Text(
+              'Make your counter bid and grab the best deal for your party!',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.lexend(
+                fontWeight: FontWeight.w500,
+                fontSize: 10,
+                height: 1.0, // line-height: 100%
+                letterSpacing: 0,
+                color: const Color(0xFF070707),
               ),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  const SizedBox(width: 4),
-                  Image.asset(
-                    'assets/icons/buffet.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 136,
-                    height: 21,
-                    child: Text(
-                      'IMFL Drinks +FOOD',
-                      style: GoogleFonts.lexend(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        height: 20.84 / 14, // line-height: 20.84px
-                        letterSpacing: 0,
-                        color: const Color(0xFF4F4F4F),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
 
-              // Cyan Gradient Banner
-              Container(
-                width: 400,
-                height: 34,
+        // Price Row
+        Row(
+          children: [
+            Container(
+              width: 95,
+              height: 30,
+              padding: const EdgeInsets.only(
+                top: 9,
+                right: 10,
+                bottom: 9,
+                left: 10,
+              ),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF7464E4), Color(0xFF1A00D2)],
+                ),
+                borderRadius: BorderRadius.circular(0),
+              ),
+              child: Center(
+                child: Text(
+                  '₹1500/Pax',
+                  style: GoogleFonts.lexend(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    height: 1.0,
+                    letterSpacing: 0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Container(
+              height: 30,
+              padding: const EdgeInsets.only(
+                top: 3,
+                right: 7,
+                bottom: 3,
+                left: 7,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFFFF), // #FFFFFF
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: Center(
+                child: Text(
+                  'Kids Price',
+                  style: GoogleFonts.lexend(
+                    color: const Color(0xFF7C3AED),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () {
+                _showCounterBidModal(context);
+              },
+              child: Container(
+                height: 30,
                 padding: const EdgeInsets.only(
-                  top: 10,
+                  top: 2,
                   right: 15,
-                  bottom: 10,
+                  bottom: 2,
                   left: 15,
                 ),
                 decoration: BoxDecoration(
@@ -419,367 +505,283 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                     end: Alignment.centerRight,
                     colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
                   ),
-                  borderRadius: BorderRadius.circular(0),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: 370,
+                child: Center(
                   child: Text(
-                    'Make your counter bid and grab the best deal for your party!',
+                    'Counter Bid',
                     textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.lexend(
                       fontWeight: FontWeight.w500,
-                      fontSize: 10,
-                      height: 1.0, // line-height: 100%
+                      fontSize: 14,
+                      height: 1.0,
                       letterSpacing: 0,
                       color: const Color(0xFF070707),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
 
-              // Price Row
-              Row(
-                children: [
-                  Container(
-                    width: 95,
-                    height: 30,
-                    padding: const EdgeInsets.only(
-                      top: 9,
-                      right: 10,
-                      bottom: 9,
-                      left: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xFF7464E4), Color(0xFF1A00D2)],
-                      ),
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '₹1500/Pax',
-                        style: GoogleFonts.lexend(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Container(
-                    height: 30,
-                    padding: const EdgeInsets.only(
-                      top: 3,
-                      right: 7,
-                      bottom: 3,
-                      left: 7,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF), // #FFFFFF
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Kids Price',
-                        style: GoogleFonts.lexend(
-                          color: const Color(0xFF7C3AED),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      _showCounterBidModal(context);
-                    },
-                    child: Container(
-                      height: 30,
-                      padding: const EdgeInsets.only(
-                        top: 2,
-                        right: 15,
-                        bottom: 2,
-                        left: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
-                        ),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Counter Bid',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            height: 1.0,
-                            letterSpacing: 0,
-                            color: const Color(0xFF070707),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+        // Details Bar
+        Container(
+          width: 400,
+          height: 38,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: const Color(0xFF4338CA),
+            borderRadius: BorderRadius.circular(0),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildDetailItem(Icons.calendar_today, '11-4-25'),
+              _buildDetailItem(Icons.access_time, '10 PM'),
+              _buildDetailItem(Icons.wine_bar, '10 PM'),
+              _buildDetailItem(Icons.group, '10'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+
+        // Green Gradient Banner
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF22D3EE), Color(0xFF86EFAC)],
+            ),
+            borderRadius: BorderRadius.circular(0),
+          ),
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              'Great Choice! ₹290 would be Saved Instantly on This Booking!',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.lexend(
+                fontWeight: FontWeight.w500,
+                fontSize: 10,
+                color: Colors.black,
               ),
-              const SizedBox(height: 12),
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
 
-              // Details Bar
+        // Feature Chips Section
+        SizedBox(
+          width: 400,
+          child: Wrap(
+            spacing: 8,
+            runSpacing: 10,
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _buildFeatureChip(Icons.local_bar, 'Alcoholic'),
+              _buildFeatureChip(null, 'Pure Veg'),
+              _buildFeatureChip(
+                Icons.restaurant_menu,
+                '3 Starters + 2 Main Course',
+              ),
+              _buildFeatureChip(
+                Icons.local_drink,
+                '2 Mocktails + 2 Soft drinks',
+              ),
+              _buildFeatureChip(Icons.timer_outlined, '3 Hours'),
+              _buildFeatureChip(Icons.music_note, 'Live Music'),
+              _buildFeatureChip(Icons.dinner_dining_outlined, 'Food – 3h'),
+              _buildFeatureChip(Icons.wine_bar_outlined, 'Drinks – 1.5h'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 6),
+
+        // Confirmation Texts and Final Price Container
+        SizedBox(
+          width: 400,
+          height: 97,
+          child: Column(
+            children: [
+              // Confirmation Texts Section
               Container(
                 width: 400,
-                height: 38,
-                padding: const EdgeInsets.all(10),
+                height: 30,
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  right: 15,
+                  bottom: 8,
+                  left: 15,
+                ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF4338CA),
-                  borderRadius: BorderRadius.circular(0),
+                  color: const Color(0x99FFFFFF), // #FFFFFF99
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    topRight: Radius.circular(4),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    topRight: Radius.circular(4),
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 123,
+                          height: 15,
+                          child: Text(
+                            'Instant Confirmation',
+                            style: GoogleFonts.lexend(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              height: 1.0,
+                              letterSpacing: 0,
+                              color: const Color(0xFF4F4F4F),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 93,
+                          height: 15,
+                          child: Text(
+                            'No Hidden Fees',
+                            style: GoogleFonts.lexend(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              height: 1.0,
+                              letterSpacing: 0,
+                              color: const Color(0xFF4F4F4F),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 95,
+                          height: 15,
+                          child: Text(
+                            'Secure Payment',
+                            style: GoogleFonts.lexend(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              height: 1.0,
+                              letterSpacing: 0,
+                              color: const Color(0xFF4F4F4F),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Final Price and Timer Footer
+              Container(
+                width: 400,
+                height: 67,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(0), // Square corners
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF7464E4), Color(0xFF1A00D2)],
+                  ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _buildDetailItem(Icons.calendar_today, '11-4-25'),
-                    _buildDetailItem(Icons.access_time, '10 PM'),
-                    _buildDetailItem(Icons.wine_bar, '10 PM'),
-                    _buildDetailItem(Icons.group, '10'),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              // Green Gradient Banner
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      colors: [Color(0xFF22D3EE), Color(0xFF86EFAC)]),
-                  borderRadius: BorderRadius.circular(0),
-                ),
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    'Great Choice! ₹290 would be Saved Instantly on This Booking!',
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.lexend(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 10,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              // Feature Chips Section
-              SizedBox(
-                width: 400,
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 10,
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    _buildFeatureChip(Icons.local_bar, 'Alcoholic'),
-                    _buildFeatureChip(null, 'Pure Veg'),
-                    _buildFeatureChip(Icons.restaurant_menu, '3 Starters + 2 Main Course'),
-                    _buildFeatureChip(Icons.local_drink, '2 Mocktails + 2 Soft drinks'),
-                    _buildFeatureChip(Icons.timer_outlined, '3 Hours'),
-                    _buildFeatureChip(Icons.music_note, 'Live Music'),
-                    _buildFeatureChip(Icons.dinner_dining_outlined, 'Food – 3h'),
-                    _buildFeatureChip(Icons.wine_bar_outlined, 'Drinks – 1.5h'),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 6),
-
-              // Confirmation Texts and Final Price Container
-              SizedBox(
-                width: 400,
-                height: 97,
-                child: Column(
-                  children: [
-                    // Confirmation Texts Section
-                    Container(
-                      width: 400,
-                      height: 30,
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        right: 15,
-                        bottom: 8,
-                        left: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0x99FFFFFF), // #FFFFFF99
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4),
-                          topRight: Radius.circular(4),
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4),
-                          topRight: Radius.circular(4),
-                        ),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'MRP–₹2000',
+                            style: GoogleFonts.lexend(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              height: 1.0,
+                              letterSpacing: 0,
+                              color: const Color(0xFF3CBD53),
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: const Color(0xFF3CBD53),
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: 123,
-                                height: 15,
-                                child: Text(
-                                  'Instant Confirmation',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.0,
-                                    letterSpacing: 0,
-                                    color: const Color(0xFF4F4F4F),
-                                  ),
+                              Text(
+                                'Offer Price ₹1500',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.0,
+                                  letterSpacing: 0,
+                                  color: Colors.white,
                                 ),
                               ),
-                              SizedBox(
-                                width: 93,
-                                height: 15,
-                                child: Text(
-                                  'No Hidden Fees',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.0,
-                                    letterSpacing: 0,
-                                    color: const Color(0xFF4F4F4F),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 95,
-                                height: 15,
-                                child: Text(
-                                  'Secure Payment',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.0,
-                                    letterSpacing: 0,
-                                    color: const Color(0xFF4F4F4F),
-                                  ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Kid\'s Price',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.0,
+                                  letterSpacing: 0,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.white,
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                    // Final Price and Timer Footer
                     Container(
-                      width: 400,
-                      height: 67,
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(0), // Square corners
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [Color(0xFF7464E4), Color(0xFF1A00D2)],
-                        ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'MRP–₹2000',
-                                  style: GoogleFonts.lexend(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.0,
-                                    letterSpacing: 0,
-                                    color: const Color(0xFF3CBD53),
-                                    decoration: TextDecoration.lineThrough,
-                                    decorationColor: const Color(0xFF3CBD53),
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Offer Price ₹1500',
-                                      style: GoogleFonts.lexend(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.0,
-                                        letterSpacing: 0,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Kid\'s Price',
-                                      style: GoogleFonts.lexend(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.0,
-                                        letterSpacing: 0,
-                                        color: Colors.white,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Text(
-                              _formatDuration(_timerDuration).toLowerCase(),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.lexend(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                height: 1.0,
-                                letterSpacing: 0,
-                                color: const Color(0xFF070707),
-                              ),
-                            ),
-                          ),
-                        ],
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Text(
+                        _formatDuration(_timerDuration).toLowerCase(),
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lexend(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          height: 1.0,
+                          letterSpacing: 0,
+                          color: const Color(0xFF070707),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
             ],
-          );
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildDetailItem(IconData icon, String label) {
@@ -816,12 +818,12 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                   fit: BoxFit.contain,
                 )
               : icon != null
-                  ? Icon(
-                      icon,
-                      size: 20,
-                      color: const Color(0xFF444444), // Dark grey icon
-                    )
-                  : const SizedBox(width: 20),
+              ? Icon(
+                  icon,
+                  size: 20,
+                  color: const Color(0xFF444444), // Dark grey icon
+                )
+              : const SizedBox(width: 20),
           const SizedBox(width: 6), // gap between icon and text
           // Text
           Flexible(
@@ -880,56 +882,56 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
               ),
             ),
           ),
-              // Foreground image card
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: foregroundHeight,
-                  width: foregroundWidth,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        blurRadius: 22,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
+          // Foreground image card
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: foregroundHeight,
+              width: foregroundWidth,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    blurRadius: 22,
+                    offset: const Offset(0, 8),
                   ),
-                  child: Image.asset(
-                    'assets/images/imageOne.png',
-                    fit: BoxFit.cover,
-                    width: foregroundWidth,
-                    height: foregroundHeight,
-                  ),
-                ),
+                ],
               ),
-              // Action icons
-              Positioned(
-                top: 16,
-                right: 16,
-                child: Row(
-                  children: [
-                    _buildCircleIconButton(
-                      assetPath: 'assets/icons/heartvector.png',
-                      size: iconSize,
-                      isActive: _isFavorite,
-                      onTap: () {
-                        setState(() {
-                          _isFavorite = !_isFavorite;
-                        });
-                      },
-                    ),
-                    const SizedBox(width: 10),
-                    _buildCircleIconButton(
-                      assetPath: 'assets/icons/sharevector.png',
-                      size: iconSize,
-                      onTap: () {},
-                    ),
-                  ],
-                ),
+              child: Image.asset(
+                'assets/images/imageOne.png',
+                fit: BoxFit.cover,
+                width: foregroundWidth,
+                height: foregroundHeight,
               ),
-            ],
+            ),
           ),
+          // Action icons
+          Positioned(
+            top: 16,
+            right: 16,
+            child: Row(
+              children: [
+                _buildCircleIconButton(
+                  assetPath: 'assets/icons/heartvector.png',
+                  size: iconSize,
+                  isActive: _isFavorite,
+                  onTap: () {
+                    setState(() {
+                      _isFavorite = !_isFavorite;
+                    });
+                  },
+                ),
+                const SizedBox(width: 10),
+                _buildCircleIconButton(
+                  assetPath: 'assets/icons/sharevector.png',
+                  size: iconSize,
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1140,7 +1142,6 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
       ),
     );
   }
-  
 
   // Widget _buildTicketPassOptions() {
   //   return Column(
@@ -1263,10 +1264,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        PromoCarousel(
-          cards: cards,
-          borderColor: Colors.black,
-        ),
+        PromoCarousel(cards: cards, borderColor: Colors.black),
         Center(
           child: SizedBox(
             width: 410,
@@ -1290,10 +1288,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
       children: [
         Text(
           'Artists',
-          style: GoogleFonts.lexend(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 10),
         Image.asset(
@@ -1364,12 +1359,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
         imageUrl: '',
         role: 'Artist',
       ),
-      ArtistModel(
-        id: '2',
-        name: 'Rohit Sharma',
-        imageUrl: '',
-        role: 'Artist',
-      ),
+      ArtistModel(id: '2', name: 'Rohit Sharma', imageUrl: '', role: 'Artist'),
     ];
 
     return Column(
@@ -1377,10 +1367,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
       children: [
         Text(
           'You May Also Like This',
-          style: GoogleFonts.lexend(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 15),
         SizedBox(
@@ -1393,9 +1380,11 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                 padding: const EdgeInsets.only(right: 15),
                 child: SizedBox(
                   width: 350,
-                  child: EventDetailsCard(
-                    event: events[index],
+                  child: UnifiedEventCard(
+                    featuredEvent: events[index],
+                    eventDetails: events[index],
                     artist: artists[index],
+                    showUserActivity: false,
                   ),
                 ),
               );
@@ -1408,12 +1397,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
   Widget _buildStickyBottomButton() {
     return Container(
-      padding: EdgeInsets.only(
-        left: 15,
-        right: 15,
-        top: 10,
-        bottom: 1,
-      ),
+      padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 1),
       child: GestureDetector(
         onTap: () {
           // Handle book tickets action
@@ -1443,10 +1427,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                   gradient: const LinearGradient(
                     begin: Alignment(-0.47, 0.0), // 84.28deg approximation
                     end: Alignment(1.05, 0.0),
-                    colors: [
-                      Color(0xFF7464E4),
-                      Color(0xFF3354F4),
-                    ],
+                    colors: [Color(0xFF7464E4), Color(0xFF3354F4)],
                   ),
                   borderRadius: BorderRadius.circular(2),
                   boxShadow: [
@@ -1600,7 +1581,9 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                                   fontWeight: FontWeight.w400,
                                   height: 1.0,
                                   letterSpacing: 0,
-                                  color: const Color(0xFF4F4F4F).withOpacity(0.5),
+                                  color: const Color(
+                                    0xFF4F4F4F,
+                                  ).withOpacity(0.5),
                                 ),
                                 border: InputBorder.none,
                                 isDense: true,
@@ -1664,7 +1647,9 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                                       fontWeight: FontWeight.w400,
                                       color: selectedReason != null
                                           ? const Color(0xFF4F4F4F)
-                                          : const Color(0xFF4F4F4F).withOpacity(0.5),
+                                          : const Color(
+                                              0xFF4F4F4F,
+                                            ).withOpacity(0.5),
                                     ),
                                   ),
                                 ),
@@ -1691,7 +1676,10 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     );
   }
 
-  void _showReasonModal(BuildContext context, Function(String) onReasonSelected) {
+  void _showReasonModal(
+    BuildContext context,
+    Function(String) onReasonSelected,
+  ) {
     final List<String> reasons = [
       'Seeking packages with a few more inclusions',
       'Received tempting offers from other venues',
@@ -1753,32 +1741,34 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                     ),
                     const SizedBox(height: 20),
                     // Reasons List
-                    ...reasons.map((reason) => GestureDetector(
-                      onTap: () {
-                        onReasonSelected(reason);
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 0,
-                        ),
-                        height: 24,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          reason,
-                          style: GoogleFonts.lexend(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            height: 24 / 12, // line-height: 24px
-                            letterSpacing: 0,
-                            color: const Color(0xFF4F4F4F),
+                    ...reasons.map(
+                      (reason) => GestureDetector(
+                        onTap: () {
+                          onReasonSelected(reason);
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 0,
                           ),
-                          textAlign: TextAlign.center,
+                          height: 24,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            reason,
+                            style: GoogleFonts.lexend(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              height: 24 / 12, // line-height: 24px
+                              letterSpacing: 0,
+                              color: const Color(0xFF4F4F4F),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    )),
+                    ),
                   ],
                 ),
               ),
@@ -1968,9 +1958,7 @@ class _PromoCarouselState extends State<PromoCarousel> {
     final cardHeight = 109.0;
 
     return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 20,
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 20),
       child: SizedBox(
         height: cardHeight,
         child: ListView.builder(
