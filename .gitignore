@@ -48,3 +48,5 @@ app.*.map.json
 .env
 remove_key_from_history.sh
 SECURITY_FIX.md
+
+android/gradle.properties
