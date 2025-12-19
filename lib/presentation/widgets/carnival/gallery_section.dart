@@ -49,14 +49,8 @@ class GallerySection extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               String imagePath;
-              if (title == 'Food') {
-                imagePath = 'assets/images/food.png';
-              } else if (title == 'Ambiance') {
-                imagePath = 'assets/images/ambiance.png';
-              } else {
-                imagePath = 'assets/images/beverages.png';
-              }
-              
+              imagePath = 'assets/images/Frame 427319585.png';
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -67,29 +61,50 @@ class GallerySection extends StatelessWidget {
                 ),
               );
             },
-            child: _buildImageCard(category: title),
+            child: _buildImageCard(category: title, count: count),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildImageCard({required String category}) {
-    String imagePath;
-    
-    if (category == 'Food') {
-      imagePath = 'assets/images/food.png';
-    } else if (category == 'Ambiance') {
-      imagePath = 'assets/images/ambiance.png';
-    } else {
-      imagePath = 'assets/images/beverages.png';
-    }
-
-    return Image.asset(
-      imagePath,
-      width: 180,
-      height: 180,
-      fit: BoxFit.cover,
+  Widget _buildImageCard({required String category, required int count}) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Base image
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.asset(
+            'assets/images/Frame 427319585.png',
+            width: 280,
+            height: 280,
+            fit: BoxFit.cover,
+          ),
+        ),
+        // Text overlay
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$count+',
+              style: GoogleFonts.lexend(
+                fontSize: 40,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Picture',
+              style: GoogleFonts.lexend(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: Colors.white.withOpacity(0.9),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

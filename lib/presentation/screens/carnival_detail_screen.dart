@@ -162,7 +162,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
                               const SizedBox(height: 20),
 
-                              // Menu Section - background extends beyond padding, content stays aligned
+                              // All sections from Menu to bottom - with white 70% background
                               Stack(
                                 clipBehavior: Clip.none,
                                 children: [
@@ -175,45 +175,48 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.7),
-                                        borderRadius: BorderRadius.circular(0),
                                       ),
                                     ),
                                   ),
-                                  // Content layer - keeps normal padding
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 15),
-                                    child: MenuSection(),
+                                  // Content layer
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 15,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // Menu Section
+                                        const MenuSection(),
+
+                                        const SizedBox(height: 20),
+
+                                        // Gallery Section
+                                        const GallerySection(),
+
+                                        const SizedBox(height: 20),
+
+                                        // Teaser Section
+                                        const TeaserSection(),
+
+                                        // Offer Cards Section
+                                        _buildOfferCardsSection(),
+
+                                        // Artists Section
+                                        _buildArtistsSection(),
+
+                                        const SizedBox(height: 20),
+
+                                        // You May Also Like Section
+                                        _buildYouMayAlsoLike(),
+
+                                        const SizedBox(height: 20),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-
-                              const SizedBox(height: 20),
-
-                              // Gallery Section
-                              const GallerySection(),
-
-                              const SizedBox(height: 20),
-
-                              // Teaser Section
-                              const TeaserSection(),
-
-                              // Offer Cards Section
-                              _buildOfferCardsSection(),
-
-                              // Partywitty Pay (repeated)
-                              // const PartywittyPaySection(),
-
-                              // Artists Section
-                              _buildArtistsSection(),
-
-                              const SizedBox(height: 20),
-
-                              // You May Also Like Section
-                              _buildYouMayAlsoLike(),
-
-                              const SizedBox(
-                                height: 20,
-                              ), // Extra space before bottom button
                             ],
                           ),
                         ),
