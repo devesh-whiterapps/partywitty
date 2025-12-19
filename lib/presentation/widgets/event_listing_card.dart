@@ -27,6 +27,8 @@ class EventListingCard extends StatefulWidget {
   final VoidCallback? onBookTable;
   final VoidCallback? onViewDetails;
   final CardType cardType;
+  final bool
+  isLowestPrice; // When true, shows yellow gradient on View Details button
 
   const EventListingCard({
     super.key,
@@ -37,6 +39,7 @@ class EventListingCard extends StatefulWidget {
     this.onBookTable,
     this.onViewDetails,
     this.cardType = CardType.carnival,
+    this.isLowestPrice = false, // Default to purple gradient
   });
 
   @override
@@ -288,7 +291,11 @@ class _EventListingCardState extends State<EventListingCard> {
       const SizedBox(height: 10),
       const CardPartywittyPayOffer(),
       const SizedBox(height: 10),
-      CardViewDetailsButton(onPressed: widget.onViewDetails),
+      CardViewDetailsButton(
+        onPressed: widget.onViewDetails,
+        isPurple: !widget
+            .isLowestPrice, // Purple for all, Yellow only for lowest price
+      ),
       const SizedBox(height: 12),
     ];
   }
@@ -312,7 +319,11 @@ class _EventListingCardState extends State<EventListingCard> {
       const SizedBox(height: 10),
       const CardPartywittyPayOffer(),
       const SizedBox(height: 10),
-      CardViewDetailsButton(onPressed: widget.onViewDetails),
+      CardViewDetailsButton(
+        onPressed: widget.onViewDetails,
+        isPurple: !widget
+            .isLowestPrice, // Purple for all, Yellow only for lowest price
+      ),
       const SizedBox(height: 12),
     ];
   }

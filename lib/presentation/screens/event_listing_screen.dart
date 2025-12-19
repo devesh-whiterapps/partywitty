@@ -281,6 +281,10 @@ class _EventListingScreenState extends State<EventListingScreen> {
                   event: myBidsEvents[index],
                   artist: artist,
                   cardType: cardTypes[index % cardTypes.length],
+                  isLowestPrice:
+                      cardTypes[index % cardTypes.length] ==
+                      CardType
+                          .packageBidding, // Yellow gradient only for lowest price card
                   onBuyTickets: () {
                     // Handle buy tickets
                   },

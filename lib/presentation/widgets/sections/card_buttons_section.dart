@@ -416,7 +416,7 @@ class CardViewDetailsButton extends StatelessWidget {
     super.key,
     this.text = 'View Details',
     this.onPressed,
-    this.isPurple = false, // Default to yellow-green
+    this.isPurple = true, // Default to purple gradient
   });
 
   @override
