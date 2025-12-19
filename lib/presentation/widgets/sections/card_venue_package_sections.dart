@@ -351,36 +351,36 @@ class CardServiceTime extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.lexend(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xff4F4F4F),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xff070707),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 16),
         _buildTimeChip(Icons.close, closeTime),
-        const SizedBox(width: 8),
-        _buildTimeChip(Icons.local_bar, barTime),
+        const SizedBox(width: 12),
+        _buildTimeChip(Icons.wine_bar_outlined, barTime),
       ],
     );
   }
 
   Widget _buildTimeChip(IconData icon, String time) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xffE5E5E5)),
-        borderRadius: BorderRadius.circular(4),
+        color: const Color(0xFFF5F5F5),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: const Color(0xff4F4F4F)),
-          const SizedBox(width: 4),
+          Icon(icon, size: 16, color: const Color(0xff4F4F4F)),
+          const SizedBox(width: 6),
           Text(
             time,
             style: GoogleFonts.lexend(
-              fontSize: 11,
-              fontWeight: FontWeight.w400,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
               color: const Color(0xff4F4F4F),
             ),
           ),

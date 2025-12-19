@@ -406,15 +406,17 @@ class CardBuyTicketsButton extends StatelessWidget {
   }
 }
 
-/// Yellow/Green View Details button
+/// Yellow/Green or Purple View Details button
 class CardViewDetailsButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
+  final bool isPurple; // true for purple gradient, false for yellow-green
 
   const CardViewDetailsButton({
     super.key,
     this.text = 'View Details',
     this.onPressed,
+    this.isPurple = false, // Default to yellow-green
   });
 
   @override
@@ -427,13 +429,18 @@ class CardViewDetailsButton extends StatelessWidget {
         child: Ink(
           width: double.infinity,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [
-                Color(0xFFF4E04D), // Yellow
-                Color(0xFFDBF658), // Yellow-green
-              ],
+              colors: isPurple
+                  ? [
+                      const Color(0xFF7464E4), // Purple
+                      const Color(0xFF1A00D2), // Dark purple
+                    ]
+                  : [
+                      const Color(0xFFF4E04D), // Yellow
+                      const Color(0xFFDBF658), // Yellow-green
+                    ],
             ),
             borderRadius: BorderRadius.circular(4),
           ),
@@ -445,7 +452,7 @@ class CardViewDetailsButton extends StatelessWidget {
               style: GoogleFonts.lexend(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xff000000),
+                color: isPurple ? Colors.white : const Color(0xff000000),
               ),
             ),
           ),
