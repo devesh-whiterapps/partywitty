@@ -58,7 +58,7 @@ class _MenuSectionState extends State<MenuSection> {
   Widget _buildVegNonVegToggle() {
     return Container(
       width: 100, // Fixed width for wider button
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0xFF3CBD53), // Bright green background
         borderRadius: BorderRadius.circular(25),

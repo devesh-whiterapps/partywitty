@@ -157,8 +157,15 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
                               // const SizedBox(height: 20),
 
-                              // Ticket Options with Passes
-                              const EventOptionsSwitcher(),
+                              // Ticket Options with Passes - white 70% background
+                              Container(
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const EventOptionsSwitcher(),
+                              ),
 
                               const SizedBox(height: 20),
 
@@ -1292,18 +1299,6 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         PromoCarousel(cards: cards, borderColor: Colors.black),
-        Center(
-          child: SizedBox(
-            width: double.infinity,
-            height: 11,
-            child: Image.asset(
-              'assets/images/indicators.png',
-              width: double.infinity,
-              height: 11,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
         const SizedBox(height: 20),
       ],
     );
@@ -1908,12 +1903,12 @@ class PromoCard extends StatelessWidget {
                               vertical: 8,
                             ),
                             decoration: BoxDecoration(
-                              color: Color(0xff000000).withValues(alpha: 0.05),
+                              color: Colors.white.withOpacity(
+                                0.3,
+                              ), // FFFFFF with 30%
                               borderRadius: BorderRadius.circular(26),
                               border: Border.all(
-                                color: Color(
-                                  0xff000000,
-                                ).withValues(alpha: 0.06),
+                                color: Colors.white.withOpacity(0.5),
                                 width: 1,
                               ),
                             ),
@@ -1966,6 +1961,7 @@ class PromoCarousel extends StatefulWidget {
 
 class _PromoCarouselState extends State<PromoCarousel> {
   final ScrollController _scrollController = ScrollController();
+  int _currentPage = 0;
 
   @override
   void dispose() {
@@ -1975,36 +1971,105 @@ class _PromoCarouselState extends State<PromoCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    final cardSpacing = 8.0; // Space between cards
-    final cardHeight = 109.0;
+    final cardHeight = 120.0;
+    final cardWidth = 200.0;
+    final cardSpacing = 8.0;
+    final totalPages = (widget.cards.length / 2).ceil();
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
-      child: SizedBox(
-        height: cardHeight,
-        child: ListView.builder(
-          controller: _scrollController,
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          itemCount: widget.cards.length,
-          itemBuilder: (context, index) {
-            final card = widget.cards[index];
-            return Container(
-              width: 200,
-              margin: EdgeInsets.only(
-                right: index < widget.cards.length - 1 ? cardSpacing : 0,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.7), // White 70%
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: cardHeight,
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (notification is ScrollUpdateNotification) {
+                  final pageWidth = (cardWidth + cardSpacing) * 2;
+                  final newPage = (_scrollController.offset / pageWidth)
+                      .round();
+                  final maxPages = (widget.cards.length / 2).ceil() - 1;
+                  final clampedPage = newPage.clamp(0, maxPages);
+                  if (clampedPage != _currentPage) {
+                    setState(() => _currentPage = clampedPage);
+                  }
+                }
+                return false;
+              },
+              child: ListView.builder(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount: widget.cards.length,
+                itemBuilder: (context, index) {
+                  final card = widget.cards[index];
+                  return Container(
+                    width: cardWidth,
+                    margin: EdgeInsets.only(
+                      right: index < widget.cards.length - 1 ? cardSpacing : 0,
+                    ),
+                    child: PromoCard(
+                      title: card.title,
+                      subtitle: card.subtitle,
+                      buttonText: card.buttonText,
+                      imagePath: card.imagePath,
+                      backgroundColor: card.backgroundColor,
+                      onPressed: card.onPressed,
+                    ),
+                  );
+                },
               ),
-              child: PromoCard(
-                title: card.title,
-                subtitle: card.subtitle,
-                buttonText: card.buttonText,
-                imagePath: card.imagePath,
-                backgroundColor: card.backgroundColor,
-                onPressed: card.onPressed,
+            ),
+          ),
+          const SizedBox(height: 15),
+          // Dynamic indicators - same style as ticket section
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.19),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(totalPages, (index) {
+                    final isActive = index == _currentPage;
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        right: index < totalPages - 1 ? 5 : 0,
+                      ),
+                      child: Image.asset(
+                        'assets/images/indicator.png',
+                        width: isActive ? 20 : 5,
+                        height: 5,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: isActive ? 20 : 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF7464E4),
+                              borderRadius: BorderRadius.circular(2.5),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }),
+                ),
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

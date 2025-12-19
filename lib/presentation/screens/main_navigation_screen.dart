@@ -118,8 +118,8 @@ class MainNavigationScreen extends StatefulWidget {
 // }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _currentIndex = 3; // Start with booking screen
-  int _previousIndex = 3;
+  int _currentIndex = 0; // Start with home screen (EventListingScreen)
+  int _previousIndex = 0;
 
   late final List<Widget> _screens;
 
