@@ -28,7 +28,7 @@ class CardLocationSection extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 4),
-        Expanded(
+        Flexible(
           child: Text(
             event.location,
             style: GoogleFonts.lexend(
