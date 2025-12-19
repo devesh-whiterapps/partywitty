@@ -30,6 +30,7 @@ class EventListingCard extends StatefulWidget {
   final CardType cardType;
   final bool
   isLowestPrice; // When true, shows yellow gradient on View Details button
+  final EdgeInsetsGeometry? margin;
 
   const EventListingCard({
     super.key,
@@ -42,6 +43,7 @@ class EventListingCard extends StatefulWidget {
     this.onShare,
     this.cardType = CardType.carnival,
     this.isLowestPrice = false, // Default to purple gradient
+    this.margin,
   });
 
   @override
@@ -52,7 +54,9 @@ class _EventListingCardState extends State<EventListingCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
+      margin:
+          widget.margin ??
+          const EdgeInsets.symmetric(horizontal: 15.0, vertical: 6.0),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.6),
         borderRadius: BorderRadius.circular(4),

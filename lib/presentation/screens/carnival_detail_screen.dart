@@ -1530,6 +1530,15 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                 onBuyTickets: () {
                   // Handle buy tickets
                 },
+                onShare: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const ShareEventModal(),
+                  );
+                },
+                margin: EdgeInsets
+                    .zero, // Add this to remove default margin and fix padding inconsistency
               );
             },
           ),
