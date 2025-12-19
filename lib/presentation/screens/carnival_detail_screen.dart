@@ -1414,59 +1414,37 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
   Widget _buildStickyBottomButton() {
     return Container(
-      padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 1),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 15),
       child: GestureDetector(
         onTap: () {
           // Handle book tickets action
         },
-        child: Container(
-          width: double.infinity,
-          height: 44,
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: const Color(0xE5FFFFFF), // #FFFFFFE5
-            borderRadius: BorderRadius.circular(2),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(2),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Container(
-                width: double.infinity,
-                height: 36,
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  right: 16,
-                  bottom: 8,
-                  left: 14,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(2),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+            child: Container(
+              width: double.infinity,
+              height: 44,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment(-0.47, 0.0),
+                  end: Alignment(1.05, 0.0),
+                  colors: [Color(0xFF7464E4), Color(0xFF3354F4)],
                 ),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment(-0.47, 0.0), // 84.28deg approximation
-                    end: Alignment(1.05, 0.0),
-                    colors: [Color(0xFF7464E4), Color(0xFF3354F4)],
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: Center(
+                child: Text(
+                  'Book Tickets',
+                  style: GoogleFonts.lexend(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    height: 1.0,
+                    letterSpacing: 0,
                   ),
-                  borderRadius: BorderRadius.circular(2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 0,
-                      offset: Offset.zero,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Book Tickets',
-                    style: GoogleFonts.lexend(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      height: 1.0, // line-height: 100%
-                      letterSpacing: 0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
