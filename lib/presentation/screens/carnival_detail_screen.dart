@@ -180,7 +180,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                             // Artists Section
                             _buildArtistsSection(),
 
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 20),
 
                             // You May Also Like Section
                             _buildYouMayAlsoLike(),
@@ -203,46 +203,53 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             right: 0,
             child: SafeArea(
               bottom: false,
-              child: Container(
-                color: const Color(0xFFE6E6E6),
-                padding: const EdgeInsets.only(
-                  top: 11,
-                  left: 7,
-                  right: 23,
-                  bottom: 11,
-                ),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => Navigator.pop(context),
-                  child: SizedBox(
-                    width: 71,
-                    height: 23,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 45,
-                          height: 23,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/icons/arrow_back.png',
-                            width: 16,
-                            height: 12,
-                            color: const Color(0xFF070707),
-                          ),
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                    ),
+                    padding: const EdgeInsets.only(
+                      top: 11,
+                      left: 7,
+                      right: 23,
+                      bottom: 11,
+                    ),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => Navigator.pop(context),
+                      child: SizedBox(
+                        width: 71,
+                        height: 23,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 45,
+                              height: 23,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/icons/arrow_back.png',
+                                width: 16,
+                                height: 12,
+                                color: const Color(0xFF070707),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              'Back',
+                              style: GoogleFonts.lexend(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF070707),
+                                height: 1,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Back',
-                          style: GoogleFonts.lexend(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF070707),
-                            height: 1,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -478,6 +485,17 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFFFFFFFF), // #FFFFFF
                 borderRadius: BorderRadius.circular(2),
+                border: Border.all(
+                  color: const Color(0xFFE6E6E6),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
               ),
               child: Center(
                 child: Text(
@@ -1281,28 +1299,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        // Person attended image
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Image.asset(
-            'assets/images/person_attended_image.png',
-            width: double.infinity,
-            fit: BoxFit.contain,
-          ),
-        ),
-        const SizedBox(height: 20),
-        // Booking section with Buy Tickets and Book Table
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: CardSlidingBookingSection(
-            onBuyTickets: () {
-              // Handle buy tickets action
-            },
-            onBookTable: () {
-              // Handle book table action
-            },
-          ),
-        ),
+
       ],
     );
   }
@@ -1412,12 +1409,25 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
             style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
-        const SizedBox(height: 25), // Increased spacing between title and card
+        const SizedBox(height: 5),
+        // Person attended image
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Image.asset(
+            'assets/images/person_attended_image.png',
+            width: double.infinity,
+            fit: BoxFit.contain,
+          ),
+        ),
+        // UnifiedEventCard (removed extra spacing)
         UnifiedEventCard(
           featuredEvent: event,
           eventDetails: event,
           artist: artist,
           showUserActivity: false,
+          showOfferButton: false,
+          showPaymentDetails: false,
+          showPassDetails: true,
         ),
       ],
     );
@@ -1658,7 +1668,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              _showReasonModal(modalContext, (reason) {
+                              _showReasonModal(context, (reason) {
                                 setModalState(() {
                                   selectedReason = reason;
                                 });
@@ -1722,6 +1732,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useRootNavigator: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(

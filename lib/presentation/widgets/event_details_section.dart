@@ -30,7 +30,7 @@ class EventDetailsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 0.0),
       decoration: const BoxDecoration(
         // color: Colors.white,
         borderRadius: BorderRadius.only(

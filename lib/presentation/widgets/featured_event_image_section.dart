@@ -15,15 +15,17 @@ class FeaturedEventImageSection extends StatelessWidget {
         children: [
           // Event image
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 0),
             width: double.infinity,
             height: double.maxFinite,
-            child: Image.asset('assets/images/carnival_image.png'),
+            child: Image.asset(
+              'assets/images/carnival_image.png',
+              fit: BoxFit.cover,
+            ),
           ),
           // Top icons
           Positioned(
-            top: 25,
-            right: 12,
+            top: 9,
+            right: 8,
             child: Row(
               children: [
                 Image.asset('assets/icons/bookmark.png', width: 26, height: 26),
@@ -35,7 +37,7 @@ class FeaturedEventImageSection extends StatelessWidget {
           ),
           // Bottom banner with date/time
           Positioned(
-            bottom: -28,
+            bottom: -40,
             left: (MediaQuery.of(context).size.width - 330) / 2,
             child: Container(
               padding: const EdgeInsets.only(bottom: 0),
