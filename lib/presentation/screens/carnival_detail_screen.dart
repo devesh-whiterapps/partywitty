@@ -5,19 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/sections/card_ticket_section.dart';
-import '../widgets/carnival/partywitty_pay_section.dart';
 import '../widgets/carnival/menu_section.dart';
 import '../widgets/carnival/gallery_section.dart';
-import '../widgets/carnival/artist_card.dart';
 import '../widgets/carnival/teaser_section.dart';
 import '../widgets/carnival/event_info_card.dart';
-import '../widgets/event_booking_toggle.dart';
 import '../widgets/event_options_switcher.dart';
-import '../widgets/unified_event_card.dart';
-import '../widgets/sections/card_buttons_section.dart';
+import '../widgets/event_listing_card.dart';
 import '../widgets/gradient_background.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
+import '../../domain/models/user_activity_model.dart';
 
 class CarnivalDetailScreen extends StatefulWidget {
   const CarnivalDetailScreen({super.key});
@@ -1409,17 +1406,20 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     );
   }
 
-  Widget _buildYouMayAlsoLike() {
-    // Sample event data - only 1 card
-    final event = EventModel(
-      id: '1',
+  // You May Also Like data
+  int _youMayLikeCurrentIndex = 0;
+
+  late final List<EventModel> _youMayLikeEvents = List.generate(
+    3,
+    (index) => EventModel(
+      id: '${index + 1}',
       title: 'Sitar Magic by Rishabh Rikhiram Sharma',
       venue: 'F-Bar',
       location: 'DLP Phase 3, Gurugram',
       imageUrl: '',
       date: 'Today',
       time: '10:00 PM Onwards',
-      type: 'Event',
+      type: 'Carnival',
       rating: 4.1,
       reviewCount: 3,
       eventCategory: 'Stand-up Comedy',
@@ -1427,48 +1427,66 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
       advancePaid: 1800,
       balanceAmount: 3800,
       distance: 1.2,
-    );
+    ),
+  );
 
-    final artist = ArtistModel(
+  late final ArtistModel _youMayLikeArtist = ArtistModel(
+    id: '1',
+    name: 'Malvika Khanna',
+    imageUrl: '',
+    role: 'Artist',
+  );
+
+  late final List<UserActivityModel> _youMayLikeUsers = [
+    UserActivityModel(
       id: '1',
-      name: 'Malvika Khanna',
+      name: 'Rohit Sharma',
       imageUrl: '',
-      role: 'Artist',
-    );
+      activityText: 'Attended a party here last m...',
+    ),
+    UserActivityModel(id: '2', name: 'User 2', imageUrl: '', activityText: ''),
+  ];
 
+  Widget _buildYouMayAlsoLike() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Text(
-            'You May Also Like This',
-            style: GoogleFonts.lexend(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+        Text(
+          'You May Also Like This',
+          style: GoogleFonts.lexend(fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 15),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: 780, // Matches EventListingScreen carousel height
+          child: PageView.builder(
+            controller: PageController(), // Use default page controller
+            onPageChanged: (index) {
+              setState(() {
+                _youMayLikeCurrentIndex = index;
+              });
+            },
+            itemCount: _youMayLikeEvents.length,
+            itemBuilder: (context, index) {
+              return EventListingCard(
+                users: _youMayLikeUsers,
+                event: _youMayLikeEvents[index],
+                artist: _youMayLikeArtist,
+                cardType: CardType.carnival,
+                onBuyTickets: () {
+                  // Handle buy tickets
+                },
+              );
+            },
           ),
         ),
-        const SizedBox(height: 5),
-        // Person attended image
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Image.asset(
-            'assets/images/person_attended_image.png',
-            width: double.infinity,
-            fit: BoxFit.contain,
+        const SizedBox(height: 11),
+        Center(
+          child: _buildIndicators(
+            _youMayLikeEvents.length,
+            _youMayLikeCurrentIndex,
           ),
-        ),
-        // UnifiedEventCard (removed extra spacing)
-        UnifiedEventCard(
-          featuredEvent: event,
-          eventDetails: event,
-          artist: artist,
-          showUserActivity: false,
-          showOfferButton: false,
-          showPaymentDetails: false,
-          showPassDetails: true,
         ),
       ],
     );
