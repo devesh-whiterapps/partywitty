@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:partywitty/presentation/widgets/gradient_background.dart';
 import 'package:partywitty/presentation/widgets/unified_event_card.dart';
 import 'package:partywitty/presentation/widgets/inclusions_dialog.dart';
 import '../../domain/models/event_model.dart';
@@ -79,67 +80,69 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: false,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // AppBar
-            AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              leading: IconButton(
-                icon: Image.asset(
-                  'assets/icons/arrow_back.png',
-                  width: 16,
-                  height: 13,
+      body: GradientBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              // AppBar
+              AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Image.asset(
+                    'assets/icons/arrow_back.png',
+                    width: 16,
+                    height: 13,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              titleSpacing: -10,
-              title: Text(
-                'Details',
-                style: GoogleFonts.lexend(
-                  color: Color(0xff070707),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                titleSpacing: -10,
+                title: Text(
+                  'Details',
+                  style: GoogleFonts.lexend(
+                    color: Color(0xff070707),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
+                centerTitle: false,
               ),
-              centerTitle: false,
-            ),
 
-            // Content
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Payment Section
-                      _buildPaymentSection(context),
-                      const SizedBox(height: 0),
+              // Content
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Payment Section
+                        _buildPaymentSection(context),
+                        const SizedBox(height: 0),
 
-                      UnifiedEventCard(
-                        users: null,
-                        featuredEvent: featuredEvent,
-                        eventDetails: eventDetails,
-                        artist: widget.artist,
-                        showUserActivity: false,
-                        showInclusions: false,
-                        showPaymentDetails: false,
-                        showOfferButton: false,
-                      ),
-                      SizedBox(height: 12),
-                      // Tickets Pass Section
-                      _buildTicketsSection(context, tickets),
-                      const SizedBox(height: 70),
-                    ],
+                        UnifiedEventCard(
+                          users: null,
+                          featuredEvent: featuredEvent,
+                          eventDetails: eventDetails,
+                          artist: widget.artist,
+                          showUserActivity: false,
+                          showInclusions: false,
+                          showPaymentDetails: false,
+                          showOfferButton: false,
+                        ),
+                        SizedBox(height: 12),
+                        // Tickets Pass Section
+                        _buildTicketsSection(context, tickets),
+                        const SizedBox(height: 70),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
