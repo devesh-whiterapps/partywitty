@@ -11,41 +11,34 @@ class ShareEventModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xffF5F5F5),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                // Drag handle
-                Container(
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFFD9D9D9), // Gray background like counter bid
+            borderRadius: BorderRadius.zero, // Sharp rectangle
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
                   width: 40,
                   height: 4,
-                  margin: const EdgeInsets.only(bottom: 12),
+                  margin: const EdgeInsets.only(top: 10, bottom: 15),
                   decoration: BoxDecoration(
-                    color: Color(0xffD0D0D0),
+                    color: Color(0xff4F4F4F),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                // Title
-                Text(
+              ),
+
+              // Title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
                   'Share the Event',
                   style: TextStyle(
                     fontSize: 20,
@@ -53,151 +46,150 @@ class ShareEventModal extends StatelessWidget {
                     color: Color(0xff070707),
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+              const SizedBox(height: 15),
 
-          // Content
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                // Social media buttons - Row 1
-                Row(
+              // Content
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: _buildSocialButton(
-                        context,
-                        'Facebook',
-                        Icons.facebook,
-                        Color(0xff1877F2),
-                        () => _shareToFacebook(context),
+                    // Social media buttons - Row 1
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSocialButtonWithAsset(
+                            context,
+                            'Facebook',
+                            'assets/icons/Facebook.png',
+                            () => _shareToFacebook(context),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _buildSocialButtonWithAsset(
+                            context,
+                            'WhatsApp',
+                            'assets/icons/whatsaap.png',
+                            () => _shareToWhatsApp(context),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _buildSocialButtonWithAsset(
+                            context,
+                            'Twitter',
+                            'assets/icons/twitter.png',
+                            () => _shareToTwitter(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Social media buttons - Row 2
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSocialButtonWithAsset(
+                            context,
+                            'Instagram',
+                            'assets/icons/insta.png',
+                            () => _shareToInstagram(context),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(child: SizedBox()), // Empty space
+                        const SizedBox(width: 8),
+                        Expanded(child: SizedBox()), // Empty space
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Link with copy button - sharp rectangle with white 70%
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFFFFF).withOpacity(0.7),
+                        borderRadius: BorderRadius.zero, // Sharp rectangle
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              eventUrl,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff4F4F4F),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          GestureDetector(
+                            onTap: () => _copyLink(context),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xff7464E4), // Purple background
+                                borderRadius:
+                                    BorderRadius.zero, // Sharp rectangle
+                              ),
+                              child: Text(
+                                'Copy',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildSocialButton(
-                        context,
-                        'WhatsApp',
-                        Icons.chat,
-                        Color(0xff25D366),
-                        () => _shareToWhatsApp(context),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildSocialButton(
-                        context,
-                        'Twitter',
-                        Icons.close, // Using X icon placeholder
-                        Color(0xff000000),
-                        () => _shareToTwitter(context),
-                      ),
-                    ),
+                    const SizedBox(height: 15),
                   ],
                 ),
-                const SizedBox(height: 12),
-
-                // Social media buttons - Row 2
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildSocialButton(
-                        context,
-                        'Instagram',
-                        Icons.camera_alt,
-                        Color(0xffE4405F),
-                        () => _shareToInstagram(context),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(child: SizedBox()), // Empty space
-                    const SizedBox(width: 12),
-                    Expanded(child: SizedBox()), // Empty space
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Link with copy button
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          eventUrl,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff4F4F4F),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton(
-                        onPressed: () => _copyLink(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff7464E4),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 12,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          'Copy',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildSocialButton(
+  Widget _buildSocialButtonWithAsset(
     BuildContext context,
     String label,
-    IconData icon,
-    Color color,
+    String assetPath,
     VoidCallback onTap,
   ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Color(0xffE0E0E0), width: 1),
+          color: Color(0xFFFFFFFF).withOpacity(0.7), // White 70%
+          borderRadius: BorderRadius.zero, // Sharp rectangle
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: color, size: 20),
+            Image.asset(assetPath, width: 20, height: 20),
             const SizedBox(width: 8),
-            Flexible(
+            Expanded(
               child: Text(
                 label,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff070707),
                 ),

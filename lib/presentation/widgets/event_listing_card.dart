@@ -26,6 +26,7 @@ class EventListingCard extends StatefulWidget {
   final VoidCallback? onBuyTickets;
   final VoidCallback? onBookTable;
   final VoidCallback? onViewDetails;
+  final VoidCallback? onShare;
   final CardType cardType;
   final bool
   isLowestPrice; // When true, shows yellow gradient on View Details button
@@ -38,6 +39,7 @@ class EventListingCard extends StatefulWidget {
     this.onBuyTickets,
     this.onBookTable,
     this.onViewDetails,
+    this.onShare,
     this.cardType = CardType.carnival,
     this.isLowestPrice = false, // Default to purple gradient
   });
@@ -140,6 +142,7 @@ class _EventListingCardState extends State<EventListingCard> {
           : 'assets/images/discount.png',
       showFilterBadge: showFilterBadge,
       bannerType: bannerType,
+      onShare: widget.onShare,
     );
   }
 

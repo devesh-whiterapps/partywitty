@@ -9,6 +9,7 @@ import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../../domain/models/user_activity_model.dart';
 import 'carnival_detail_screen.dart';
+import '../widgets/share_event_modal.dart';
 
 class EventListingScreen extends StatefulWidget {
   const EventListingScreen({super.key});
@@ -234,6 +235,13 @@ class _EventListingScreenState extends State<EventListingScreen> {
                           onBuyTickets: () {
                             // Handle buy tickets
                           },
+                          onShare: () {
+                            showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => const ShareEventModal(),
+                            );
+                          },
                         );
                       },
                     ),
@@ -285,7 +293,7 @@ class _EventListingScreenState extends State<EventListingScreen> {
                   isLowestPrice:
                       cardTypes[index % cardTypes.length] ==
                       CardType
-                          .packageBidding, // Yellow gradient only for lowest price card
+                          .venueListing, // Yellow gradient for lowest price card (venue listing)
                   onBuyTickets: () {
                     // Handle buy tickets
                   },
@@ -295,6 +303,13 @@ class _EventListingScreenState extends State<EventListingScreen> {
                       MaterialPageRoute(
                         builder: (context) => const CarnivalDetailScreen(),
                       ),
+                    );
+                  },
+                  onShare: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const ShareEventModal(),
                     );
                   },
                 );

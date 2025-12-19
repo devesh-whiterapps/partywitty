@@ -12,6 +12,7 @@ import '../widgets/carnival/event_info_card.dart';
 import '../widgets/event_options_switcher.dart';
 import '../widgets/event_listing_card.dart';
 import '../widgets/gradient_background.dart';
+import '../widgets/share_event_modal.dart';
 import '../../domain/models/event_model.dart';
 import '../../domain/models/artist_model.dart';
 import '../../domain/models/user_activity_model.dart';
@@ -395,7 +396,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.undo, size: 14, color: Colors.white),
+                  Image.asset('assets/icons/Vector (1).png'),
                   const SizedBox(width: 4),
                   Text(
                     '1.2 Kms',
@@ -532,6 +533,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                   style: GoogleFonts.lexend(
                     color: const Color(0xFF7C3AED),
                     fontWeight: FontWeight.w600,
+                    fontSize: 12,
                   ),
                 ),
               ),
@@ -625,33 +627,66 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
         ),
         const SizedBox(height: 15),
 
+        // Divider line
+        Container(
+          width: double.infinity,
+          height: 1,
+          color: const Color.fromARGB(232, 230, 230, 230),
+        ),
+        const SizedBox(height: 10),
+
         // Feature Chips Section
         SizedBox(
           width: double.infinity,
           child: Wrap(
-            spacing: 8,
+            spacing: 10,
             runSpacing: 10,
             alignment: WrapAlignment.start,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              _buildFeatureChip(Icons.local_bar, 'Alcoholic'),
-              _buildFeatureChip(null, 'Pure Veg'),
               _buildFeatureChip(
-                Icons.restaurant_menu,
-                '3 Starters + 2 Main Course',
+                iconAsset: 'assets/icons/No alcohol icon.png',
+                label: 'Alcoholic',
+                isAlcoholIcon: true,
               ),
               _buildFeatureChip(
-                Icons.local_drink,
-                '2 Mocktails + 2 Soft drinks',
+                iconAsset: 'assets/icons/veg_indicator.png',
+                label: 'Pure Veg',
               ),
-              _buildFeatureChip(Icons.timer_outlined, '3 Hours'),
-              _buildFeatureChip(Icons.music_note, 'Live Music'),
-              _buildFeatureChip(Icons.dinner_dining_outlined, 'Food – 3h'),
-              _buildFeatureChip(Icons.wine_bar_outlined, 'Drinks – 1.5h'),
+              _buildFeatureChip(
+                iconAsset: 'assets/icons/restaurant.png',
+                label: ' 3 Starters +  2 Main Course ',
+                iconSize: 24,
+              ),
+              _buildFeatureChip(
+                iconAsset: 'assets/icons/local_bar.png',
+                label: ' 2 Mocktails + 2 Soft drinks',
+                iconSize: 24,
+              ),
+              _buildFeatureChip(
+                iconAsset: 'assets/icons/timer2.png',
+                label: '3 Hours',
+                iconSize: 24,
+              ),
+              _buildFeatureChip(
+                iconAsset: 'assets/icons/interpreter_mode.png',
+                label: 'Live Music',
+                iconSize: 24,
+              ),
+              _buildFeatureChip(
+                iconAsset: 'assets/icons/SVG.png',
+                label: 'Food – 3h',
+                iconSize: 16,
+              ),
+              _buildFeatureChip(
+                iconAsset: 'assets/icons/SVG (1).png',
+                label: 'Drinks – 1.5h',
+                iconSize: 16,
+              ),
             ],
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 10),
 
         // Confirmation Texts and Final Price Container
         SizedBox(
@@ -847,49 +882,61 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     );
   }
 
-  Widget _buildFeatureChip(IconData? icon, String label) {
-    final isVeg = label == 'Pure Veg';
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(244, 255, 255, 255).withOpacity(1),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(
-          color: const Color.fromARGB(242, 255, 255, 255),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Icon
-          isVeg
-              ? Image.asset(
-                  'assets/icons/veg_indicator.png',
-                  width: 18,
-                  height: 18,
-                  fit: BoxFit.contain,
-                )
-              : icon != null
-              ? Icon(icon, size: 18, color: const Color(0xFF333333))
-              : const SizedBox(width: 18),
-          const SizedBox(width: 6),
-          // Text
-          Flexible(
-            child: Text(
-              label,
-              style: GoogleFonts.lexend(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF333333),
-                height: 1.3,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+  Widget _buildFeatureChip({
+    required String iconAsset,
+    required String label,
+    double iconSize = 20,
+    double fontSize = 14,
+    bool isAlcoholIcon = false,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        child: Container(
+          height: 36,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF9F9F9),
+            borderRadius: BorderRadius.circular(4),
           ),
-        ],
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon with optional strike-through for alcohol
+              if (isAlcoholIcon)
+                SizedBox(
+                  width: iconSize,
+                  height: iconSize,
+                  child: Image.asset(
+                    iconAsset,
+                    width: iconSize,
+                    height: iconSize,
+                    fit: BoxFit.contain,
+                    color: const Color(0xFF070707),
+                  ),
+                )
+              else
+                Image.asset(
+                  iconAsset,
+                  width: iconSize,
+                  height: iconSize,
+                  fit: BoxFit.contain,
+                ),
+              const SizedBox(width: 5),
+              // Text
+              Text(
+                label,
+                style: GoogleFonts.lexend(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF4F4F4F),
+                  height: 20 / fontSize,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -974,7 +1021,13 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
                 _buildCircleIconButton(
                   assetPath: 'assets/icons/sharevector.png',
                   size: iconSize,
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const ShareEventModal(),
+                    );
+                  },
                 ),
               ],
             ),
