@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class TicketInclusionModal extends StatefulWidget {
   const TicketInclusionModal({super.key});
@@ -33,87 +34,96 @@ class _TicketInclusionModalState extends State<TicketInclusionModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
-      decoration: BoxDecoration(
-        color: Color(0xffF5F5F5),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
       ),
-      child: Column(
-        children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                // Drag handle
-                Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: Color(0xffD0D0D0),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                // Title
-                Text(
-                  'Ticket Inclusion',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff070707),
-                  ),
-                ),
-              ],
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.75),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
           ),
+          child: Column(
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    // Drag handle
+                    Container(
+                      width: 40,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Color(0xffD0D0D0),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    // Title
+                    Text(
+                      'Ticket Inclusion',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff070707),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-          // Scrollable content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  _buildExpandableSection(
-                    'breads',
-                    'Breads',
-                    inclusionData['breads']!,
+              // Scrollable content
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      _buildExpandableSection(
+                        'breads',
+                        'Breads',
+                        inclusionData['breads']!,
+                      ),
+                      const SizedBox(height: 12),
+                      _buildExpandableSection(
+                        'main_course',
+                        'Main Course:',
+                        inclusionData['main_course']!,
+                      ),
+                      const SizedBox(height: 12),
+                      _buildExpandableSection(
+                        'desserts',
+                        'Desserts:',
+                        inclusionData['desserts']!,
+                      ),
+                      const SizedBox(height: 12),
+                      _buildExpandableSection(
+                        'drinks',
+                        'Drinks:',
+                        inclusionData['drinks']!,
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                  const SizedBox(height: 12),
-                  _buildExpandableSection(
-                    'main_course',
-                    'Main Course:',
-                    inclusionData['main_course']!,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildExpandableSection(
-                    'desserts',
-                    'Desserts:',
-                    inclusionData['desserts']!,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildExpandableSection(
-                    'drinks',
-                    'Drinks:',
-                    inclusionData['drinks']!,
-                  ),
-                  const SizedBox(height: 16),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

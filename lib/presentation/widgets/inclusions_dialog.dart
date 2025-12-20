@@ -26,13 +26,13 @@ class _InclusionsDialogState extends State<InclusionsDialog> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
       child: Container(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         ),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.7),
+          color: Colors.white.withOpacity(0.75),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             topRight: Radius.circular(16),

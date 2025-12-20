@@ -84,11 +84,11 @@ class _GeneralPassOptionsModalState extends State<GeneralPassOptionsModal> {
         topRight: Radius.circular(4),
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.60,
           decoration: BoxDecoration(
-            color: const Color(0xFFF1F1F1).withOpacity(0.68),
+            color: Colors.white.withOpacity(0.75),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(4),
               topRight: Radius.circular(4),

@@ -191,12 +191,12 @@ class _EventListingScreenState extends State<EventListingScreen> {
                                 Row(
                                   children: [
                                     _buildIconButton(
-                                      icon: Icons.sort,
+                                      assetPath: 'assets/icons/sort.png',
                                       onTap: () => _showSortModal(),
                                     ),
                                     const SizedBox(width: 10),
                                     _buildIconButton(
-                                      icon: Icons.filter_alt,
+                                      assetPath: 'assets/icons/filter.png',
                                       onTap: () => _showFilterModal(),
                                     ),
                                   ],
@@ -361,7 +361,7 @@ class _EventListingScreenState extends State<EventListingScreen> {
   }
 
   Widget _buildIconButton({
-    required IconData icon,
+    required String assetPath,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
@@ -373,7 +373,14 @@ class _EventListingScreenState extends State<EventListingScreen> {
           color: const Color(0xff7464E4),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Center(child: Icon(icon, size: 24, color: Colors.white)),
+        child: Center(
+          child: Image.asset(
+            assetPath,
+            width: 24,
+            height: 24,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

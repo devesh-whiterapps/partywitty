@@ -105,10 +105,10 @@ class _TicketInclusionBottomSheetState
         topRight: Radius.circular(20),
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withOpacity(0.75),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),

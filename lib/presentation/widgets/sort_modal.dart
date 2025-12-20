@@ -19,105 +19,115 @@ class _SortModalState extends State<SortModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.85)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            decoration: BoxDecoration(
-              // color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                // Drag handle
-                Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF4F4F4F),
-                    borderRadius: BorderRadius.circular(2),
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(4),
+        topRight: Radius.circular(4),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.75)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                decoration: BoxDecoration(
+                  // color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 ),
-                // Title
-                Text(
-                  'Filter',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff070707),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Sort options
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                ...sortOptions.map(
-                  (option) => _buildSortOption(option['id']!, option['label']!),
-                ),
-                const SizedBox(height: 16),
-
-                // Apply button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Apply sort and close
-                      Navigator.pop(context, selectedSort);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff7464E4),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                child: Column(
+                  children: [
+                    // Drag handle
+                    Container(
+                      width: 40,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF4F4F4F),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    child: Text(
-                      'Apply',
+                    // Title
+                    Text(
+                      'Filter',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: Color(0xff070707),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(height: 8),
+              ),
 
-                // Clear All button
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedSort = null;
-                    });
-                  },
-                  child: Text(
-                    'Clear All',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffFF5252),
+              // Sort options
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    ...sortOptions.map(
+                      (option) =>
+                          _buildSortOption(option['id']!, option['label']!),
                     ),
-                  ),
+                    const SizedBox(height: 16),
+
+                    // Apply button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Apply sort and close
+                          Navigator.pop(context, selectedSort);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff7464E4),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Apply',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Clear All button
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedSort = null;
+                        });
+                      },
+                      child: Text(
+                        'Clear All',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xffFF5252),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
