@@ -181,9 +181,15 @@ class _EventListingScreenState extends State<EventListingScreen> {
                                 // Left side - filter chips
                                 Row(
                                   children: [
-                                    _buildFilterChip('Events', true),
+                                    _buildFilterChip(
+                                      'Events',
+                                      selectedFilter == 'Events',
+                                    ),
                                     const SizedBox(width: 10),
-                                    _buildFilterChip('Carnival Events', false),
+                                    _buildFilterChip(
+                                      'Carnival Events',
+                                      selectedFilter == 'Carnival Events',
+                                    ),
                                   ],
                                 ),
 
@@ -242,6 +248,7 @@ class _EventListingScreenState extends State<EventListingScreen> {
                               builder: (context) => const ShareEventModal(),
                             );
                           },
+                          onFilterTap: () => _showFilterModal(),
                         );
                       },
                     ),
@@ -312,6 +319,7 @@ class _EventListingScreenState extends State<EventListingScreen> {
                       builder: (context) => const ShareEventModal(),
                     );
                   },
+                  onFilterTap: () => _showFilterModal(),
                 );
               }, childCount: myBidsEvents.length),
             ),

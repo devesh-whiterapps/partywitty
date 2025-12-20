@@ -19,6 +19,7 @@ class CardImageSection extends StatefulWidget {
   final bool showFilterBadge;
   final BannerType bannerType;
   final String? typeBadgeText;
+  final VoidCallback? onFilterTap;
   final VoidCallback? onBookmark;
   final VoidCallback? onShare;
 
@@ -29,6 +30,7 @@ class CardImageSection extends StatefulWidget {
     this.showFilterBadge = false,
     this.bannerType = BannerType.dateTimeWithType,
     this.typeBadgeText,
+    this.onFilterTap,
     this.onBookmark,
     this.onShare,
   });
@@ -66,9 +68,15 @@ class _CardImageSectionState extends State<CardImageSection> {
             ),
           ),
 
-          // Filter badge (top left)
           if (widget.showFilterBadge)
-            Positioned(top: 16, left: 18, child: _buildFilterBadge()),
+            Positioned(
+              top: 16,
+              left: 18,
+              child: GestureDetector(
+                onTap: widget.onFilterTap,
+                child: _buildFilterBadge(),
+              ),
+            ),
 
           // Bookmark & Share icons (top right)
           Positioned(
