@@ -1598,225 +1598,7 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
 
   void _showCounterBidModal(BuildContext context) {
     final TextEditingController bidController = TextEditingController();
-    String? selectedReason;
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext modalContext) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Container(
-              padding: const EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: 20,
-              ),
-              margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).padding.bottom + 1,
-              ),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE6E6E6), // Light gray background
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Drag Handle - centered
-                  Center(
-                    child: Container(
-                      width: 50,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF4F4F4F),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Title - left aligned
-                  Text(
-                    'Counter Bid',
-                    style: GoogleFonts.lexend(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      height: 1.0,
-                      letterSpacing: 0,
-                      color: const Color(0xFF070707),
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  // Club Offer - left aligned
-                  Text(
-                    'Club Offer  ₹1500',
-                    style: GoogleFonts.lexend(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      height: 1.0,
-                      letterSpacing: 0,
-                      color: const Color(0xFF4F4F4F),
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  // Counter Bid Input Field
-                  GestureDetector(
-                    onTap: () {
-                      if (bidController.text.isEmpty) {
-                        bidController.text = '1100';
-                        setModalState(() {});
-                      }
-                      // Dismiss keyboard if it's open
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 49,
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        right: 15,
-                        bottom: 12,
-                        left: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white, // Solid white
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            '₹',
-                            style: GoogleFonts.lexend(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFF4F4F4F),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: TextField(
-                              controller: bidController,
-                              readOnly: true,
-                              showCursor: false,
-                              enableInteractiveSelection: false,
-                              style: GoogleFonts.lexend(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                height: 1.0,
-                                letterSpacing: 0,
-                                color: const Color(0xFF4F4F4F),
-                              ),
-                              decoration: InputDecoration(
-                                hintText: 'Enter Counter Bid',
-                                hintStyle: GoogleFonts.lexend(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.0,
-                                  letterSpacing: 0,
-                                  color: const Color(
-                                    0xFF4F4F4F,
-                                  ).withOpacity(0.5),
-                                ),
-                                border: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  // Reason Section
-                  SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Reason Label
-                        Text(
-                          'Reason',
-                          style: GoogleFonts.lexend(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            height: 1.0,
-                            letterSpacing: 0,
-                            color: const Color(0xFF4F4F4F),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        // Reason Dropdown
-                        Container(
-                          width: double.infinity,
-                          height: 50,
-                          padding: const EdgeInsets.only(
-                            top: 13,
-                            right: 15,
-                            bottom: 13,
-                            left: 15,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white, // Solid white
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              _showReasonModal(context, (reason) {
-                                setModalState(() {
-                                  selectedReason = reason;
-                                });
-                              });
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    selectedReason ?? 'Select Reason',
-                                    style: GoogleFonts.lexend(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: selectedReason != null
-                                          ? const Color(0xFF4F4F4F)
-                                          : const Color(
-                                              0xFF4F4F4F,
-                                            ).withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Color(0xFF4F4F4F),
-                                  size: 20,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _showReasonModal(
-    BuildContext context,
-    Function(String) onReasonSelected,
-  ) {
     final List<String> reasons = [
       'Seeking packages with a few more inclusions',
       'Received tempting offers from other venues',
@@ -1831,89 +1613,480 @@ class _CarnivalDetailScreenState extends State<CarnivalDetailScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      useRootNavigator: true,
       backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
+      builder: (BuildContext modalContext) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(4),
+            topRight: Radius.circular(4),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Drag Handle
-              Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 60,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(10),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom + 1,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.75),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    // Header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Select Reason',
-                          style: GoogleFonts.lexend(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF070707),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.grey,
-                        ),
-                      ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Drag Handle
+                  Center(
+                    child: Container(
+                      width: 50,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4F4F4F),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    const SizedBox(height: 20),
-                    // Reasons List
-                    ...reasons.map(
-                      (reason) => GestureDetector(
+                  ),
+                  const SizedBox(height: 20),
+                  // Counter Bid Title
+                  Text(
+                    'Counter Bid',
+                    style: GoogleFonts.lexend(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      height: 1.0,
+                      color: const Color(0xFF070707),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  // Club Offer
+                  Text(
+                    'Club Offer  ₹1500',
+                    style: GoogleFonts.lexend(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 1.0,
+                      color: const Color(0xFF4F4F4F),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  // Counter Bid Input Field
+                  StatefulBuilder(
+                    builder: (context, setBidState) {
+                      return GestureDetector(
                         onTap: () {
-                          onReasonSelected(reason);
-                          Navigator.pop(context);
+                          if (bidController.text.isEmpty) {
+                            bidController.text = '1100';
+                            setBidState(() {});
+                          }
+                          FocusScope.of(context).unfocus();
                         },
                         child: Container(
                           width: double.infinity,
+                          height: 49,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 15,
-                            vertical: 0,
+                            vertical: 12,
                           ),
-                          height: 24,
-                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                '₹',
+                                style: GoogleFonts.lexend(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xFF4F4F4F),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: TextField(
+                                  controller: bidController,
+                                  readOnly: true,
+                                  showCursor: false,
+                                  enableInteractiveSelection: false,
+                                  style: GoogleFonts.lexend(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.0,
+                                    color: const Color(0xFF4F4F4F),
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter Counter Bid',
+                                    hintStyle: GoogleFonts.lexend(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.0,
+                                      color: const Color(
+                                        0xFF4F4F4F,
+                                      ).withOpacity(0.5),
+                                    ),
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  // Reason Label
+                  Text(
+                    'Reason',
+                    style: GoogleFonts.lexend(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      height: 1.0,
+                      color: const Color(0xFF4F4F4F),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  // Select Reason dropdown - opens separate overlay
+                  GestureDetector(
+                    onTap: () {
+                      if (bidController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Please enter a bid amount first'),
+                            backgroundColor: const Color(0xFF7464E4),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                        return;
+                      }
+                      // Show reason list as overlay
+                      _showReasonListOverlay(context, reasons);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 13,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Select Reason',
+                            style: GoogleFonts.lexend(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xFF4F4F4F).withOpacity(0.5),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Color(0xFF4F4F4F),
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showReasonListOverlay(BuildContext context, List<String> reasons) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.transparent,
+      builder: (BuildContext context) {
+        // Position overlay to sit on top of the Select Reason dropdown
+        final bottomPadding = MediaQuery.of(context).padding.bottom;
+
+        return Container(
+          margin: EdgeInsets.only(
+            left: 15,
+            right: 15,
+            bottom:
+                bottomPadding +
+                20, // Align "Select Reason" footer with the dropdown below
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                  top: 15,
+                  bottom: 15,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.75),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // All reasons - no scrolling
+                    ...reasons.map(
+                      (reason) => GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context); // Close reason overlay
+                          Navigator.pop(context); // Close counter bid modal
+                          _showThankYouModal(context);
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             reason,
                             style: GoogleFonts.lexend(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
-                              height: 24 / 12, // line-height: 24px
-                              letterSpacing: 0,
+                              height: 1.4,
                               color: const Color(0xFF4F4F4F),
                             ),
-                            textAlign: TextAlign.center,
                           ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    // Select Reason footer
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 13,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Select Reason',
+                              style: GoogleFonts.lexend(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF070707),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Color(0xFF4F4F4F),
+                              size: 20,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
         );
       },
+    );
+  }
+
+  void _showThankYouModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.75),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Drag Handle
+                  Container(
+                    width: 50,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF4F4F4F),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  // Green checkmark icon using custom asset
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3CBD53).withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/check.png',
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Thanks You text
+                  Text(
+                    'Thanks You',
+                    style: GoogleFonts.lexend(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF3CBD53),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  // Main message
+                  Text(
+                    'Your Counter Bid Has Been Submitted',
+                    style: GoogleFonts.lexend(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF070707),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  // Description
+                  Text(
+                    'A dummy or placeholder text commonly used in graphic design, publishing, and web development.',
+                    style: GoogleFonts.lexend(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF4F4F4F),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  // Bid Limit with light green background and pill shape
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3CBD53).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Text(
+                      'Bid Limit: 5 / 3 used',
+                      style: GoogleFonts.lexend(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF3CBD53),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Your bidding spot
+                  Text(
+                    'Your bidding spot',
+                    style: GoogleFonts.lexend(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF070707),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  // Venue chips with images
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildVenueChip('F-BAR', 'assets/images/image 94.png'),
+                      const SizedBox(width: 10),
+                      _buildVenueChip(
+                        'Illusion',
+                        'assets/images/image 94 (1).png',
+                      ),
+                      const SizedBox(width: 10),
+                      _buildVenueChip(
+                        'Lit Ultra Bar',
+                        'assets/images/image 94 (2).png',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildVenueChip(String name, String imagePath) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.6),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  imagePath,
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                name,
+                style: GoogleFonts.lexend(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF070707),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
