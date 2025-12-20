@@ -10,12 +10,8 @@ class MenuSection extends StatefulWidget {
 }
 
 class _MenuSectionState extends State<MenuSection> {
-  Map<String, bool> expandedSections = {
-    'Veg Starters': true,
-    'Veg Main course': false,
-    'Desert': false,
-    'Alcohol': false,
-  };
+  // Only one section can be expanded at a time (accordion behavior)
+  String? expandedSection = 'Veg Starters';
 
   @override
   Widget build(BuildContext context) {
@@ -96,11 +92,10 @@ class _MenuSectionState extends State<MenuSection> {
   }
 
   Widget _buildExpandableSection(String title, String subtitle) {
-    final isExpanded = expandedSections[title] ?? false;
+    final isExpanded = expandedSection == title;
 
     return Container(
-      width: 410,
-      height: isExpanded ? 450 : null,
+      width: double.infinity,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: const Color(0xFFEDEDED),
@@ -113,11 +108,15 @@ class _MenuSectionState extends State<MenuSection> {
           GestureDetector(
             onTap: () {
               setState(() {
-                expandedSections[title] = !isExpanded;
+                // Accordion behavior: toggle current or close if already open
+                if (expandedSection == title) {
+                  expandedSection = null;
+                } else {
+                  expandedSection = title;
+                }
               });
             },
             child: Container(
-              width: 380,
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
               ), // Add vertical padding for better clickability
@@ -173,22 +172,19 @@ class _MenuSectionState extends State<MenuSection> {
           // Content - shown when expanded
           if (isExpanded) ...[
             const SizedBox(height: 10),
-            SizedBox(
-              width: 324, // Match card width
-              child: Column(
-                children: [
-                  ...List.generate(
-                    4,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: _buildMenuItem(
-                        'Corn Chaat',
-                        'Lorem Ipsum is simply dummy',
-                      ),
+            Column(
+              children: [
+                ...List.generate(
+                  4,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _buildMenuItem(
+                      'Corn Chaat',
+                      'Lorem Ipsum is simply dummy',
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ],
@@ -198,88 +194,116 @@ class _MenuSectionState extends State<MenuSection> {
 
   Widget _buildMenuItem(String name, String description) {
     return Container(
-      width: 324,
-      height: 80,
-      padding: const EdgeInsets.all(10),
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF), // Pure white only
-        borderRadius: BorderRadius.circular(4),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
-          // Image
-          Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              image: const DecorationImage(
-                image: AssetImage('assets/images/corn_chart.jpg'),
-                fit: BoxFit.cover,
+          // Image with rounded corners
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              'assets/images/corn_chart.jpg',
+              width: 70,
+              height: 70,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                width: 70,
+                height: 70,
+                color: Colors.grey[200],
+                child: const Icon(Icons.restaurant, color: Colors.grey),
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 12),
 
           // Details
           Expanded(
-            child: SizedBox(
-              height: 60,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Row with veg indicator and name
-                  Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(1.33),
-                        child: Image.asset(
-                          'assets/icons/veg_indicator.png',
-                          width: 14,
-                          height: 14,
-                          fit: BoxFit.cover,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Row with veg indicator and name
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color(0xFF3CBD53),
+                          width: 1.5,
                         ),
+                        borderRadius: BorderRadius.circular(3),
                       ),
-                      const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          name,
-                          style: GoogleFonts.lexend(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF070707),
-                            height: 1.5,
+                      child: Center(
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF3CBD53),
+                            shape: BoxShape.circle,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ],
-                  ),
-                  // Description
-                  Text(
-                    description,
-                    style: GoogleFonts.lexend(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF4F4F4F),
-                      height: 1.0,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  // View More
-                  Text(
-                    'View More',
-                    style: GoogleFonts.lexend(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF070707),
-                      height: 1.0,
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        name,
+                        style: GoogleFonts.lexend(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF070707),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                // Description
+                Text(
+                  description,
+                  style: GoogleFonts.lexend(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF828282),
                   ),
-                ],
-              ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                // View More link
+                Row(
+                  children: [
+                    Text(
+                      'View More',
+                      style: GoogleFonts.lexend(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF7464E4),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 10,
+                      color: Color(0xFF7464E4),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
