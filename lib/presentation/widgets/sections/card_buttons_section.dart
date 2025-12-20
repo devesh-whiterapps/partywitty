@@ -579,7 +579,10 @@ class _CardSlidingPriceBookingSectionState
               color: option.isPurple
                   ? const Color(0xff7464E4)
                   : const Color(0xff4CAF50),
-              decoration: TextDecoration.lineThrough,
+              // Only apply strikethrough for MRP prices, not Minimum Spend
+              decoration: option.mrpPrice!.startsWith('MRP')
+                  ? TextDecoration.lineThrough
+                  : TextDecoration.none,
             ),
           ),
           const SizedBox(width: 6),

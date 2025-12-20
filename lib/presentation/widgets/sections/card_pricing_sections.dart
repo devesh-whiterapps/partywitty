@@ -182,11 +182,8 @@ class CardGeneralPassSection extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 10,
-                  color: Colors.white,
-                ),
+                const SizedBox(width: 4),
+                const Icon(Icons.arrow_forward, size: 12, color: Colors.white),
               ],
             ),
           ),
