@@ -402,7 +402,7 @@ class _TableBookingHorizontalListState
 
   final List<Map<String, dynamic>> tableOptions = [
     {
-      'tableName': 'Table For 3',
+      'tableName': 'Table For 4',
       'zone': 'Standard Zone',
       'minSpend': '₹15,000',
       'perPerson': '₹2400/Person',
@@ -691,8 +691,29 @@ class _TableBookingHorizontalListState
                               ),
                             ],
                           ),
-                          // Right - Quantity selector
-                          _TableQuantitySelector(),
+                          // Book For button (outlined)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: const Color(0xFFE0E0E0),
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              data['bookFor'],
+                              style: GoogleFonts.lexend(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF4F4F4F),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 19),
@@ -824,97 +845,6 @@ class _GeneralPassOptionsScreenState extends State<GeneralPassOptionsScreen> {
     return const Scaffold(
       backgroundColor: Colors.transparent,
       body: SizedBox.shrink(),
-    );
-  }
-}
-
-/// Quantity selector widget for table bookings (- 01 +)
-class _TableQuantitySelector extends StatefulWidget {
-  const _TableQuantitySelector();
-
-  @override
-  State<_TableQuantitySelector> createState() => _TableQuantitySelectorState();
-}
-
-class _TableQuantitySelectorState extends State<_TableQuantitySelector> {
-  int _quantity = 1;
-
-  void _increment() {
-    setState(() {
-      _quantity++;
-    });
-  }
-
-  void _decrement() {
-    if (_quantity > 1) {
-      setState(() {
-        _quantity--;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Minus button (circular)
-        GestureDetector(
-          onTap: _decrement,
-          child: Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              '−',
-              style: GoogleFonts.lexend(
-                fontSize: 24,
-                fontWeight: FontWeight.w300,
-                color: const Color(0xff4F4F4F),
-              ),
-            ),
-          ),
-        ),
-        // Quantity display
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            _quantity.toString().padLeft(2, '0'),
-            style: GoogleFonts.lexend(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xff4F4F4F),
-            ),
-          ),
-        ),
-        // Plus button (circular)
-        GestureDetector(
-          onTap: _increment,
-          child: Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              '+',
-              style: GoogleFonts.lexend(
-                fontSize: 24,
-                fontWeight: FontWeight.w300,
-                color: const Color(0xff4F4F4F),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
