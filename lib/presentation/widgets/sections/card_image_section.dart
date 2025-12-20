@@ -13,7 +13,7 @@ enum BannerType {
 }
 
 /// Reusable image section with configurable banner overlays
-class CardImageSection extends StatelessWidget {
+class CardImageSection extends StatefulWidget {
   final EventModel event;
   final String imagePath;
   final bool showFilterBadge;
@@ -34,6 +34,13 @@ class CardImageSection extends StatelessWidget {
   });
 
   @override
+  State<CardImageSection> createState() => _CardImageSectionState();
+}
+
+class _CardImageSectionState extends State<CardImageSection> {
+  bool _isHeartFilled = false;
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 320,
@@ -46,7 +53,7 @@ class CardImageSection extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Image.asset(
-                imagePath,
+                widget.imagePath,
                 width: double.infinity,
                 height: 306,
                 fit: BoxFit.cover,
@@ -60,7 +67,7 @@ class CardImageSection extends StatelessWidget {
           ),
 
           // Filter badge (top left)
-          if (showFilterBadge)
+          if (widget.showFilterBadge)
             Positioned(top: 16, left: 18, child: _buildFilterBadge()),
 
           // Bookmark & Share icons (top right)
@@ -70,16 +77,27 @@ class CardImageSection extends StatelessWidget {
             child: Row(
               children: [
                 _buildIconButton(
-                  child: SvgPicture.asset(
-                    'assets/icons/Heart.svg',
-                    width: 18,
-                    height: 18,
-                    colorFilter: const ColorFilter.mode(
-                      Color(0xff4F4F4F),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  onTap: onBookmark,
+                  child: _isHeartFilled
+                      ? const Icon(
+                          Icons.favorite,
+                          size: 18,
+                          color: Color(0xff7464E4),
+                        )
+                      : SvgPicture.asset(
+                          'assets/icons/Heart.svg',
+                          width: 18,
+                          height: 18,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xff4F4F4F),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                  onTap: () {
+                    setState(() {
+                      _isHeartFilled = !_isHeartFilled;
+                    });
+                    widget.onBookmark?.call();
+                  },
                 ),
                 const SizedBox(width: 8),
                 _buildIconButton(
@@ -92,16 +110,16 @@ class CardImageSection extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  onTap: onShare,
+                  onTap: widget.onShare,
                 ),
               ],
             ),
           ),
 
           // Bottom banner
-          if (bannerType != BannerType.none)
+          if (widget.bannerType != BannerType.none)
             Positioned(
-              bottom: bannerType == BannerType.venueType ? -18 : -30,
+              bottom: widget.bannerType == BannerType.venueType ? -18 : -30,
               left: 0,
               right: 0,
               child: _buildBanner(),
@@ -149,7 +167,7 @@ class CardImageSection extends StatelessWidget {
   }
 
   Widget _buildBanner() {
-    switch (bannerType) {
+    switch (widget.bannerType) {
       case BannerType.dateTimeWithType:
         return _buildDateTimeBanner(showType: true);
       case BannerType.dateTimeOnly:
@@ -189,7 +207,7 @@ class CardImageSection extends StatelessWidget {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
-                    '${event.date} | ${event.time}',
+                    '${widget.event.date} | ${widget.event.time}',
                     style: const TextStyle(
                       fontSize: 13,
                       color: Colors.white,
@@ -204,7 +222,7 @@ class CardImageSection extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Text(
-                      '${event.date} | ${event.time}',
+                      '${widget.event.date} | ${widget.event.time}',
                       style: const TextStyle(
                         fontSize: 13,
                         color: Colors.white,
@@ -250,7 +268,7 @@ class CardImageSection extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          typeBadgeText ?? 'New Year',
+                          widget.typeBadgeText ?? 'New Year',
                           style: const TextStyle(
                             fontSize: 13,
                             color: Colors.white,
@@ -275,7 +293,7 @@ class CardImageSection extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            typeBadgeText ?? 'Carnival',
+                            widget.typeBadgeText ?? 'Carnival',
                             style: const TextStyle(
                               fontSize: 13,
                               color: Colors.white,
